@@ -64,3 +64,8 @@ body{height:100dvh;display:grid;place-items:center;background-color:#173f39;back
 #game-shell{position:relative;isolation:isolate;width:min(100%,1280px);height:min(100dvh,900px);overflow:hidden;background:#b5dcd8;box-shadow:0 12px 80px #0006}
 #game{position:absolute;inset:0}
 #touch{position:absolute}
+
+/* Museum lighting stays warm throughout the day cycle. */
+body[data-location="museum"] header,body[data-location="museum"] footer,body[data-location="museum"] .location,body[data-location="museum"] .score-panel{color:#163c35}
+body[data-location="museum"] .score-panel small,body[data-location="museum"] .keyboard{color:#557167}
+.location #location-name{opacity:1}

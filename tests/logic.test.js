@@ -1,3 +1,4 @@
+import {obstacleAppearance} from '../src/locations.js';
 import test from 'node:test';import assert from 'node:assert/strict';
 import {characterPose} from '../src/character.js';
 test('running frames alternate with distance, stay frozen on pause and yield to jumps',()=>{
@@ -108,7 +109,7 @@ test('harder modes increase speed, obstacles and expected word frequency',()=>{
   }
 });
 test('settings survive serialization and invalid saved values use defaults',()=>{
-  const preferences={muted:true,music:false,track:'evening',mode:'hard',transcription:false};
+  const preferences={muted:true,music:false,track:'evening',mode:'hard',transcription:false,location:'museum'};
   assert.deepEqual(normalizeSettings(JSON.parse(JSON.stringify(preferences))),preferences);
   assert.deepEqual(normalizeSettings({track:'invalid',mode:'toString'}),normalizeSettings());
   assert.deepEqual(normalizeSettings(null),normalizeSettings());
@@ -134,3 +135,14 @@ test('five points unlock each tier and losing points lowers it',()=>{
     }
   }
 });
+
+ test('locations preserve obstacle categories and old settings default to museum',()=>{
+   assert.equal(normalizeSettings().location,'museum');
+   assert.equal(normalizeSettings({location:'park'}).location,'park');
+   assert.equal(normalizeSettings({location:'unknown'}).location,'museum');
+   for(let i=0;i<5;i++){
+     assert.ok(['guide','photographer','guard'].includes(obstacleAppearance('museum','person',i).name));
+     assert.ok(['rope','crate'].includes(obstacleAppearance('museum','barrier',i).name));
+   }
+   assert.equal(obstacleAppearance('park','person',0).name,'scooter');
+ });

@@ -4,6 +4,8 @@ import {GameAudio} from './audio.js';
 import {gameModes,normalizeSettings,collectsWord,formatElapsed} from './settings.js';
 import {createTreeFactory} from './trees.js';
 import {loadParkArt} from './park-art.js';
+import {loadMuseumArt,createMuseum} from './museum.js';
+import {obstacleAppearance} from './locations.js';
 import {createAtmosphere} from './atmosphere.js';
 import {characterPose} from './character.js';
 const $=id=>document.getElementById(id);
@@ -18,11 +20,12 @@ function mesh(geometry,color,parent,x=0,y=0,z=0){const m=new T.Mesh(geometry,mat
 const box=(p,c,x,y,z,w,h,d)=>mesh(new T.BoxGeometry(w,h,d),c,p,x,y,z);
 const cone=(p,c,x,y,z,r,h)=>mesh(new T.ConeGeometry(r,h,7),c,p,x,y,z);
 const ball=(p,c,x,y,z,r)=>mesh(new T.IcosahedronGeometry(r,1),c,p,x,y,z);
-box(scene,0x91b57b,0,-.3,-46,240,.5,240);box(scene,0xdcccb0,0,-.025,-47,9.6,.1,135);
-for(const x of [-4.9,4.9]){box(scene,0xf1e4c9,x,.1,-47,.22,.26,135);box(scene,0x6c9c79,x+Math.sign(x)*.4,.05,-47,.55,.1,135);}
-for(const x of [-1.6,1.6])box(scene,0xf3e6cc,x,.032,-47,.065,.015,135);
-const scenery=new T.Group();scene.add(scenery);const moving=[];
-const parkArt=await loadParkArt();
+const parkScene=new T.Group();scene.add(parkScene);
+box(parkScene,0x91b57b,0,-.3,-46,240,.5,240);box(parkScene,0xdcccb0,0,-.025,-47,9.6,.1,135);
+for(const x of [-4.9,4.9]){box(parkScene,0xf1e4c9,x,.1,-47,.22,.26,135);box(parkScene,0x6c9c79,x+Math.sign(x)*.4,.05,-47,.55,.1,135);}
+for(const x of [-1.6,1.6])box(parkScene,0xf3e6cc,x,.032,-47,.065,.015,135);
+const scenery=new T.Group();parkScene.add(scenery);const moving=[];
+const [parkArt,museumArt]=await Promise.all([loadParkArt(),loadMuseumArt()]);
 const treeFactory=createTreeFactory(scenery,moving,parkArt);
 const tree=treeFactory.add;
 function bench(x,z){const g=new T.Group();g.position.set(x,0,z);scenery.add(g);box(g,0xad7450,0,.65,0,2,.16,.65);box(g,0xb78055,0,1,-.28,2,.55,.12);for(const a of [-.7,.7])box(g,0x34594d,a,.35,0,.1,.65,.5);moving.push(g);}
@@ -30,8 +33,9 @@ function lamp(x,z){const g=new T.Group();g.position.set(x,0,z);scenery.add(g);me
 for(let i=0;i<18;i++){tree(-7-(i%3)*1.5,8-i*7,i);tree(7+(i%3)*2,4-i*7,i+1);if(i%3===0){bench(i%2?6.5:-6.5,3-i*7);lamp(-5.5,8-i*7);lamp(5.5,8-i*7);}for(const x of [-5.5,5.5]){const g=new T.Group();g.position.set(x,0,-i*7);scenery.add(g);for(let j=0;j<3;j++)ball(g,[0xe8b15e,0xe9cfa0,0xc88269][j],0,.18,j*.3,.14);moving.push(g);}}
 for(let i=0;i<55;i++){const g=new T.Group();g.position.z=12-i*2.6;box(g,0xcabb9f,0,.035,0,9.5,.01,.025);scenery.add(g);moving.push(g);}
 // A stylized Tashkent skyline: TV tower and a turquoise bazaar dome.
-const skyline=new T.Group();scene.add(skyline);mesh(new T.CylinderGeometry(.12,.6,18,8),0xc4c6b6,skyline,12,9,-75);mesh(new T.CylinderGeometry(1.65,1.2,1.8,10),0x729a94,skyline,12,13,-75);cone(skyline,0xc2c6b4,12,22,-75,.18,9);
+const skyline=new T.Group();parkScene.add(skyline);mesh(new T.CylinderGeometry(.12,.6,18,8),0xc4c6b6,skyline,12,9,-75);mesh(new T.CylinderGeometry(1.65,1.2,1.8,10),0x729a94,skyline,12,13,-75);cone(skyline,0xc2c6b4,12,22,-75,.18,9);
 box(skyline,0xd7c49d,-13,1.5,-64,13,3,7);const dome=mesh(new T.SphereGeometry(5,20,12,0,Math.PI*2,0,Math.PI/2),0x4a9b98,skyline,-13,3,-64);dome.scale.y=.65;for(let i=0;i<7;i++)box(skyline,0x729c8f,-18+i*1.6,1.5,-60.4,.8,1.7,.12);
+const museum=createMuseum(museumArt);scene.add(museum.group);
 function texture(draw,w=512,h=512){const c=document.createElement('canvas');c.width=w;c.height=h;draw(c.getContext('2d'),w,h);const t=new T.CanvasTexture(c);t.colorSpace=T.SRGBColorSpace;return t;}
 const characterTextures={};
 try {
@@ -90,16 +94,19 @@ $('settings-button').onclick=()=>{
   $('setting-transcription').checked=settings.transcription;
   $('setting-track').value=settings.track;
   $('setting-mode').value=settings.mode;
+  $('setting-location').value=settings.location;
   $('settings-close').textContent=beforeSettings==='playing'?'Продолжить забег ↗':'Закрыть настройки';
   describeMode();settingsDialog.showModal();
 };
-for(const id of ['setting-sound','setting-music','setting-track','setting-mode','setting-transcription']){
+for(const id of ['setting-sound','setting-music','setting-track','setting-mode','setting-transcription','setting-location']){
   $(id).onchange=()=>{
     soundtrack.unlock();
     const previousMode=settings.mode;
+    const previousLocation=settings.location;
     const previousTranscription=settings.transcription;
-    settings=normalizeSettings({muted:!$('setting-sound').checked,music:$('setting-music').checked,transcription:$('setting-transcription').checked,track:$('setting-track').value,mode:$('setting-mode').value});
+    settings=normalizeSettings({muted:!$('setting-sound').checked,music:$('setting-music').checked,transcription:$('setting-transcription').checked,track:$('setting-track').value,mode:$('setting-mode').value,location:$('setting-location').value});
     if(settings.mode!==previousMode)spawnTimer=gameModes[settings.mode].gap;
+    if(previousLocation!==settings.location)applyLocation();
     saveSettings();describeMode();refresh();
     if(previousTranscription!==settings.transcription)refreshWordLabels();
   };
@@ -113,7 +120,7 @@ settingsDialog.addEventListener('close',()=>{
 function refresh(){refreshTimer();$('target-ipa').textContent=target.ruIPA?`[${target.ruIPA}]`:'';$('target-ipa').hidden=!settings.transcription||!target.ruIPA;$('target').parentElement.style.setProperty('--word-scale',Math.min(1,9/target.ru.length));$('score').textContent=score;$('best').textContent=best;$('target').textContent=target.ru;$('level').textContent=`${String(difficulty(score)).padStart(2,'0')} / ${levelNames[difficulty(score)-1]}`;}
 function disposeEntity(e){scene.remove(e.obj);e.obj.traverse(o=>{if(o.material?.userData.shared)return;if(o.geometry)o.geometry.dispose();if(o.material?.map){o.material.map.dispose();o.material.dispose();}});}
 function clearEntities(){entities.forEach(disposeEntity);entities=[];}
-function start(){document.activeElement?.blur();clearEntities();state='playing';document.body.className='playing';score=0;peak=0;starTime=0;lanePoseTime=0;lane=1;jumpY=0;velocity=0;elapsed=0;gameTime=0;updateAtmosphere(0);distance=0;spawnTimer=.7;misses=0;target=chooseWord(0);player.position.x=0;$('feedback').textContent='';feedbackTime=0;refresh();soundtrack.step=0;soundtrack.unlock();soundtrack.setPlaying(true);}
+function start(){document.activeElement?.blur();clearEntities();state='playing';document.body.className='playing';score=0;peak=0;starTime=0;lanePoseTime=0;lane=1;jumpY=0;velocity=0;elapsed=0;gameTime=0;updateAtmosphere(0,settings.location==='museum');distance=0;spawnTimer=.7;misses=0;target=chooseWord(0);player.position.x=0;$('feedback').textContent='';feedbackTime=0;refresh();soundtrack.step=0;soundtrack.unlock();soundtrack.setPlaying(true);}
 function modal(title,description,button){document.body.className=state==='over'?'paused game-over':'paused';$('overlay').innerHTML=`<section class="intro"><span class="eyebrow">SAMSA RUN · TOSHKENT</span><h1>${title}</h1><p>${description}</p><button id="resume" class="primary">${button}</button><small class="fine">← → дорожки · Пробел / ↑ прыжок</small></section>`;$('resume').onclick=state==='over'?start:togglePause;$('resume').focus();}
 function togglePause(){if(state==='playing'){state='paused';soundtrack.setPlaying(false);modal('Передохнём?','Самса набирается сил.<br>Твой забег продолжится с этого места.','Продолжить ↗');}else if(state==='paused'){state='playing';soundtrack.setPlaying(true);document.activeElement?.blur();document.body.className='playing';}}
 $('start').onclick=start;$('pause').onclick=togglePause;document.addEventListener('visibilitychange',()=>{if(document.hidden&&state==='playing')togglePause();});
@@ -149,14 +156,29 @@ function refreshWordLabels(){
   }
 }
 function spawnWord(){const candidate=nextCandidate(target,misses);misses=candidate.misses;const obj=new T.Group();obj.add(label(candidate.word));obj.position.set((Math.floor(Math.random()*3)-1)*3.2,0,-36);scene.add(obj);entities.push({obj,type:'word',correct:candidate.correct,target:{...target},word:candidate.word});}
+function obstacleSprite(entity){
+  const {name,height}=obstacleAppearance(settings.location,entity.type,entity.variant);
+  return (settings.location==='museum'?museumArt:parkArt).sprite(name,height);
+}
+function applyLocation(){
+  const inside=settings.location==='museum';
+  parkScene.visible=!inside;museum.group.visible=inside;
+  document.body.dataset.location=settings.location;
+  $('location-name').textContent=inside?'МУЗЕЙ':'ПАРК';
+  const description=$('intro-description');
+  if(description)description.innerHTML=inside?'Узбекские сокровища, три дорожки<br>и английский среди экспонатов.':'Солнечный Ташкент, три дорожки<br>и английский по пути.';
+  for(const entity of entities){
+    if(entity.type==='word')continue;
+    entity.obj.clear();entity.obj.add(obstacleSprite(entity));
+  }
+  updateAtmosphere(gameTime,inside);
+}
 function spawnObstacle(){
   const obj=new T.Group(),barrier=Math.random()<.45;
-  const people=['scooter','elder','reader','phone','cat'];
-  const kind=barrier?(Math.random()<.5?'barrier':'cone'):people[Math.floor(Math.random()*people.length)];
-  const heights={barrier:1,cone:1.15,scooter:2.5,elder:2.3,reader:2.3,phone:2.3,cat:1.1};
-  obj.add(parkArt.sprite(kind,heights[kind]));
-  obj.position.set((Math.floor(Math.random()*3)-1)*3.2,0,-36);scene.add(obj);
-  entities.push({obj,type:barrier?'barrier':'person',speed:barrier?0:kind==='scooter'?5:kind==='elder'?1.4:2.4});
+  const variant=Math.floor(Math.random()*(barrier?2:5));
+  const entity={obj,type:barrier?'barrier':'person',variant,speed:barrier?0:variant===0?5:variant===1?1.4:2.4};
+  obj.add(obstacleSprite(entity));
+  obj.position.set((Math.floor(Math.random()*3)-1)*3.2,0,-36);scene.add(obj);entities.push(entity);
 }
 function move(d){if(state!=='playing')return;const next=Math.max(0,Math.min(2,lane+d));if(next!==lane){laneDirection=Math.sign(next-lane);lanePoseTime=.45;lane=next;soundtrack.movement('lane');}}function jump(){if(state==='playing'&&jumpY<=.001&&velocity<=0){velocity=7.6;soundtrack.movement('jump');}}
 addEventListener('keydown',e=>{if(settingsDialog.open)return;if(['ArrowLeft','ArrowRight','ArrowUp','Space','Escape','KeyA','KeyD','KeyW'].includes(e.code)){if(state!=='playing'&&e.target instanceof HTMLButtonElement&&['Space'].includes(e.code))return;e.preventDefault();if(e.repeat)return;if(['ArrowLeft','KeyA'].includes(e.code))move(-1);if(['ArrowRight','KeyD'].includes(e.code))move(1);if(['ArrowUp','KeyW','Space'].includes(e.code))jump();if(e.code==='Escape')togglePause();}});
@@ -168,10 +190,10 @@ function resize(){
   renderer.setSize(width,height);
 }
 new ResizeObserver(resize).observe($('game-shell'));resize();
-const updateAtmosphere=createAtmosphere(scene,renderer,sun,ambient,treeFactory.materials,material(0xffe4a4));updateAtmosphere(0);
-const stars=new T.Group();scene.add(stars);let starTime=0;const starMap=texture(c=>{c.fillStyle='#ffdc63';c.font='bold 400px Arial';c.textAlign='center';c.fillText('✦',256,400);});for(let i=0;i<9;i++){const s=new T.Sprite(new T.SpriteMaterial({map:starMap,depthTest:false,transparent:true}));const a=i/9*Math.PI*2;s.position.set(Math.cos(a)*1.8,1.4+Math.sin(a)*1.5,.4);s.scale.setScalar(.45);stars.add(s);}stars.visible=false;let last=performance.now();function frame(now){requestAnimationFrame(frame);const dt=Math.min((now-last)/1000,.05);last=now;const running=state==='playing';if(running){elapsed+=dt;lanePoseTime=Math.max(0,lanePoseTime-dt);const speed=runSpeed();moving.forEach(g=>{g.position.z+=speed*dt;if(g.position.z>17)g.position.z-=126;});sprite.material.rotation=0;}
-if(running){gameTime+=dt;refreshTimer();updateAtmosphere(gameTime);distance+=dt*(runSpeed());$('distance').textContent=`${Math.floor(distance)} м`;player.position.x=T.MathUtils.damp(player.position.x,(lane-1)*3.2,15,dt);if(jumpY>0||velocity>0){velocity-=19*dt;jumpY=Math.max(0,jumpY+velocity*dt);}player.position.y=jumpY;shadow.position.x=player.position.x;shadow.scale.setScalar(1-jumpY*.15);shadow.scale.y*=.55;if(entities.length===0)spawnTimer-=dt;if(spawnTimer<=0&&entities.length===0){if(Math.random()<gameModes[settings.mode].obstacleChance&&distance>28)spawnObstacle();else spawnWord();spawnTimer=gameModes[settings.mode].gap;}
-for(let i=entities.length-1;i>=0;i--){const e=entities[i];e.obj.position.z+=(runSpeed()+(e.speed||0))*dt;if(e.obj.position.z>=2.8&&!e.checked){e.checked=true;if(Math.abs(e.obj.position.x-player.position.x)<1.05){if(e.type==='word'){if(!collectsWord(e.obj.position.x-player.position.x,jumpY))continue;if(e.correct){change(1,`${e.target.ru} → ${e.target.en}`);target=chooseWord(score,target.en);misses=0;refresh();}else change(-1,`${e.target.ru} → ${e.target.en}`);}else if(e.type==='person'||jumpY<.8)change(-1,e.type==='person'?'Обходи прохожих, котов и самокаты':'Прыгай через барьеры');}}if(e.obj.position.z>5){disposeEntity(e);entities.splice(i,1);}}
+const updateAtmosphere=createAtmosphere(scene,renderer,sun,ambient,[...treeFactory.materials,...museumArt.materials],material(0xffe4a4));applyLocation();
+const stars=new T.Group();scene.add(stars);let starTime=0;const starMap=texture(c=>{c.fillStyle='#ffdc63';c.font='bold 400px Arial';c.textAlign='center';c.fillText('✦',256,400);});for(let i=0;i<9;i++){const s=new T.Sprite(new T.SpriteMaterial({map:starMap,depthTest:false,transparent:true}));const a=i/9*Math.PI*2;s.position.set(Math.cos(a)*1.8,1.4+Math.sin(a)*1.5,.4);s.scale.setScalar(.45);stars.add(s);}stars.visible=false;let last=performance.now();function frame(now){requestAnimationFrame(frame);const dt=Math.min((now-last)/1000,.05);last=now;const running=state==='playing';if(running){elapsed+=dt;lanePoseTime=Math.max(0,lanePoseTime-dt);const speed=runSpeed();(settings.location==='museum'?museum.moving:moving).forEach(g=>{g.position.z+=speed*dt;if(g.position.z>17)g.position.z-=126;});sprite.material.rotation=0;}
+if(running){gameTime+=dt;refreshTimer();updateAtmosphere(gameTime,settings.location==='museum');distance+=dt*(runSpeed());$('distance').textContent=`${Math.floor(distance)} м`;player.position.x=T.MathUtils.damp(player.position.x,(lane-1)*3.2,15,dt);if(jumpY>0||velocity>0){velocity-=19*dt;jumpY=Math.max(0,jumpY+velocity*dt);}player.position.y=jumpY;shadow.position.x=player.position.x;shadow.scale.setScalar(1-jumpY*.15);shadow.scale.y*=.55;if(entities.length===0)spawnTimer-=dt;if(spawnTimer<=0&&entities.length===0){if(Math.random()<gameModes[settings.mode].obstacleChance&&distance>28)spawnObstacle();else spawnWord();spawnTimer=gameModes[settings.mode].gap;}
+for(let i=entities.length-1;i>=0;i--){const e=entities[i];e.obj.position.z+=(runSpeed()+(e.speed||0))*dt;if(e.obj.position.z>=2.8&&!e.checked){e.checked=true;if(Math.abs(e.obj.position.x-player.position.x)<1.05){if(e.type==='word'){if(!collectsWord(e.obj.position.x-player.position.x,jumpY))continue;if(e.correct){change(1,`${e.target.ru} → ${e.target.en}`);target=chooseWord(score,target.en);misses=0;refresh();}else change(-1,`${e.target.ru} → ${e.target.en}`);}else if(e.type==='person'||jumpY<.8)change(-1,e.type==='person'?(settings.location==='museum'?'Обходи посетителей и сотрудников':'Обходи прохожих, котов и самокаты'):'Прыгай через барьеры');}}if(e.obj.position.z>5){disposeEntity(e);entities.splice(i,1);}}
 if(feedbackTime>0){feedbackTime-=dt;if(feedbackTime<=0)$('feedback').textContent='';}}
 if(running&&starTime>0)starTime=Math.max(0,starTime-dt);stars.visible=starTime>0;stars.position.copy(player.position);stars.rotation.z=elapsed;stars.children.forEach((s,i)=>{s.material.opacity=Math.min(1,starTime*2);});updateCharacter();renderer.render(scene,camera);}refresh();requestAnimationFrame(frame);
 renderer.domElement.addEventListener('webglcontextlost',e=>{e.preventDefault();if(state==='playing')togglePause();$('overlay').innerHTML='<section class="intro"><h1>Графика отдыхает</h1><p>Перезагрузите страницу, чтобы восстановить WebGL.<br>Сохранённый рекорд останется.</p></section>';document.body.className='paused';});

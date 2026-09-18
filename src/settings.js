@@ -9,6 +9,7 @@ export function normalizeSettings(value = {}) {
     music: value?.music !== false,
     transcription: value?.transcription !== false,
     track: ['morning', 'evening', 'silkroad'].includes(value?.track) ? value.track : 'morning',
+    location: value?.location === 'park' ? 'park' : 'museum',
     mode: Object.hasOwn(gameModes, value?.mode) ? value.mode : 'normal',
   };
 }

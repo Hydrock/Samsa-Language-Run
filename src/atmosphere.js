@@ -23,7 +23,7 @@ export function createAtmosphere(scene, renderer, sun, ambient, treeMaterials, l
   const geometry=new T.BufferGeometry();geometry.setAttribute('position',new T.Float32BufferAttribute(positions,3));
   const stars=new T.Points(geometry,new T.PointsMaterial({color:0xe7efff,size:.18,transparent:true,fog:false}));scene.add(stars);
   let lastPhase=-1;
-  return seconds=>{
+  return (seconds,indoors=false)=>{
     const {index,previous,blend}=phaseAt(seconds),a=palettes[previous],b=palettes[index];
     sky.copy(a.sky).lerp(b.sky,blend);
     light.copy(a.light).lerp(b.light,blend);
@@ -34,8 +34,14 @@ export function createAtmosphere(scene, renderer, sun, ambient, treeMaterials, l
     ambient.color.copy(light);ambient.groundColor.copy(ground);ambient.intensity=T.MathUtils.lerp(a.ambient,b.ambient,blend);
     treeMaterials.forEach(material=>material.color.copy(tint));
     const night=T.MathUtils.lerp(previous===3?1:0,index===3?1:0,blend);
-    moon.material.opacity=night;moon.visible=night>.001;
-    stars.material.opacity=night;stars.visible=night>.001;
+    moon.material.opacity=night;moon.visible=!indoors&&night>.001;
+    stars.material.opacity=night;stars.visible=!indoors&&night>.001;
+    if(indoors){
+      renderer.setClearColor(0xd9c5a7);scene.fog.color.setHex(0xd9c5a7);
+      ambient.color.setHex(0xffedcf);ambient.groundColor.setHex(0x947757);ambient.intensity=2;
+      sun.color.setHex(0xffe6b5);sun.intensity=1.4;
+      treeMaterials.forEach(material=>material.color.setHex(0xffedd4));
+    }
     lampMaterial.emissive.setHex(0xffc16b);lampMaterial.emissiveIntensity=night*2;
     if(lastPhase!==index){document.body.dataset.phase=String(index);document.getElementById('time-of-day').textContent=b.name;lastPhase=index;}
   };
