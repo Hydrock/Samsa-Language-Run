@@ -14,7 +14,16 @@ export class Pronunciation {
     return 'Голос не найден в списке браузера';
   }
   configure(settings){this.settings=settings;if(settings.muted||!settings.pronunciation||settings.speechVolume===0)this.stop();}
-  stop(){if(this.available)this.synth.cancel();this.current=null;}
+  stop(){
+    clearTimeout(this.pending);this.pending=null;
+    const active=this.current;this.current=null;
+    if(this.available&&(active||this.synth.speaking||this.synth.pending))this.synth.cancel();
+  }
+  schedule(text){
+    clearTimeout(this.pending);
+    // Leave the collision/render callback before entering the native speech engine.
+    this.pending=setTimeout(()=>{this.pending=null;this.speak(text);},0);
+  }
   speak(text,lang='en-US',manual=false,onStatus=()=>{}){
     const s=this.settings;
     if(!this.available||s.muted||s.speechVolume===0||(!manual&&!s.pronunciation)||!text)return false;
@@ -38,7 +47,7 @@ export class Pronunciation {
         this.current=null;
         onStatus(event.error==='not-allowed'?'Браузер запретил озвучивание. Нажмите ▶ ещё раз.':lang.startsWith('ru')?'Не удалось озвучить слово. Проверьте, установлен ли русский голос в настройках речи устройства.':'Не удалось озвучить слово. Проверьте голос и настройки речи устройства.');
       };
-      try{this.synth.resume?.();this.synth.speak(u);return true;}
+      try{if(this.synth.paused)this.synth.resume?.();this.synth.speak(u);return true;}
       catch{this.current=null;onStatus('Озвучивание недоступно в этом браузере.');return false;}
     };
     return attempt();

@@ -308,7 +308,7 @@ test('pronunciation honors language, volume, mute and manual replay without queu
  assert.equal(spoken.at(-1).volume,.4);assert.equal(spoken.at(-1).lang,'ru-RU');
  speech.configure(normalizeSettings({muted:true}));
  assert.equal(speech.speak('cat','en-US',true),false);
- assert.ok(cancelled>=3);
+ assert.ok(cancelled>=2);
  assert.equal(new Pronunciation(null,null).speak('cat'),false);
  assert.equal(normalizeSettings({speechVolume:2}).speechVolume,1);
  assert.equal(normalizeSettings({speechVolume:-1}).speechVolume,0);
@@ -341,4 +341,20 @@ test('voice availability distinguishes pending, missing, local and network voice
  voices.push({lang:'ru_RU',localService:true});
  assert.match(speech.voiceStatus('ru'),/устройства/);
  assert.match(new Pronunciation(null,null).voiceStatus('ru'),/не поддерживается/);
+});
+
+test('automatic speech leaves render callback and pause cancels pending speech',async()=>{
+ const {Pronunciation}=await import('../src/speech.js');
+ let speaks=0,cancels=0,resumes=0;
+ const synth={getVoices:()=>[],cancel(){cancels++;},resume(){resumes++;},speak(){speaks++;}};
+ const speech=new Pronunciation(synth,class{});
+ speech.configure(normalizeSettings());
+ speech.schedule('cat');assert.equal(speaks,0);
+ speech.stop();
+ await new Promise(resolve=>setTimeout(resolve,10));assert.equal(speaks,0);
+ speech.schedule('dog');
+ await new Promise(resolve=>setTimeout(resolve,10));
+ assert.equal(speaks,1);assert.equal(cancels,0);assert.equal(resumes,0);
+ speech.current.onend();
+ synth.paused=true;speech.speak('bird');assert.equal(resumes,1);
 });
