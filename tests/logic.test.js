@@ -298,7 +298,7 @@ test('pronunciation honors language, volume, mute and manual replay without queu
  const voice={lang:'en-US',localService:true};
  const synth={cancel(){cancelled++;},getVoices(){return [voice];},speak(u){spoken.push(u);}};
  const speech=new Pronunciation(synth,class{constructor(text){this.text=text;}});
- speech.configure(normalizeSettings());
+ speech.configure(normalizeSettings({pronunciation:true}));
  assert.equal(speech.speak('cat'),true);
  assert.equal(spoken[0].text,'cat');assert.equal(spoken[0].lang,'en-US');
  assert.equal(spoken[0].volume,.8);assert.equal(spoken[0].voice,voice);
@@ -320,7 +320,7 @@ test('Russian pronunciation accepts OS language tags and retries unavailable voi
  const {Pronunciation}=await import('../src/speech.js');
  const calls=[],statuses=[];
  const speech=new Pronunciation({cancel(){},getVoices(){return [{lang:'ru_RU',localService:true},{lang:'ru-RU',localService:false}];},speak(u){calls.push(u);}},class{constructor(text){this.text=text;}});
- speech.configure(normalizeSettings());
+ speech.configure(normalizeSettings({pronunciation:true}));
  speech.speak('Кошка','ru-RU',true,s=>statuses.push(s));
  assert.equal(calls[0].lang,'ru-RU');assert.equal(calls[0].voice.lang,'ru_RU');
  calls[0].onerror({error:'voice-unavailable'});
@@ -348,7 +348,7 @@ test('automatic speech leaves render callback and pause cancels pending speech',
  let speaks=0,cancels=0,resumes=0;
  const synth={getVoices:()=>[],cancel(){cancels++;},resume(){resumes++;},speak(){speaks++;}};
  const speech=new Pronunciation(synth,class{});
- speech.configure(normalizeSettings());
+ speech.configure(normalizeSettings({pronunciation:true}));
  speech.schedule('cat');assert.equal(speaks,0);
  speech.stop();
  await new Promise(resolve=>setTimeout(resolve,10));assert.equal(speaks,0);
@@ -357,4 +357,11 @@ test('automatic speech leaves render callback and pause cancels pending speech',
  assert.equal(speaks,1);assert.equal(cancels,0);assert.equal(resumes,0);
  speech.current.onend();
  synth.paused=true;speech.speak('bird');assert.equal(resumes,1);
+});
+
+test('automatic pronunciation defaults off and preserves explicit preferences',()=>{
+ assert.equal(normalizeSettings().pronunciation,false);
+ assert.equal(normalizeSettings({music:true}).pronunciation,false);
+ assert.equal(normalizeSettings({pronunciation:true}).pronunciation,true);
+ assert.equal(normalizeSettings({pronunciation:false}).pronunciation,false);
 });

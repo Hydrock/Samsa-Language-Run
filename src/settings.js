@@ -9,7 +9,7 @@ export function normalizeSettings(value = {}) {
   return {
     muted: value?.muted === true,
     music: value?.music !== false,
-    pronunciation: value?.pronunciation !== false,
+    pronunciation: value?.pronunciation === true,
     speechVolume: Number.isFinite(value?.speechVolume) ? Math.max(0,Math.min(1,value.speechVolume)) : .8,
     effectsVolume: Number.isFinite(value?.effectsVolume) ? Math.max(0,Math.min(1,value.effectsVolume)) : 1,
     musicVolume: Number.isFinite(value?.musicVolume) ? Math.max(0,Math.min(1,value.musicVolume)) : .3,
