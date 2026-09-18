@@ -1,0 +1,448 @@
+{
+  "id": "charvak",
+  "label": "Чарвакское водохранилище",
+  "title": "ЧАРВАК",
+  "indoors": false,
+  "description": "Бирюзовая вода, горные вершины и английский на солнечном берегу Чарвака.",
+  "collisionHint": "Обходи отдыхающих на набережной",
+  "colors": {
+    "ground": "#dcc996",
+    "road": "#e6cf9c",
+    "line": "#fff0c5"
+  },
+  "sprites": {
+    "parasol": {
+      "file": "charvak-atlas.png",
+      "reference": [
+        1983,
+        793
+      ],
+      "rect": [
+        33,
+        14,
+        354,
+        367
+      ]
+    },
+    "loungers": {
+      "file": "charvak-atlas.png",
+      "reference": [
+        1983,
+        793
+      ],
+      "rect": [
+        417,
+        139,
+        367,
+        213
+      ]
+    },
+    "poplar": {
+      "file": "charvak-atlas.png",
+      "reference": [
+        1983,
+        793
+      ],
+      "rect": [
+        919,
+        5,
+        145,
+        377
+      ]
+    },
+    "kiosk": {
+      "file": "charvak-atlas.png",
+      "reference": [
+        1983,
+        793
+      ],
+      "rect": [
+        1214,
+        53,
+        354,
+        327
+      ]
+    },
+    "kayak": {
+      "file": "charvak-atlas.png",
+      "reference": [
+        1983,
+        793
+      ],
+      "rect": [
+        1700,
+        4,
+        197,
+        402
+      ]
+    },
+    "hiker": {
+      "file": "charvak-atlas.png",
+      "reference": [
+        1983,
+        793
+      ],
+      "rect": [
+        113,
+        385,
+        185,
+        399
+      ]
+    },
+    "tourist": {
+      "file": "charvak-atlas.png",
+      "reference": [
+        1983,
+        793
+      ],
+      "rect": [
+        499,
+        389,
+        192,
+        395
+      ]
+    },
+    "lifeguard": {
+      "file": "charvak-atlas.png",
+      "reference": [
+        1983,
+        793
+      ],
+      "rect": [
+        869,
+        388,
+        215,
+        399
+      ]
+    },
+    "cooler": {
+      "file": "charvak-atlas.png",
+      "reference": [
+        1983,
+        793
+      ],
+      "rect": [
+        1240,
+        480,
+        292,
+        282
+      ]
+    },
+    "rock": {
+      "file": "charvak-atlas.png",
+      "reference": [
+        1983,
+        793
+      ],
+      "rect": [
+        1658,
+        565,
+        276,
+        184
+      ]
+    }
+  },
+  "decor": [
+    {
+      "sprite": "parasol",
+      "height": 3.9
+    },
+    {
+      "sprite": "loungers",
+      "height": 1.65
+    },
+    {
+      "sprite": "poplar",
+      "height": 5
+    },
+    {
+      "sprite": "kiosk",
+      "height": 3.5
+    },
+    {
+      "sprite": "kayak",
+      "height": 3.1
+    }
+  ],
+  "obstacles": {
+    "barrier": [
+      {
+        "sprite": "cooler",
+        "height": 0.95
+      },
+      {
+        "sprite": "rock",
+        "height": 0.8
+      }
+    ],
+    "person": [
+      {
+        "sprite": "hiker",
+        "height": 2.3
+      },
+      {
+        "sprite": "tourist",
+        "height": 2.3
+      },
+      {
+        "sprite": "lifeguard",
+        "height": 2.3
+      }
+    ]
+  },
+  "environment": [
+    {
+      "color": "#2bafbd",
+      "position": [
+        -68,
+        -0.005,
+        -48
+      ],
+      "size": [
+        110,
+        0.04,
+        145
+      ]
+    },
+    {
+      "color": "#6cced0",
+      "position": [
+        -13.9,
+        0.025,
+        -48
+      ],
+      "size": [
+        1.8,
+        0.04,
+        145
+      ]
+    },
+    {
+      "color": "#eee0b1",
+      "position": [
+        -12.65,
+        0.045,
+        -48
+      ],
+      "size": [
+        0.65,
+        0.04,
+        145
+      ]
+    },
+    {
+      "color": "#9ce3db",
+      "position": [
+        -23,
+        0.025,
+        -16
+      ],
+      "size": [
+        9,
+        0.02,
+        0.12
+      ]
+    },
+    {
+      "color": "#9ce3db",
+      "position": [
+        -34,
+        0.025,
+        -35
+      ],
+      "size": [
+        15,
+        0.02,
+        0.12
+      ]
+    },
+    {
+      "color": "#9ce3db",
+      "position": [
+        -18,
+        0.025,
+        -52
+      ],
+      "size": [
+        6,
+        0.02,
+        0.12
+      ]
+    },
+    {
+      "color": "#9ce3db",
+      "position": [
+        -48,
+        0.025,
+        -61
+      ],
+      "size": [
+        18,
+        0.02,
+        0.12
+      ]
+    },
+    {
+      "color": "#9ce3db",
+      "position": [
+        -28,
+        0.025,
+        -83
+      ],
+      "size": [
+        12,
+        0.02,
+        0.12
+      ]
+    },
+    {
+      "shape": "cone",
+      "color": "#7195a0",
+      "position": [
+        -49,
+        13.0,
+        -98
+      ],
+      "radius": 25,
+      "height": 26,
+      "segments": 5,
+      "flatShading": true,
+      "scale": [
+        1,
+        1,
+        0.7
+      ]
+    },
+    {
+      "shape": "cone",
+      "color": "#779eab",
+      "position": [
+        -25,
+        16.5,
+        -110
+      ],
+      "radius": 22,
+      "height": 33,
+      "segments": 5,
+      "flatShading": true,
+      "scale": [
+        1,
+        1,
+        0.7
+      ]
+    },
+    {
+      "shape": "cone",
+      "color": "#edf0df",
+      "position": [
+        -25,
+        30.03,
+        -110
+      ],
+      "radius": 4.18,
+      "height": 6.2700000000000005,
+      "segments": 5,
+      "flatShading": true,
+      "scale": [
+        1,
+        1,
+        0.7
+      ]
+    },
+    {
+      "shape": "cone",
+      "color": "#8baab0",
+      "position": [
+        3,
+        12.5,
+        -115
+      ],
+      "radius": 19,
+      "height": 25,
+      "segments": 5,
+      "flatShading": true,
+      "scale": [
+        1,
+        1,
+        0.7
+      ]
+    },
+    {
+      "shape": "cone",
+      "color": "#81979c",
+      "position": [
+        29,
+        18.0,
+        -105
+      ],
+      "radius": 24,
+      "height": 36,
+      "segments": 5,
+      "flatShading": true,
+      "scale": [
+        1,
+        1,
+        0.7
+      ]
+    },
+    {
+      "shape": "cone",
+      "color": "#edf0df",
+      "position": [
+        29,
+        32.76,
+        -105
+      ],
+      "radius": 4.5600000000000005,
+      "height": 6.84,
+      "segments": 5,
+      "flatShading": true,
+      "scale": [
+        1,
+        1,
+        0.7
+      ]
+    },
+    {
+      "shape": "cone",
+      "color": "#989e8a",
+      "position": [
+        53,
+        12.5,
+        -91
+      ],
+      "radius": 23,
+      "height": 25,
+      "segments": 5,
+      "flatShading": true,
+      "scale": [
+        1,
+        1,
+        0.7
+      ]
+    },
+    {
+      "shape": "cone",
+      "color": "#a2a488",
+      "position": [
+        40,
+        9.5,
+        -64
+      ],
+      "radius": 16,
+      "height": 19,
+      "segments": 5,
+      "flatShading": true,
+      "scale": [
+        1,
+        1,
+        0.7
+      ]
+    }
+  ],
+  "scenery": {
+    "leftDensity": 0.56,
+    "rightDensity": 0.67,
+    "sideX": 8
+  }
+}
