@@ -58,3 +58,9 @@ html,body{height:100%;overscroll-behavior:none}button{touch-action:manipulation}
  .word-panel .eyebrow{font-size:7px;letter-spacing:.3px}
  .word-panel #level{font-size:7px;letter-spacing:.3px}
 }
+
+/* Centered bounded stage; the page pattern stays outside the game. */
+body{height:100dvh;display:grid;place-items:center;background-color:#173f39;background-image:repeating-linear-gradient(45deg,transparent 0 27px,#d8ba7330 27px 29px,transparent 29px 56px),repeating-linear-gradient(-45deg,transparent 0 27px,#d8ba7330 27px 29px,transparent 29px 56px)}
+#game-shell{position:relative;isolation:isolate;width:min(100%,1280px);height:min(100dvh,900px);overflow:hidden;background:#b5dcd8;box-shadow:0 12px 80px #0006}
+#game{position:absolute;inset:0}
+#touch{position:absolute}
