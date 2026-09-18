@@ -12,5 +12,5 @@ export function chooseWord(score,previous,random=Math.random){
 }
 // After 2–4 decoys the next candidate is guaranteed correct. Earlier chance rises.
 export function correctChance(misses){return misses>=4?1:0.22+misses*0.19;}
-export function nextCandidate(target,misses,random=Math.random){const correct=random()<correctChance(misses);const pool=dictionary.filter(w=>w.en!==target.en&&w.weight<=target.weight);return {word:correct?target.en:pool[Math.floor(random()*pool.length)].en,correct,misses:correct?0:misses+1};}
+export function nextCandidate(target,misses,random=Math.random,language='en'){const correct=random()<correctChance(misses);const pool=dictionary.filter(w=>w.en!==target.en&&w.weight<=target.weight);return {word:correct?target[language]:pool[Math.floor(random()*pool.length)][language],correct,misses:correct?0:misses+1};}
 export function updateScore(score,delta){const next=score+delta;return {score:next,gameOver:next<0};}

@@ -115,7 +115,7 @@ test('harder modes increase speed, obstacles and expected word frequency',()=>{
   }
 });
 test('settings survive serialization and invalid saved values use defaults',()=>{
-  const preferences={pronunciation:true,speechVolume:.8,effectsVolume:1,musicVolume:.3,muted:true,music:false,autoMusic:true,track:'evening',mode:'hard',transcription:false,location:'museum'};
+  const preferences={sourceLanguage:'ru',answerLanguage:'en',pronunciation:true,speechVolume:.8,effectsVolume:1,musicVolume:.3,muted:true,music:false,autoMusic:true,track:'evening',mode:'hard',transcription:false,location:'museum'};
   assert.deepEqual(normalizeSettings(JSON.parse(JSON.stringify(preferences))),preferences);
   assert.deepEqual(normalizeSettings({track:'invalid',mode:'toString'}),normalizeSettings());
   assert.deepEqual(normalizeSettings(null),normalizeSettings());
@@ -364,4 +364,21 @@ test('automatic pronunciation defaults off and preserves explicit preferences',(
  assert.equal(normalizeSettings({music:true}).pronunciation,false);
  assert.equal(normalizeSettings({pronunciation:true}).pronunciation,true);
  assert.equal(normalizeSettings({pronunciation:false}).pronunciation,false);
+});
+
+test('language direction defaults, reverse candidates and history snapshots',()=>{
+ assert.equal(normalizeSettings().sourceLanguage,'ru');
+ assert.equal(normalizeSettings().answerLanguage,'en');
+ const reverse=normalizeSettings({sourceLanguage:'en',answerLanguage:'ru'});
+ assert.equal(reverse.sourceLanguage,'en');assert.equal(reverse.answerLanguage,'ru');
+ assert.notEqual(normalizeSettings({sourceLanguage:'en',answerLanguage:'en'}).answerLanguage,'en');
+ const target=dictionary[0];
+ assert.equal(nextCandidate(target,0,()=>0,'ru').word,target.ru);
+ const wrong=nextCandidate(target,0,()=>.99,'ru');assert.notEqual(wrong.word,target.ru);
+ const entry=historyEntry({type:'word',target,word:wrong.word,correct:false,sourceLanguage:'en',answerLanguage:'ru'},1,dictionary);
+ assert.equal(entry.chosen.ru,wrong.word);
+ const html=historyMarkup([entry]);
+ assert.ok(html.indexOf(target.en)<html.indexOf(target.ru));
+ assert.match(html,/data-lang="ru-RU"/);
+ assert.match(html,/data-lang="en-US"/);
 });

@@ -1,3 +1,4 @@
+import {languages} from './languages.js';
 import {Pronunciation} from './speech.js';
 import {shareGame,gameShareUrl} from './share.js';
 import {historyEntry,historyMarkup} from './history.js';
@@ -58,6 +59,22 @@ try {
   settings=normalizeSettings(saved?JSON.parse(saved):{muted:localStorage.getItem('samsa-run-muted')==='true'});
 } catch {}
 $('best').textContent=best;
+for(const id of ['setting-source-language','setting-answer-language']){
+ $(id).replaceChildren(...Object.entries(languages).map(([code,data])=>new Option(data.label,code)));
+}
+for(const field of ['sourceLanguage','answerLanguage']){
+ const id=field==='sourceLanguage'?'setting-source-language':'setting-answer-language';
+ $(id).onchange=()=>{
+  const other=field==='sourceLanguage'?'answerLanguage':'sourceLanguage',previous=settings[field];
+  const next={...settings,[field]:$(id).value};
+  if(next[field]===next[other])next[other]=previous;
+  settings=normalizeSettings(next);
+  $('setting-source-language').value=settings.sourceLanguage;
+  $('setting-answer-language').value=settings.answerLanguage;
+  speech.stop();clearEntities();misses=0;spawnTimer=.7;
+  saveSettings();refresh();
+ };
+}
 const speech=new Pronunciation();
 function updateVoiceStatus(){
   $('voice-status-ru').textContent=speech.voiceStatus('ru');
@@ -91,11 +108,13 @@ function describeMode(){
 $('settings-button').onclick=()=>{
   if(settingsDialog.open)return;
   updateVoiceStatus();
+  $('setting-source-language').value=settings.sourceLanguage;
+  $('setting-answer-language').value=settings.answerLanguage;
   speech.stop();beforeSettings=state;state='settings';soundtrack.setPlaying(false);
   $('setting-pronunciation').checked=settings.pronunciation;
   $('setting-pronunciation').disabled=!speech.available;
   $('setting-speech-volume').disabled=!speech.available;
-  $('speech-support').textContent=speech.available?'Английское произношение голосом устройства':'Озвучивание недоступно в этом браузере';
+  $('speech-support').textContent=speech.available?'Произношение языка ответов голосом устройства':'Озвучивание недоступно в этом браузере';
   $('setting-speech-volume').value=Math.round(settings.speechVolume*100);
   $('speech-volume-value').textContent=`${Math.round(settings.speechVolume*100)}%`;
   $('setting-sound').checked=!settings.muted;
@@ -161,7 +180,7 @@ settingsDialog.addEventListener('close',()=>{
   soundtrack.setPlaying(state==='playing');
   $('settings-button').focus();
 });
-function refresh(){refreshTimer();$('target-ipa').textContent=target.ruIPA?`[${target.ruIPA}]`:'';$('target-ipa').hidden=!settings.transcription||!target.ruIPA;$('target').parentElement.style.setProperty('--word-scale',Math.min(1,9/target.ru.length));$('score').textContent=score;$('best').textContent=best;$('target').textContent=target.ru;$('level').textContent=`${String(difficulty(score)).padStart(2,'0')} / ${levelNames[difficulty(score)-1]}`;}
+function refresh(){refreshTimer();$('language-direction').textContent=`НАЙДИ ПЕРЕВОД · ${settings.sourceLanguage.toUpperCase()} → ${settings.answerLanguage.toUpperCase()}`;$('target').lang=settings.sourceLanguage;$('target-ipa').lang=settings.sourceLanguage;$('target-ipa').textContent=target[settings.sourceLanguage+'IPA']?`[${target[settings.sourceLanguage+'IPA']}]`:'';$('target-ipa').hidden=!settings.transcription||!target[settings.sourceLanguage+'IPA'];$('target').parentElement.style.setProperty('--word-scale',Math.min(1,9/target[settings.sourceLanguage].length));$('score').textContent=score;$('best').textContent=best;$('target').textContent=target[settings.sourceLanguage];$('level').textContent=`${String(difficulty(score)).padStart(2,'0')} / ${levelNames[difficulty(score)-1]}`;}
 function disposeEntity(e){scene.remove(e.obj);e.obj.traverse(o=>{if(o.material?.userData.shared)return;if(o.geometry)o.geometry.dispose();if(o.material?.map){o.material.map.dispose();o.material.dispose();}});}
 function clearEntities(){entities.forEach(disposeEntity);entities=[];}
 function start(){speech.stop();runHistory=[];document.activeElement?.blur();clearEntities();state='playing';document.body.className='playing';score=0;peak=0;starTime=0;lanePoseTime=0;lane=1;jumpY=0;velocity=0;elapsed=0;gameTime=0;updateAtmosphere(0,activeLocation.definition.indoors);distance=0;spawnTimer=.7;misses=0;target=chooseWord(0);player.position.x=0;$('feedback').textContent='';feedbackTime=0;refresh();soundtrack.step=0;soundtrack.unlock();soundtrack.setPlaying(true);}
@@ -193,7 +212,7 @@ function refreshTimer(){
   $('run-time').setAttribute('datetime',`PT${Math.floor(gameTime)}S`);
 }
 function label(word){
-  const ipa=dictionary.find(entry=>entry.en===word)?.enIPA;
+  const ipa=dictionary.find(entry=>entry[settings.answerLanguage]===word)?.[settings.answerLanguage+'IPA'];
   const showIPA=settings.transcription&&ipa;
   const map=texture((c,w,h)=>{
     c.fillStyle='#fff9e8';c.strokeStyle='#d6a961';c.lineWidth=6;
@@ -218,7 +237,7 @@ function refreshWordLabels(){
     entity.obj.add(label(entity.word));
   }
 }
-function spawnWord(){const candidate=nextCandidate(target,misses);misses=candidate.misses;const obj=new T.Group();obj.add(label(candidate.word));obj.position.set((Math.floor(Math.random()*3)-1)*3.2,0,-36);scene.add(obj);entities.push({obj,type:'word',correct:candidate.correct,target:{...target},word:candidate.word});}
+function spawnWord(){const candidate=nextCandidate(target,misses,Math.random,settings.answerLanguage);misses=candidate.misses;const obj=new T.Group();obj.add(label(candidate.word));obj.position.set((Math.floor(Math.random()*3)-1)*3.2,0,-36);scene.add(obj);entities.push({obj,type:'word',correct:candidate.correct,target:{...target},word:candidate.word,sourceLanguage:settings.sourceLanguage,answerLanguage:settings.answerLanguage});}
 function obstacleSprite(entity){
   const {name,height}=obstacleAppearance(activeLocation.definition,entity.type,entity.variant);
   return activeLocation.sprite(name,height);
@@ -262,7 +281,7 @@ new ResizeObserver(resize).observe($('game-shell'));resize();
 const updateAtmosphere=createAtmosphere(scene,renderer,sun,ambient,maps.materials,material(0xffe4a4));applyLocation();
 const stars=new T.Group();scene.add(stars);let starTime=0;const starMap=texture(c=>{c.fillStyle='#ffdc63';c.font='bold 400px Arial';c.textAlign='center';c.fillText('✦',256,400);});for(let i=0;i<9;i++){const s=new T.Sprite(new T.SpriteMaterial({map:starMap,depthTest:false,transparent:true}));const a=i/9*Math.PI*2;s.position.set(Math.cos(a)*1.8,1.4+Math.sin(a)*1.5,.4);s.scale.setScalar(.45);stars.add(s);}stars.visible=false;let last=performance.now();function frame(now){requestAnimationFrame(frame);const dt=Math.min((now-last)/1000,.05);last=now;const running=state==='playing';if(running){elapsed+=dt;lanePoseTime=Math.max(0,lanePoseTime-dt);const speed=runSpeed();activeLocation.moving.forEach(g=>{g.position.z+=speed*dt;if(g.position.z>maps.manifest.layout.wrapZ)g.position.z-=maps.manifest.layout.rows*maps.manifest.layout.spacing;});sprite.material.rotation=0;}
 if(running){gameTime+=dt;refreshTimer();updateAtmosphere(gameTime,activeLocation.definition.indoors);distance+=dt*(runSpeed());$('distance').textContent=`${Math.floor(distance)} м`;player.position.x=T.MathUtils.damp(player.position.x,(lane-1)*3.2,15,dt);if(jumpY>0||velocity>0){velocity-=19*dt;jumpY=Math.max(0,jumpY+velocity*dt);}player.position.y=jumpY;shadow.position.x=player.position.x;shadow.scale.setScalar(1-jumpY*.15);shadow.scale.y*=.55;if(entities.length===0)spawnTimer-=dt;if(spawnTimer<=0&&entities.length===0){if(Math.random()<gameModes[settings.mode].obstacleChance&&distance>28)spawnObstacle();else spawnWord();spawnTimer=gameModes[settings.mode].gap;}
-for(let i=entities.length-1;i>=0;i--){const e=entities[i];e.obj.position.z+=(runSpeed()+(e.speed||0))*dt;if(e.obj.position.z>=2.8&&!e.checked){e.checked=true;if(Math.abs(e.obj.position.x-player.position.x)<1.05){if(e.type==='word'){if(!collectsWord(e.obj.position.x-player.position.x,jumpY))continue;runHistory.push(historyEntry(e,gameTime,dictionary));if(e.correct){speech.schedule(e.target.en);change(1,`${e.target.ru} → ${e.target.en}`);target=chooseWord(score,target.en);misses=0;refresh();}else change(-1,`${e.target.ru} → ${e.target.en}`);}else if(e.type==='person'||jumpY<.8){runHistory.push(historyEntry(e,gameTime,dictionary));change(-1,e.type==='person'?activeLocation.definition.collisionHint:'Прыгай через барьеры');}}}if(e.obj.position.z>5){disposeEntity(e);entities.splice(i,1);}}
+for(let i=entities.length-1;i>=0;i--){const e=entities[i];e.obj.position.z+=(runSpeed()+(e.speed||0))*dt;if(e.obj.position.z>=2.8&&!e.checked){e.checked=true;if(Math.abs(e.obj.position.x-player.position.x)<1.05){if(e.type==='word'){if(!collectsWord(e.obj.position.x-player.position.x,jumpY))continue;runHistory.push(historyEntry(e,gameTime,dictionary));if(e.correct){speech.schedule(e.target[e.answerLanguage],languages[e.answerLanguage].speech);change(1,`${e.target[e.sourceLanguage]} → ${e.target[e.answerLanguage]}`);target=chooseWord(score,target.en);misses=0;refresh();}else change(-1,`${e.target[e.sourceLanguage]} → ${e.target[e.answerLanguage]}`);}else if(e.type==='person'||jumpY<.8){runHistory.push(historyEntry(e,gameTime,dictionary));change(-1,e.type==='person'?activeLocation.definition.collisionHint:'Прыгай через барьеры');}}}if(e.obj.position.z>5){disposeEntity(e);entities.splice(i,1);}}
 if(feedbackTime>0){feedbackTime-=dt;if(feedbackTime<=0)$('feedback').textContent='';}}
 if(running&&starTime>0)starTime=Math.max(0,starTime-dt);stars.visible=starTime>0;stars.position.copy(player.position);stars.rotation.z=elapsed;stars.children.forEach((s,i)=>{s.material.opacity=Math.min(1,starTime*2);});updateCharacter();renderer.render(scene,camera);}refresh();requestAnimationFrame(frame);
 renderer.domElement.addEventListener('webglcontextlost',e=>{e.preventDefault();if(state==='playing')togglePause();$('overlay').innerHTML='<section class="intro"><h1>Графика отдыхает</h1><p>Перезагрузите страницу, чтобы восстановить WebGL.<br>Сохранённый рекорд останется.</p></section>';document.body.className='paused';});

@@ -1,3 +1,4 @@
+import {languagePair} from './languages.js';
 let locationIds=['park','museum'],defaultLocation='museum';
 export function configureLocations(ids,defaultId){locationIds=[...ids];defaultLocation=defaultId;}
 export const gameModes = {
@@ -7,6 +8,7 @@ export const gameModes = {
 };
 export function normalizeSettings(value = {}) {
   return {
+    ...languagePair(value?.sourceLanguage,value?.answerLanguage),
     muted: value?.muted === true,
     music: value?.music !== false,
     pronunciation: value?.pronunciation === true,

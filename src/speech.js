@@ -19,10 +19,10 @@ export class Pronunciation {
     const active=this.current;this.current=null;
     if(this.available&&(active||this.synth.speaking||this.synth.pending))this.synth.cancel();
   }
-  schedule(text){
+  schedule(text,lang='en-US'){
     clearTimeout(this.pending);
     // Leave the collision/render callback before entering the native speech engine.
-    this.pending=setTimeout(()=>{this.pending=null;this.speak(text);},0);
+    this.pending=setTimeout(()=>{this.pending=null;this.speak(text,lang);},0);
   }
   speak(text,lang='en-US',manual=false,onStatus=()=>{}){
     const s=this.settings;
