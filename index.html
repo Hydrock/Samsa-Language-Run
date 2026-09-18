@@ -23,6 +23,11 @@
     <label class="setting-field volume-label" for="setting-volume">Громкость музыки <output id="music-volume-value" for="setting-volume">30%</output></label>
     <input id="setting-volume" type="range" min="0" max="100" step="1" value="30">
     <label class="setting-toggle"><span>Озвучивать правильные слова<small id="speech-support">Английское произношение голосом устройства</small></span><input id="setting-pronunciation" type="checkbox" checked></label>
+    <div class="voice-status" role="status" aria-live="polite">
+      <div>Русский: <span id="voice-status-ru"></span></div>
+      <div>Английский: <span id="voice-status-en"></span></div>
+      <small>Наличие голоса не гарантирует воспроизведение. Сетевому голосу может понадобиться интернет.</small>
+    </div>
     <label class="setting-field volume-label" for="setting-speech-volume">Громкость произношения <output id="speech-volume-value" for="setting-speech-volume">80%</output></label>
     <input id="setting-speech-volume" type="range" min="0" max="100" step="1" value="80">
     <label class="setting-toggle"><span>Транскрипция<small>Произношение русских и английских слов · IPA</small></span><input id="setting-transcription" type="checkbox" checked></label>

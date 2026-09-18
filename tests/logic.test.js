@@ -330,3 +330,15 @@ test('Russian pronunciation accepts OS language tags and retries unavailable voi
  calls[2].onerror({error:'language-unavailable'});
  assert.match(statuses.at(-1),/русский голос/);
 });
+
+test('voice availability distinguishes pending, missing, local and network voices',async()=>{
+ const {Pronunciation}=await import('../src/speech.js');let voices=[];
+ const speech=new Pronunciation({getVoices:()=>voices},class{});
+ assert.match(speech.voiceStatus('ru'),/пока не сообщил/);
+ voices=[{lang:'en-US',localService:false}];
+ assert.match(speech.voiceStatus('en'),/сетевой/);
+ assert.match(speech.voiceStatus('ru'),/не найден/);
+ voices.push({lang:'ru_RU',localService:true});
+ assert.match(speech.voiceStatus('ru'),/устройства/);
+ assert.match(new Pronunciation(null,null).voiceStatus('ru'),/не поддерживается/);
+});

@@ -102,3 +102,5 @@ body.game-over .random-location,body.game-over .share-game{margin-top:8px}
 #share-link{width:100%;padding:8px;margin-top:6px;border:1px solid #b9cbb9;border-radius:6px;font-size:16px;flex-shrink:0}
 
 .history-play{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;padding:0;margin-left:4px;border:1px solid #cbd7c5;border-radius:50%;background:#eff3e6;color:#285c46;font-size:12px;vertical-align:middle;cursor:pointer}.history-play:disabled{opacity:.4;cursor:default}.history-play:focus-visible{outline:2px solid #b9703b;outline-offset:2px}
+
+.voice-status{font-size:12px;line-height:1.5;margin-top:10px;color:#476454}.voice-status small{display:block;font-size:11px;margin-top:5px;color:#63766c}

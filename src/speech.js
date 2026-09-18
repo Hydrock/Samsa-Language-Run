@@ -4,6 +4,15 @@ export class Pronunciation {
     this.synth=synth;this.Utterance=Utterance;this.settings={};
   }
   get available(){return Boolean(this.synth&&this.Utterance);}
+  voiceStatus(lang){
+    if(!this.available)return 'Озвучивание не поддерживается';
+    const voices=this.synth.getVoices();
+    if(!voices.length)return 'Браузер пока не сообщил список голосов';
+    const matching=voices.filter(v=>String(v.lang).replaceAll('_','-').toLowerCase().split('-')[0]===lang.toLowerCase().split('-')[0]);
+    if(matching.some(v=>v.localService))return 'Доступен голос устройства';
+    if(matching.length)return 'Доступен сетевой голос';
+    return 'Голос не найден в списке браузера';
+  }
   configure(settings){this.settings=settings;if(settings.muted||!settings.pronunciation||settings.speechVolume===0)this.stop();}
   stop(){if(this.available)this.synth.cancel();this.current=null;}
   speak(text,lang='en-US',manual=false,onStatus=()=>{}){

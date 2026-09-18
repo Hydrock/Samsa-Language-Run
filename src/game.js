@@ -59,6 +59,12 @@ try {
 } catch {}
 $('best').textContent=best;
 const speech=new Pronunciation();
+function updateVoiceStatus(){
+  $('voice-status-ru').textContent=speech.voiceStatus('ru');
+  $('voice-status-en').textContent=speech.voiceStatus('en');
+}
+speech.synth?.addEventListener('voiceschanged',updateVoiceStatus);
+updateVoiceStatus();
 const soundtrack=new GameAudio();
 soundtrack.onTrackChange=track=>{
   settings.track=track;$('setting-track').value=track;
@@ -84,6 +90,7 @@ function describeMode(){
 }
 $('settings-button').onclick=()=>{
   if(settingsDialog.open)return;
+  updateVoiceStatus();
   speech.stop();beforeSettings=state;state='settings';soundtrack.setPlaying(false);
   $('setting-pronunciation').checked=settings.pronunciation;
   $('setting-pronunciation').disabled=!speech.available;
