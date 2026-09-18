@@ -1,0 +1,428 @@
+{
+  "id": "chimgan",
+  "label": "Большой Чимган",
+  "title": "БОЛЬШОЙ ЧИМГАН",
+  "indoors": false,
+  "description": "Горная тропа, арча и скалистые вершины. Собирай английские слова по пути к Большому Чимгану.",
+  "collisionHint": "Обходи туристов на тропе",
+  "colors": {
+    "ground": "#899168",
+    "road": "#c5b291",
+    "line": "#e5d5b2"
+  },
+  "sprites": {
+    "juniper": {
+      "file": "chimgan-atlas.png",
+      "reference": [
+        1983,
+        793
+      ],
+      "rect": [
+        14,
+        16,
+        361,
+        358
+      ]
+    },
+    "rocks": {
+      "file": "chimgan-atlas.png",
+      "reference": [
+        1983,
+        793
+      ],
+      "rect": [
+        398,
+        80,
+        420,
+        281
+      ]
+    },
+    "sign": {
+      "file": "chimgan-atlas.png",
+      "reference": [
+        1983,
+        793
+      ],
+      "rect": [
+        850,
+        32,
+        249,
+        334
+      ]
+    },
+    "tent": {
+      "file": "chimgan-atlas.png",
+      "reference": [
+        1983,
+        793
+      ],
+      "rect": [
+        1150,
+        104,
+        415,
+        253
+      ]
+    },
+    "table": {
+      "file": "chimgan-atlas.png",
+      "reference": [
+        1983,
+        793
+      ],
+      "rect": [
+        1571,
+        134,
+        394,
+        220
+      ]
+    },
+    "hiker": {
+      "file": "chimgan-atlas.png",
+      "reference": [
+        1983,
+        793
+      ],
+      "rect": [
+        73,
+        376,
+        251,
+        389
+      ]
+    },
+    "trekker": {
+      "file": "chimgan-atlas.png",
+      "reference": [
+        1983,
+        793
+      ],
+      "rect": [
+        490,
+        388,
+        211,
+        377
+      ]
+    },
+    "guide": {
+      "file": "chimgan-atlas.png",
+      "reference": [
+        1983,
+        793
+      ],
+      "rect": [
+        875,
+        380,
+        230,
+        385
+      ]
+    },
+    "log": {
+      "file": "chimgan-atlas.png",
+      "reference": [
+        1983,
+        793
+      ],
+      "rect": [
+        1168,
+        568,
+        387,
+        181
+      ]
+    },
+    "boulder": {
+      "file": "chimgan-atlas.png",
+      "reference": [
+        1983,
+        793
+      ],
+      "rect": [
+        1588,
+        470,
+        365,
+        276
+      ]
+    }
+  },
+  "decor": [
+    {
+      "sprite": "juniper",
+      "height": 4.2
+    },
+    {
+      "sprite": "rocks",
+      "height": 2.6
+    },
+    {
+      "sprite": "sign",
+      "height": 3
+    },
+    {
+      "sprite": "tent",
+      "height": 2.2
+    },
+    {
+      "sprite": "table",
+      "height": 1.8
+    }
+  ],
+  "obstacles": {
+    "barrier": [
+      {
+        "sprite": "log",
+        "height": 0.85
+      },
+      {
+        "sprite": "boulder",
+        "height": 0.95
+      }
+    ],
+    "person": [
+      {
+        "sprite": "hiker",
+        "height": 2.3
+      },
+      {
+        "sprite": "trekker",
+        "height": 2.3
+      },
+      {
+        "sprite": "guide",
+        "height": 2.3
+      }
+    ]
+  },
+  "environment": [
+    {
+      "shape": "cone",
+      "color": "#6f807c",
+      "position": [
+        -40,
+        10.0,
+        -82
+      ],
+      "radius": 22,
+      "height": 20,
+      "segments": 5,
+      "scale": [
+        1,
+        1,
+        0.7
+      ],
+      "flatShading": true
+    },
+    {
+      "shape": "cone",
+      "color": "#849499",
+      "position": [
+        -22,
+        13.5,
+        -98
+      ],
+      "radius": 22,
+      "height": 27,
+      "segments": 5,
+      "scale": [
+        1,
+        1,
+        0.7
+      ],
+      "flatShading": true
+    },
+    {
+      "shape": "cone",
+      "color": "#e3e6dd",
+      "position": [
+        -22,
+        24.57,
+        -98
+      ],
+      "radius": 4.18,
+      "height": 5.13,
+      "segments": 5,
+      "scale": [
+        1,
+        1,
+        0.7
+      ],
+      "flatShading": true
+    },
+    {
+      "shape": "cone",
+      "color": "#829296",
+      "position": [
+        0,
+        16.5,
+        -105
+      ],
+      "radius": 24,
+      "height": 33,
+      "segments": 5,
+      "scale": [
+        1,
+        1,
+        0.7
+      ],
+      "flatShading": true
+    },
+    {
+      "shape": "cone",
+      "color": "#e3e6dd",
+      "position": [
+        0,
+        30.03,
+        -105
+      ],
+      "radius": 4.5600000000000005,
+      "height": 6.2700000000000005,
+      "segments": 5,
+      "scale": [
+        1,
+        1,
+        0.7
+      ],
+      "flatShading": true
+    },
+    {
+      "shape": "cone",
+      "color": "#8b9692",
+      "position": [
+        24,
+        12.5,
+        -94
+      ],
+      "radius": 22,
+      "height": 25,
+      "segments": 5,
+      "scale": [
+        1,
+        1,
+        0.7
+      ],
+      "flatShading": true
+    },
+    {
+      "shape": "cone",
+      "color": "#788374",
+      "position": [
+        43,
+        9.5,
+        -77
+      ],
+      "radius": 20,
+      "height": 19,
+      "segments": 5,
+      "scale": [
+        1,
+        1,
+        0.7
+      ],
+      "flatShading": true
+    },
+    {
+      "shape": "sphere",
+      "color": "#78885e",
+      "position": [
+        -23,
+        -2,
+        -36
+      ],
+      "radius": 7,
+      "segments": 8,
+      "scale": [
+        1,
+        0.55,
+        1.3
+      ],
+      "flatShading": true
+    },
+    {
+      "shape": "sphere",
+      "color": "#78885e",
+      "position": [
+        -23,
+        -2,
+        -60
+      ],
+      "radius": 10,
+      "segments": 8,
+      "scale": [
+        1,
+        0.55,
+        1.3
+      ],
+      "flatShading": true
+    },
+    {
+      "shape": "sphere",
+      "color": "#78885e",
+      "position": [
+        -23,
+        -2,
+        -87
+      ],
+      "radius": 11,
+      "segments": 8,
+      "scale": [
+        1,
+        0.55,
+        1.3
+      ],
+      "flatShading": true
+    },
+    {
+      "shape": "sphere",
+      "color": "#78885e",
+      "position": [
+        23,
+        -2,
+        -36
+      ],
+      "radius": 7,
+      "segments": 8,
+      "scale": [
+        1,
+        0.55,
+        1.3
+      ],
+      "flatShading": true
+    },
+    {
+      "shape": "sphere",
+      "color": "#78885e",
+      "position": [
+        23,
+        -2,
+        -60
+      ],
+      "radius": 10,
+      "segments": 8,
+      "scale": [
+        1,
+        0.55,
+        1.3
+      ],
+      "flatShading": true
+    },
+    {
+      "shape": "sphere",
+      "color": "#78885e",
+      "position": [
+        23,
+        -2,
+        -87
+      ],
+      "radius": 11,
+      "segments": 8,
+      "scale": [
+        1,
+        0.55,
+        1.3
+      ],
+      "flatShading": true
+    }
+  ],
+  "scenery": {
+    "leftDensity": 0.61,
+    "rightDensity": 0.61,
+    "sideX": 8
+  }
+}
