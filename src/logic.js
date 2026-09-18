@@ -1,6 +1,7 @@
+import {uzbek} from './vocabulary-uz.js';
 import {vocabulary} from './vocabulary.js';
 import {phonetics} from './phonetics.js';
-export const dictionary=vocabulary.map(word=>({...word,...(phonetics[word.en]?{ruIPA:phonetics[word.en][0],enIPA:phonetics[word.en][1]}:{})}));
+export const dictionary=vocabulary.map(word=>({...word,...uzbek[word.en],...(phonetics[word.en]?{ruIPA:phonetics[word.en][0],enIPA:phonetics[word.en][1]}:{})}));
 export const levelNames=['ПЕРВЫЕ СЛОВА','ЦВЕТА И ПРИЗНАКИ','ДЕЙСТВИЯ','МИР ВОКРУГ','ПОВСЕДНЕВНАЯ ЖИЗНЬ','УЧЁБА И РАБОТА','ТОЧНЫЕ ДЕЙСТВИЯ','ОПИСАНИЯ','МЫСЛИ И ЧУВСТВА','СЛОЖНЫЕ ПОНЯТИЯ'];
 export function difficulty(score){return Math.min(10,1+Math.floor(Math.max(0,score)/5));}
 const pools=Array.from({length:10},(_,i)=>dictionary.filter(w=>w.weight===i+1));
@@ -12,5 +13,5 @@ export function chooseWord(score,previous,random=Math.random){
 }
 // After 2–4 decoys the next candidate is guaranteed correct. Earlier chance rises.
 export function correctChance(misses){return misses>=4?1:0.22+misses*0.19;}
-export function nextCandidate(target,misses,random=Math.random,language='en'){const correct=random()<correctChance(misses);const pool=dictionary.filter(w=>w.en!==target.en&&w.weight<=target.weight);return {word:correct?target[language]:pool[Math.floor(random()*pool.length)][language],correct,misses:correct?0:misses+1};}
+export function nextCandidate(target,misses,random=Math.random,language='en',source='ru'){const correct=random()<correctChance(misses);const pool=dictionary.filter(w=>w.en!==target.en&&w[language]!==target[language]&&w[source]!==target[source]&&w.weight<=target.weight);return {word:correct?target[language]:pool[Math.floor(random()*pool.length)][language],correct,misses:correct?0:misses+1};}
 export function updateScore(score,delta){const next=score+delta;return {score:next,gameOver:next<0};}

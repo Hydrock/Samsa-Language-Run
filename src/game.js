@@ -77,8 +77,10 @@ for(const field of ['sourceLanguage','answerLanguage']){
 }
 const speech=new Pronunciation();
 function updateVoiceStatus(){
-  $('voice-status-ru').textContent=speech.voiceStatus('ru');
-  $('voice-status-en').textContent=speech.voiceStatus('en');
+  const container=$('voice-status-list');
+  container.replaceChildren(...Object.entries(languages).map(([code,data])=>{
+    const row=document.createElement('div');row.textContent=`${data.label}: ${speech.voiceStatus(code)}`;return row;
+  }));
 }
 speech.synth?.addEventListener('voiceschanged',updateVoiceStatus);
 updateVoiceStatus();
@@ -217,13 +219,14 @@ function label(word){
   const map=texture((c,w,h)=>{
     c.fillStyle='#fff9e8';c.strokeStyle='#d6a961';c.lineWidth=6;
     c.beginPath();c.roundRect(5,5,w-10,h-10,28);c.fill();c.stroke();
-    const fontSize=word.length>11?41:word.length>8?49:64;
+    let fontSize=word.length>11?41:word.length>8?49:64;
     c.textAlign='center';c.textBaseline='middle';c.fillStyle='#244b40';
     c.font=`bold ${fontSize}px Arial`;
+    while(c.measureText(word).width>w-32&&fontSize>16){fontSize--;c.font=`bold ${fontSize}px Arial`;}
     c.fillText(word,w/2,showIPA?76:h/2+2);
     if(showIPA){
       c.font=`${fontSize/2}px Arial`;
-      c.fillStyle='#617667';c.fillText(`[${ipa}]`,w/2,144);
+      c.fillStyle='#617667';c.fillText(`[${ipa}]`,w/2,144,w-32);
     }
   },512,showIPA?208:160);
   const s=new T.Sprite(new T.SpriteMaterial({map,depthTest:false,sizeAttenuation:false}));
@@ -237,7 +240,7 @@ function refreshWordLabels(){
     entity.obj.add(label(entity.word));
   }
 }
-function spawnWord(){const candidate=nextCandidate(target,misses,Math.random,settings.answerLanguage);misses=candidate.misses;const obj=new T.Group();obj.add(label(candidate.word));obj.position.set((Math.floor(Math.random()*3)-1)*3.2,0,-36);scene.add(obj);entities.push({obj,type:'word',correct:candidate.correct,target:{...target},word:candidate.word,sourceLanguage:settings.sourceLanguage,answerLanguage:settings.answerLanguage});}
+function spawnWord(){const candidate=nextCandidate(target,misses,Math.random,settings.answerLanguage,settings.sourceLanguage);misses=candidate.misses;const obj=new T.Group();obj.add(label(candidate.word));obj.position.set((Math.floor(Math.random()*3)-1)*3.2,0,-36);scene.add(obj);entities.push({obj,type:'word',correct:candidate.correct,target:{...target},word:candidate.word,sourceLanguage:settings.sourceLanguage,answerLanguage:settings.answerLanguage});}
 function obstacleSprite(entity){
   const {name,height}=obstacleAppearance(activeLocation.definition,entity.type,entity.variant);
   return activeLocation.sprite(name,height);

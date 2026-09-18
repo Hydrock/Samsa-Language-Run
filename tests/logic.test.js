@@ -382,3 +382,49 @@ test('language direction defaults, reverse candidates and history snapshots',()=
  assert.match(html,/data-lang="ru-RU"/);
  assert.match(html,/data-lang="en-US"/);
 });
+
+test('all 1000 concepts have Uzbek text and IPA; all six directions generate valid candidates',()=>{
+ assert.equal(dictionary.length,1000);
+ for(const w of dictionary){
+  assert.ok(w.uz?.trim(),w.en);assert.ok(w.uzIPA?.trim(),w.en);
+  assert.ok(!/[А-Яа-яЁё]/.test(w.uz),w.en);
+ }
+ for(const source of ['ru','en','uz'])for(const answer of ['ru','en','uz']){
+  if(source===answer)continue;
+  const settings=normalizeSettings({sourceLanguage:source,answerLanguage:answer});
+  assert.equal(settings.sourceLanguage,source);assert.equal(settings.answerLanguage,answer);
+  for(const target of dictionary){
+   const right=nextCandidate(target,0,()=>0,answer,source);
+   assert.equal(right.word,target[answer]);
+   const wrong=nextCandidate(target,0,()=>.99,answer,source);
+   assert.ok(wrong.word);assert.notEqual(wrong.word,target[answer]);
+   assert.ok(!dictionary.some(w=>w[source]===target[source]&&w[answer]===wrong.word));
+  }
+ }
+});
+test('Uzbek history retains translation, IPA and voice locale',()=>{
+ const target=dictionary.find(w=>w.en==='cat');
+ const entry=historyEntry({type:'word',target,word:target.uz,correct:true,sourceLanguage:'ru',answerLanguage:'uz'},2,dictionary);
+ const html=historyMarkup([entry]);
+ assert.match(html,/mushuk/);assert.match(html,/data-lang="uz-UZ"/);assert.ok(html.includes(target.uzIPA));
+});
+
+test('history IPA links encode Unicode and open external reader safely',()=>{
+ const ipa='pˈytʃɑq';
+ const markup=historyMarkup([{type:'word',seconds:0,correct:false,sourceLanguage:'ru',answerLanguage:'uz',target:{ru:'Нож',ruIPA:'noʂ',uz:'pichoq',uzIPA:ipa},chosen:{uz:'suv',uzIPA:'suv'}}]);
+ const links=[...markup.matchAll(/href="([^"]+)"/g)].map(m=>new URL(m[1].replaceAll('&amp;','&')));
+ assert.equal(links.length,3);
+ assert.deepEqual(links.map(u=>u.searchParams.get('text')),['[noʂ]','['+ipa+']','[suv]']);
+ assert.ok(links.every(u=>u.origin==='https://ipa-reader.com'));
+ assert.equal((markup.match(/target="_blank" rel="noopener noreferrer"/g)||[]).length,3);
+});
+
+test('IPA Reader voices follow each history word language in every direction',()=>{
+ const word=dictionary.find(w=>w.en==='cat'),voices={ru:'Maxim',en:'Ivy',uz:'Filiz'};
+ for(const source of Object.keys(voices))for(const answer of Object.keys(voices)){
+  if(source===answer)continue;
+  const markup=historyMarkup([{type:'word',seconds:0,correct:false,sourceLanguage:source,answerLanguage:answer,target:word,chosen:word}]);
+  const urls=[...markup.matchAll(/href="([^"]+)"/g)].map(m=>new URL(m[1].replaceAll('&amp;','&')));
+  assert.deepEqual(urls.map(u=>u.searchParams.get('voice')),[voices[source],voices[answer],voices[answer]]);
+ }
+});

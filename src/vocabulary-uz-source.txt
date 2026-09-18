@@ -1,0 +1,1000 @@
+cat|mushuk
+dog|it
+house|uy
+sun|quyosh
+water|suv
+bread|non
+apple|olma
+book|kitob
+milk|sut
+friend|do‘st
+tree|daraxt
+fish|baliq
+bird|qush
+car|mashina
+bus|avtobus
+bed|karavot
+door|eshik
+window|deraza
+table|stol
+chair|stul
+cup|chashka
+plate|likopcha
+spoon|qoshiq
+fork|sanchqi
+knife|pichoq
+egg|tuxum
+rice|guruch
+meat|go‘sht
+soup|sho‘rva
+tea|choy
+coffee|qahva
+juice|sharbat
+salt|tuz
+sugar|shakar
+cheese|pishloq
+butter|sariyog‘
+cake|tort
+banana|banan
+orange|apelsin
+lemon|limon
+potato|kartoshka
+tomato|pomidor
+onion|piyoz
+carrot|sabzi
+hand|qo‘l panjasi
+head|bosh
+eye|ko‘z
+ear|quloq
+nose|burun
+mouth|og‘iz
+leg|oyoq
+arm|qo‘l
+foot|oyoq panjasi
+hair|soch
+face|yuz
+boy|o‘g‘il bola
+girl|qiz bola
+man|erkak
+woman|ayol
+baby|chaqaloq
+mother|ona
+father|ota
+sister|opa-singil
+brother|aka-uka
+family|oila
+home|turar joy
+school|maktab
+park|istirohat bog‘i
+shop|do‘kon
+street|ko‘cha
+city|shahar
+room|xona
+bag|sumka
+hat|shlyapa
+shoe|botinka
+shirt|ko‘ylak
+coat|palto
+sock|paypoq
+ball|to‘p
+toy|o‘yinchoq
+pen|ruchka
+pencil|qalam
+paper|qog‘oz
+box|quti
+key|kalit
+clock|soat
+phone|telefon
+lamp|chiroq
+moon|oy
+star|yulduz
+sky|osmon
+rain|yomg‘ir
+snow|qor
+wind|shamol
+fire|olov
+ice|muz
+sea|dengiz
+river|daryo
+flower|gul
+grass|o‘t
+red|qizil
+blue|ko‘k
+green|yashil
+yellow|sariq
+white|oq
+black|qora
+brown|jigarrang
+pink|pushti
+gray|kulrang
+purple|binafsharang
+big|katta
+small|kichik
+long|uzun
+short|qisqa
+high|baland
+low|past
+hot|issiq
+cold|sovuq
+warm|iliq
+cool|salqin
+new|yangi
+old|eski
+young|yosh
+good|yaxshi
+bad|yomon
+happy|baxtli
+sad|g‘amgin
+angry|jahldor
+kind|mehribon
+nice|yoqimli
+fast|tez
+slow|sekin
+easy|oson
+hard|qiyin
+clean|toza
+dirty|iflos
+full|to‘la
+empty|bo‘sh
+wet|ho‘l
+dry|quruq
+sweet|shirin
+sour|nordon
+soft|yumshoq
+strong|kuchli
+weak|zaif
+rich|boy
+poor|kambag‘al
+loud|baland ovozli
+quiet|sokin
+bright|yorqin
+dark|qorong‘i
+beautiful|chiroyli
+ugly|xunuk
+hungry|och
+thirsty|chanqagan
+tired|charchagan
+sick|kasal
+healthy|sog‘lom
+ready|tayyor
+busy|band
+free|erkin
+safe|xavfsiz
+open|ochiq
+closed|yopiq
+one|bir
+two|ikki
+three|uch
+four|to‘rt
+five|besh
+six|olti
+seven|yetti
+eight|sakkiz
+nine|to‘qqiz
+ten|o‘n
+eleven|o‘n bir
+twelve|o‘n ikki
+twenty|yigirma
+hundred|yuz
+morning|ertalab
+afternoon|tushdan keyin
+evening|kechqurun
+night|tun
+day|kun
+week|hafta
+month|oy
+year|yil
+today|bugun
+tomorrow|ertaga
+yesterday|kecha
+now|hozir
+soon|tez orada
+here|bu yerda
+there|u yerda
+always|har doim
+never|hech qachon
+often|tez-tez
+sometimes|ba’zan
+again|yana
+together|birga
+alone|yolg‘iz
+run|yugurmoq
+walk|piyoda yurmoq
+jump|sakramoq
+swim|suzmoq
+fly|uchmoq
+sit|o‘tirmoq
+stand|tik turmoq
+sleep|uxlamoq
+wake|uyg‘onmoq
+eat|ovqat yemoq
+drink|ichmoq
+cook|ovqat pishirmoq
+wash|yuvmoq
+read|o‘qimoq
+write|yozmoq
+speak|gapirmoq
+listen|tinglamoq
+hear|eshitmoq
+see|ko‘rmoq
+look|qaramoq
+watch|kuzatmoq
+smell|hid sezmoq
+touch|tegmoq
+think|o‘ylamoq
+know|bilmoq
+learn|o‘rganmoq
+teach|o‘rgatmoq
+study|o‘rganib chiqmoq
+work|ishlamoq
+play|o‘ynamoq
+sing|kuylamoq
+dance|raqsga tushmoq
+laugh|kulmoq
+cry|yig‘lamoq
+smile|tabassum
+love|sevmoq
+like|yoqmoq
+want|xohlamoq
+need|muhtoj bo‘lmoq
+help|yordam bermoq
+give|bermoq
+take|olmoq
+bring|olib kelmoq
+carry|ko‘tarib bormoq
+buy|sotib olmoq
+sell|sotmoq
+pay|to‘lamoq
+find|topmoq
+lose|yo‘qotmoq
+keep|saqlamoq
+leave|tark etmoq
+come|kelmoq
+go|bormoq
+arrive|yetib kelmoq
+return|qaytmoq
+start|boshlamoq
+finish|tugatmoq
+stop|to‘xtatmoq
+wait|kutmoq
+ask|so‘ramoq
+answer|javob bermoq
+call|qo‘ng‘iroq qilmoq
+meet|uchratmoq
+visit|tashrif buyurmoq
+live|yashamoq
+stay|qolmoq
+move|harakatlanmoq
+turn|burilmoq
+push|itarmoq
+pull|tortmoq
+throw|uloqtirmoq
+catch|tutmoq
+kick|tepmoq
+hit|urmoq
+cut|kesmoq
+break|sindirmoq
+build|qurmoq
+fix|tuzatmoq
+draw|rasm chizmoq
+paint|bo‘yamoq
+count|sanamoq
+choose|tanlamoq
+try|sinab ko‘rmoq
+use|foydalanmoq
+wear|kiyib yurmoq
+hold|ushlamoq
+fall|yiqilmoq
+climb|tirmashib chiqmoq
+ride|minib yurmoq
+drive|mashina haydamoq
+send|yubormoq
+show|ko‘rsatmoq
+share|bo‘lishmoq
+remember|eslamoq
+forget|unutmoq
+understand|tushunmoq
+believe|ishonmoq
+hope|umid qilmoq
+change|o‘zgartirmoq
+grow|o‘smoq
+airport|aeroport
+station|bekat
+ticket|chipta
+train|poyezd
+plane|samolyot
+bicycle|velosiped
+scooter|samokat
+boat|qayiq
+ship|kema
+truck|yuk mashinasi
+taxi|taksi
+road|yo‘l
+bridge|ko‘prik
+traffic|transport harakati
+map|xarita
+hotel|mehmonxona
+beach|plyaj
+island|orol
+mountain|tog‘
+forest|o‘rmon
+village|qishloq
+country|mamlakat
+capital|poytaxt
+address|manzil
+passport|pasport
+suitcase|chamadon
+journey|sayohat
+holiday|bayram
+weekend|dam olish kunlari
+spring|bahor
+summer|yoz
+autumn|kuz
+winter|qish
+weather|ob-havo
+cloud|bulut
+storm|bo‘ron
+fog|tuman
+lake|ko‘l
+field|dala
+farm|ferma
+horse|ot
+cow|sigir
+sheep|qo‘y
+goat|echki
+pig|cho‘chqa
+chicken|tovuq
+duck|o‘rdak
+rabbit|quyon
+mouse|sichqon
+lion|sher
+tiger|yo‘lbars
+bear|ayiq
+wolf|bo‘ri
+fox|tulki
+elephant|fil
+monkey|maymun
+snake|ilon
+frog|qurbaqa
+bee|asalari
+butterfly|kapalak
+ant|chumoli
+spider|o‘rgimchak
+turtle|toshbaqa
+whale|kit
+dolphin|delfin
+shark|akula
+kitchen|oshxona
+bathroom|hammom
+bedroom|yotoqxona
+garden|bog‘
+roof|tom
+wall|devor
+floor|pol
+ceiling|shift
+stairs|zina
+sofa|divan
+mirror|ko‘zgu
+shelf|tokcha
+carpet|gilam
+pillow|yostiq
+blanket|ko‘rpa
+towel|sochiq
+soap|sovun
+brush|cho‘tka
+comb|taroq
+toothbrush|tish cho‘tkasi
+fridge|muzlatkich
+oven|pech
+kettle|choynak
+bottle|shisha idish
+bowl|kosa
+pan|tova
+basket|savat
+bucket|chelak
+rope|arqon
+ladder|narvon
+fence|panjara
+gate|darvoza
+yard|hovli
+neighbor|qo‘shni
+doctor|shifokor
+nurse|hamshira
+teacher|o‘qituvchi
+student|talaba
+driver|haydovchi
+farmer|fermer
+baker|novvoy
+chef|bosh oshpaz
+waiter|ofitsiant
+artist|rassom
+singer|xonanda
+actor|aktyor
+writer|yozuvchi
+engineer|muhandis
+scientist|olim
+police|politsiya
+firefighter|o‘t o‘chiruvchi
+soldier|askar
+lawyer|huquqshunos
+manager|rahbar
+customer|xaridor
+patient|bemor
+hospital|shifoxona
+medicine|dori
+health|salomatlik
+pain|og‘riq
+fever|isitma
+cough|yo‘tal
+blood|qon
+heart|yurak
+brain|miya
+stomach|oshqozon
+back|orqa
+neck|bo‘yin
+shoulder|yelka
+knee|tizza
+finger|qo‘l barmog‘i
+tooth|tish
+skin|teri
+bone|suyak
+money|pul
+price|narx
+cost|qiymat
+cash|naqd pul
+coin|tanga
+bank|bank
+wallet|hamyon
+bill|to‘lov hisobi
+gift|sovg‘a
+market|bozor
+restaurant|restoran
+breakfast|nonushta
+lunch|tushlik
+dinner|kechki ovqat
+meal|ovqatlanish
+menu|taomnoma
+salad|salat
+sandwich|buterbrod
+honey|asal
+flour|un
+pepper|qalampir
+cucumber|bodring
+cabbage|karam
+grape|uzum donasi
+pear|nok
+peach|shaftoli
+cherry|olcha
+strawberry|qulupnay
+watermelon|tarvuz
+pumpkin|qovoq
+mushroom|qo‘ziqorin
+nut|yong‘oq
+bean|loviya
+pea|no‘xat donasi
+corn|makkajo‘xori
+yogurt|yogurt
+cream|qaymoq
+chocolate|shokolad
+cookie|pechenye
+sausage|kolbasa
+beef|mol go‘shti
+pork|cho‘chqa go‘shti
+lamb|qo‘zichoq
+seafood|dengiz mahsulotlari
+lemonade|limonad
+clothes|kiyim
+dress|ayollar ko‘ylagi
+skirt|yubka
+trousers|shim
+jacket|kurtka
+sweater|sviter
+glove|qo‘lqop
+scarf|sharf
+belt|kamar
+pocket|cho‘ntak
+button|tugma
+umbrella|soyabon
+glasses|ko‘zoynak
+ring|uzuk
+necklace|marjon
+lesson|dars
+subject|o‘quv fani
+homework|uy vazifasi
+exam|imtihon
+grade|o‘qish bahosi
+notebook|daftar
+dictionary|lug‘at
+language|til
+sentence|gap
+letter|harf
+word|so‘z
+question|savol
+example|misol
+mistake|xato
+rule|qoida
+exercise|mashq
+practice|amaliyot
+skill|ko‘nikma
+knowledge|bilim
+education|ta’lim
+university|universitet
+library|kutubxona
+history|tarix
+geography|geografiya
+science|fan
+mathematics|matematika
+art|san’at
+music|musiqa
+sport|sport
+team|jamoa
+player|o‘yinchi
+coach|murabbiy
+race|poyga
+match|sport uchrashuvi
+goal|maqsad
+score|o‘yin hisobi
+winner|g‘olib
+prize|sovrin
+competition|musobaqa
+training|mashg‘ulot
+pool|basseyn
+stadium|stadion
+cinema|kinoteatr
+theater|teatr
+museum|muzey
+concert|konsert
+festival|festival
+painting|surat
+photo|fotosurat
+camera|fotoapparat
+newspaper|gazeta
+magazine|jurnal
+story|hikoya
+novel|roman
+poem|she’r
+song|qo‘shiq
+movie|film
+game|o‘yin
+hobby|sevimli mashg‘ulot
+collection|to‘plam
+computer|kompyuter
+screen|ekran
+keyboard|klaviatura
+printer|printer
+speaker|karnay
+battery|batareya
+charger|quvvatlagich
+cable|kabel
+message|xabar
+email|elektron xat
+website|veb-sayt
+password|parol
+file|fayl
+folder|papka
+program|dastur
+network|tarmoq
+internet|internet
+search|qidiruv
+news|yangiliklar
+advertisement|reklama
+meeting|uchrashuv
+appointment|qabulga yozilish
+office|ofis
+company|kompaniya
+business|biznes
+job|yollanma ish
+career|karyera
+salary|ish haqi
+project|loyiha
+plan|reja
+report|hisobot
+schedule|jadval
+deadline|oxirgi muddat
+task|vazifa
+result|natija
+success|muvaffaqiyat
+failure|muvaffaqiyatsizlik
+problem|muammo
+solution|muammo yechimi
+advice|maslahat
+accept|qabul qilmoq
+refuse|rad etmoq
+agree|rozi bo‘lmoq
+disagree|rozi bo‘lmaslik
+decide|qaror qilmoq
+explain|tushuntirmoq
+describe|tasvirlamoq
+compare|taqqoslamoq
+improve|yaxshilamoq
+develop|rivojlantirmoq
+prepare|tayyorlamoq
+organize|tashkil qilmoq
+manage|boshqarmoq
+suggest|taklif qilmoq
+recommend|tavsiya qilmoq
+invite|taklif etmoq
+promise|va’da bermoq
+apologize|uzr so‘ramoq
+thank|minnatdorchilik bildirmoq
+welcome|xush kelibsiz demoq
+celebrate|nishonlamoq
+enjoy|zavqlanmoq
+prefer|afzal ko‘rmoq
+imagine|tasavvur qilmoq
+notice|payqamoq
+recognize|tanimoq
+realize|anglab yetmoq
+discover|kashf qilmoq
+invent|ixtiro qilmoq
+create|yaratmoq
+produce|ishlab chiqarmoq
+provide|ta’minlamoq
+receive|qabul qilib olmoq
+collect|yig‘moq
+save|tejamoq
+spend|sarflamoq
+borrow|qarz olmoq
+lend|qarz bermoq
+owe|qarzdor bo‘lmoq
+afford|qurbi yetmoq
+order|buyurtma bermoq
+deliver|yetkazib bermoq
+pack|qadoqlamoq
+unpack|o‘ramdan chiqarmoq
+rent|ijaraga olmoq
+booklet|risola
+cancel|bekor qilmoq
+check|tekshirmoq
+confirm|tasdiqlamoq
+sign|imzolamoq
+include|tarkibga kiritmoq
+contain|o‘z ichiga olmoq
+belong|tegishli bo‘lmoq
+depend|bog‘liq bo‘lmoq
+happen|sodir bo‘lmoq
+seem|tuyulmoq
+appear|paydo bo‘lmoq
+disappear|g‘oyib bo‘lmoq
+continue|davom ettirmoq
+complete|yakunlamoq
+repeat|takrorlamoq
+replace|almashtirmoq
+remove|olib tashlamoq
+add|qo‘shmoq
+reduce|kamaytirmoq
+increase|ko‘paytirmoq
+raise|ko‘tarmoq
+lower|tushirmoq
+reach|erishmoq
+follow|ergashmoq
+lead|yetakchilik qilmoq
+join|qo‘shilmoq
+separate|ajratmoq
+connect|ulamoq
+cover|qoplamoq
+protect|himoya qilmoq
+prevent|oldini olmoq
+avoid|chetlab o‘tmoq
+allow|ruxsat bermoq
+forbid|taqiqlamoq
+require|talab qilmoq
+support|qo‘llab-quvvatlamoq
+encourage|ruhlantirmoq
+worry|xavotirlanmoq
+relax|bo‘shashmoq
+rest|dam olmoq
+breathe|nafas olmoq
+hurt|og‘ritmoq
+heal|bitmoq
+recover|sog‘aymoq
+survive|omon qolmoq
+escape|qochmoq
+hide|yashirmoq
+seek|qidirmoq
+chase|quvmoq
+fight|jang qilmoq
+win|g‘alaba qozonmoq
+defeat|raqibni yengmoq
+fail|muvaffaqiyatsizlikka uchramoq
+succeed|muvaffaqiyatga erishmoq
+important|muhim
+necessary|zarur
+possible|mumkin
+impossible|imkonsiz
+simple|oddiy
+complicated|murakkab
+useful|foydali
+useless|foydasiz
+careful|ehtiyotkor
+careless|beparvo
+polite|odobli
+rude|qo‘pol
+honest|halol
+brave|jasur
+clever|ziyrak
+wise|dono
+foolish|ahmoq
+lazy|dangasa
+active|faol
+creative|ijodiy
+curious|qiziquvchan
+serious|jiddiy
+funny|kulgili
+friendly|do‘stona
+lonely|yolg‘iz
+proud|mag‘rur
+ashamed|uyalgan
+surprised|hayron
+excited|hayajonlangan
+bored|zerikkan
+confused|dovdiragan
+confident|o‘ziga ishongan
+nervous|asabiylashgan
+calm|xotirjam
+generous|saxiy
+selfish|xudbin
+jealous|rashkchi
+fair|adolatli
+unfair|adolatsiz
+patiently|sabr bilan
+reliable|ishonchli
+responsible|mas’uliyatli
+independent|mustaqil
+popular|ommabop
+famous|mashhur
+ordinary|odatiy
+special|maxsus
+unique|noyob
+strange|g‘alati
+familiar|tanish
+foreign|xorijiy
+local|mahalliy
+public|jamoatga oid
+private|xususiy
+modern|zamonaviy
+ancient|qadimiy
+traditional|an’anaviy
+natural|tabiiy
+artificial|sun’iy
+physical|jismoniy
+mental|aqliy
+social|ijtimoiy
+personal|shaxsiy
+professional|kasbiy
+comfortable|qulay
+convenient|qulaylik jihatidan mos
+affordable|hamyonbop
+expensive|qimmat
+cheap|arzon
+valuable|qadrli
+worthless|qadrsiz
+correct|to‘g‘ri
+wrong|noto‘g‘ri
+accurate|aniq
+rough|g‘adir-budur
+smooth|silliq
+sharp|o‘tkir
+blunt|o‘tmas
+heavy|og‘ir
+lightweight|yengil
+thick|qalin
+thin|yupqa
+wide|keng
+narrow|tor
+deep|chuqur
+shallow|sayoz
+steep|tik qiyalik
+flat|yassi
+round|dumaloq
+square|kvadrat shaklli
+straight|to‘g‘ri
+curved|egilgan
+solid|qattiq
+liquid|suyuq
+fresh|yangi
+rotten|chirigan
+ripe|pishgan
+raw|xom
+delicious|mazali
+bitter|achchiq
+freedom|erkinlik
+justice|odil sudlov
+equality|tenglik
+honesty|halollik
+courage|jasorat
+kindness|mehribonlik
+patience|sabr
+respect|hurmat
+trust|ishonch
+loyalty|sadoqat
+friendship|do‘stlik
+relationship|o‘zaro munosabat
+community|hamjamiyat
+society|jamiyat
+culture|madaniyat
+tradition|an’ana
+custom|urf-odat
+belief|e’tiqod
+religion|din
+faith|imon
+opinion|fikr
+attitude|munosabat
+behavior|xulq-atvor
+habit|odat
+character|fe’l-atvor
+personality|shaxsiyat
+emotion|hissiyot
+feeling|tuyg‘u
+happiness|baxt
+sadness|g‘am
+anger|g‘azab
+fear|qo‘rquv
+joy|quvonch
+surprise|kutilmagan hodisa
+shame|uyat
+guilt|ayb
+pride|faxr
+envy|hasad
+confidence|o‘ziga ishonch
+anxiety|tashvish
+stress|stress
+peace|tinchlik
+war|urush
+conflict|nizo
+agreement|kelishuv
+argument|bahs
+reason|sabab
+purpose|vazifa va maqsad
+intention|niyat
+decision|qaror
+choice|tanlov
+chance|imkon
+risk|tavakkal
+benefit|foyda
+advantage|ustunlik
+disadvantage|kamchilik
+experience|tajriba
+memory|xotira
+attention|diqqat
+concentration|diqqatni jamlash
+effort|sa’y-harakat
+progress|taraqqiyot
+improvement|yaxshilanish
+development|rivojlanish
+growth|o‘sish
+achievement|yutuq
+ability|qobiliyat
+talent|iste’dod
+potential|salohiyat
+opportunity|imkoniyat
+challenge|murakkab vazifa
+difficulty|qiyinchilik
+obstacle|to‘siq
+limit|chegara
+balance|muvozanat
+quality|sifat
+quantity|miqdor
+value|qadriyat
+importance|muhimlik
+necessity|zarurat
+possibility|ehtimoliy imkoniyat
+reality|voqelik
+truth|haqiqat
+lie|yolg‘on
+fact|fakt
+evidence|dalil
+research|tadqiqot
+theory|nazariya
+method|usul
+process|jarayon
+system|tizim
+structure|tuzilma
+pattern|qonuniyat
+principle|tamoyil
+concept|tushuncha
+idea|g‘oya
+thought|o‘y
+imagination|tasavvur
+curiosity|qiziqish
+responsibility|mas’uliyat
+hospitality|mehmondo‘stlik
+perseverance|qat’iyat
+resilience|bardoshlilik
+compassion|rahm-shafqat
+empathy|hamdardlik
+integrity|prinsipiallik
+humility|kamtarlik
+gratitude|minnatdorchilik
+ambition|shuhratparastlik
+determination|qat’iy qaror
+initiative|tashabbus
+innovation|yangilik kiritish
+ingenuity|topqirlik
+insight|farosat
+foresight|oldindan ko‘ra bilish
+wisdom|donolik
+awareness|xabardorlik
+consciousness|ong
+perception|idrok
+intuition|ichki sezgi
+assumption|taxmin
+hypothesis|gipoteza
+conclusion|xulosa
+interpretation|talqin
+evaluation|baholash
+assessment|ekspert bahosi
+criterion|mezon
+perspective|nuqtai nazar
+approach|yondashuv
+strategy|strategiya
+implementation|amalga oshirish
+execution|ijro
+coordination|muvofiqlashtirish
+collaboration|hamkorlik
+negotiation|muzokaralar
+compromise|murosa
+consensus|yakdillik
+controversy|munozara
+dilemma|ikkilanish
+contradiction|ziddiyat
+ambiguity|ko‘p ma’nolilik
+uncertainty|noaniqlik
+inevitability|muqarrarlik
+consequence|oqibat
+implication|nazarda tutilgan ma’no
+influence|ta’sir
+impact|ta’sir ko‘rsatish
+contribution|hissa
+commitment|sodiqlik
+obligation|majburiyat
+accountability|hisobdorlik
+transparency|shaffoflik
+sustainability|barqaror rivojlanish
+efficiency|xarajatlar samaradorligi
+productivity|unumdorlik
+profitability|daromadlilik
+scarcity|tanqislik
+abundance|mo‘l-ko‘llik
+prosperity|farovonlik
+poverty|kambag‘allik
+inequality|tengsizlik
+prejudice|xurofot
+discrimination|kamsitish
+diversity|xilma-xillik
+inclusion|barchani jalb etish
+integration|integratsiya
+adaptation|moslashuv
+transformation|o‘zgarish
+transition|o‘tish
+revolution|inqilob
+evolution|evolyutsiya
+civilization|sivilizatsiya
+heritage|meros
+legacy|qoldirilgan meros
+identity|o‘ziga xoslik
+sovereignty|suverenitet
+democracy|demokratiya
+bureaucracy|byurokratiya
+legislation|qonunchilik
+jurisdiction|yurisdiksiya
+constitution|konstitutsiya
+amendment|qonunga tuzatish
+regulation|me’yoriy qoida
+compliance|talablarga rioya qilish
+violation|qoidabuzarlik
+litigation|sud muhokamasi
+reconciliation|yarashuv
+rehabilitation|reabilitatsiya
+restoration|tiklash
+preservation|saqlash
+conservation|tabiatni muhofaza qilish
+biodiversity|biologik xilma-xillik
+ecosystem|ekotizim
+habitat|yashash muhiti
+extinction|qirilib ketish
+pollution|ifloslanish
+emission|chiqarib tashlash
+renewable|qayta tiklanadigan
+biodegradable|biologik parchalanadigan
+interdependence|o‘zaro bog‘liqlik

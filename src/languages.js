@@ -1,6 +1,7 @@
 export const languages={
- ru:{label:'Русский',speech:'ru-RU'},
- en:{label:'Английский',speech:'en-US'}
+ ru:{label:'Русский',speech:'ru-RU',ipaVoice:'Maxim'},
+ en:{label:'Английский',speech:'en-US',ipaVoice:'Ivy'},
+ uz:{label:'Узбекский (латиница)',speech:'uz-UZ',ipaVoice:'Filiz'}
 };
 export function languagePair(source='ru',answer='en'){
  if(!Object.hasOwn(languages,source))source='ru';
