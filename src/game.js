@@ -26,7 +26,7 @@ const parkArt=await loadParkArt();
 const treeFactory=createTreeFactory(scenery,moving,parkArt);
 const tree=treeFactory.add;
 function bench(x,z){const g=new T.Group();g.position.set(x,0,z);scenery.add(g);box(g,0xad7450,0,.65,0,2,.16,.65);box(g,0xb78055,0,1,-.28,2,.55,.12);for(const a of [-.7,.7])box(g,0x34594d,a,.35,0,.1,.65,.5);moving.push(g);}
-function lamp(x,z){const g=new T.Group();g.position.set(x,0,z);scenery.add(g);mesh(new T.CylinderGeometry(.045,.07,3.6,6),0x3d6558,g,0,1.8,0);box(g,0x3d6558,.24,3.6,0,.55,.08,.08);ball(g,0xffe4a4,.46,3.45,0,.19);moving.push(g);}
+function lamp(x,z){const g=new T.Group();g.position.set(x,0,z);scenery.add(g);mesh(new T.CylinderGeometry(.045,.07,3.6,6),0x3d6558,g,0,1.8,0);mesh(new T.SphereGeometry(.24,16,12),0xffe4a4,g,0,3.72,0);moving.push(g);}
 for(let i=0;i<18;i++){tree(-7-(i%3)*1.5,8-i*7,i);tree(7+(i%3)*2,4-i*7,i+1);if(i%3===0){bench(i%2?6.5:-6.5,3-i*7);lamp(-5.5,8-i*7);lamp(5.5,8-i*7);}for(const x of [-5.5,5.5]){const g=new T.Group();g.position.set(x,0,-i*7);scenery.add(g);for(let j=0;j<3;j++)ball(g,[0xe8b15e,0xe9cfa0,0xc88269][j],0,.18,j*.3,.14);moving.push(g);}}
 for(let i=0;i<55;i++){const g=new T.Group();g.position.z=12-i*2.6;box(g,0xcabb9f,0,.035,0,9.5,.01,.025);scenery.add(g);moving.push(g);}
 // A stylized Tashkent skyline: TV tower and a turquoise bazaar dome.

@@ -52,3 +52,9 @@ html,body{height:100%;overscroll-behavior:none}button{touch-action:manipulation}
  #feedback{width:max-content;max-width:72%;font-size:22px;line-height:1.1;text-shadow:0 1px 0 #fff}
  #feedback small{font-size:10px;font-weight:600;line-height:1.3;padding:4px 7px;border-radius:6px;margin-top:3px;overflow-wrap:anywhere}
 }
+/* Match the phone reference: readable card occupying about half the screen. */
+@media(max-width:700px) and (orientation:portrait){
+ .word-panel{scale:none;transform:none;right:auto;width:48vw;min-height:100px;padding:10px 8px;--word-font:22px}
+ .word-panel .eyebrow{font-size:7px;letter-spacing:.3px}
+ .word-panel #level{font-size:7px;letter-spacing:.3px}
+}
