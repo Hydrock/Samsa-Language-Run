@@ -69,3 +69,17 @@ body{height:100dvh;display:grid;place-items:center;background-color:#173f39;back
 body[data-location="museum"] header,body[data-location="museum"] footer,body[data-location="museum"] .location,body[data-location="museum"] .score-panel{color:#163c35}
 body[data-location="museum"] .score-panel small,body[data-location="museum"] .keyboard{color:#557167}
 .location #location-name{opacity:1}
+
+/* Pause history has its own scroll area; the resume action remains reachable. */
+body.paused .overlay{padding:85px 16px 36px;overflow:auto}
+body.paused .intro{width:560px;max-width:100%;max-height:100%;display:flex;flex-direction:column;min-height:0;text-align:left;padding:24px}
+body.paused .intro h1{font-size:32px;margin:12px 0;flex-shrink:0}
+body.paused .intro>p{font-size:14px;margin:4px 0 12px;flex-shrink:0}
+body.paused .intro>.primary,body.paused .intro>.fine{flex-shrink:0}
+.run-history{display:flex;flex-direction:column;min-height:70px;margin:0 0 16px;overflow:hidden}
+.run-history h2{font-size:15px;margin:0 0 8px;flex-shrink:0}.run-history h2 span{font-weight:400;color:#63766c}
+.history-scroll{overflow-y:auto;overscroll-behavior:contain;max-height:280px;min-height:0;touch-action:pan-y;padding-right:8px}
+.history-scroll ol{list-style:none;padding:0;margin:0}.history-scroll li{border-top:1px solid #214d3d22;padding:12px 0;font-size:16px;overflow-wrap:anywhere}
+.history-meta{display:flex;justify-content:space-between;gap:12px;font-size:12px;margin-bottom:8px}.history-meta time{color:#63766c}
+.history-pair{display:grid;grid-template-columns:1fr 1fr;gap:12px}.history-ipa{display:block;font-size:12px;color:#63766c;margin-top:3px}.history-choice{margin-top:8px}.history-empty{font-size:13px!important}
+@media(max-height:500px){body.paused .overlay{padding:58px 12px 12px}body.paused .intro{padding:12px 18px}body.paused .intro h1{font-size:24px;margin:4px 0}body.paused .intro>.eyebrow,body.paused .intro>.fine{display:none}.run-history{margin-bottom:8px}}

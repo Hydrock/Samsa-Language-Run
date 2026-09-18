@@ -1,4 +1,6 @@
-// Three original looping arrangements, synthesized locally; no downloaded audio.
+export const trackOrder = ['main','folk','morning','evening','silkroad'];
+const audioFiles = {main:'main-theme.mp3',folk:'folk.mp3'};
+// Two lazy-loaded MP3 tracks and three locally synthesized arrangements.
 const tracks = {
   silkroad: { bpm: 108, root: 50, melody: [74,77,81,0,79,77,76,73,74,81,86,84,81,79,77,73], chords: [[0,3,7],[7,11,14],[5,8,12],[0,3,7]], wave: 'triangle' },
   morning: { bpm: 96, root: 48, melody: [72,76,79,76,74,77,81,77,76,79,84,79,74,77,79,71], chords: [[0,4,7],[5,9,12],[9,12,16],[7,11,14]], wave: 'triangle' },
@@ -6,8 +8,9 @@ const tracks = {
 };
 
 export class GameAudio {
-  constructor() {
-    this.settings = { muted: false, music: true, track: 'morning' };
+  constructor(createAudio = () => new Audio()) {
+    this.createAudio = createAudio;
+    this.settings = { muted: false, music: true, track: 'main' };
     this.playing = false;
     this.step = 0;
     this.voices = new Set();
@@ -27,7 +30,7 @@ export class GameAudio {
     const changedTrack = settings.track !== this.settings.track;
     this.settings = { ...settings };
     if (this.master) this.master.gain.value = settings.muted ? 0 : 1;
-    if (changedTrack) { this.stopMusic(); this.step = 0; }
+    if (changedTrack) { this.stopMusic(); this.releaseMedia(); this.step = 0; }
     this.sync();
   }
   setPlaying(playing) {
@@ -36,16 +39,52 @@ export class GameAudio {
     this.sync();
   }
   sync() {
-    if (!this.context || !this.playing || this.settings.muted || !this.settings.music) {
+    if (!this.playing || this.settings.muted || !this.settings.music) {
       this.stopMusic();
       return;
     }
-    if (this.timer) return;
+    if (audioFiles[this.settings.track]) {
+      if (!this.media) {
+        this.media = this.createAudio();
+        this.media.preload = 'none';
+        this.media.loop = !this.settings.autoMusic;
+        this.media.volume = .3;
+        this.media.src = new URL(`./assets/${audioFiles[this.settings.track]}`, import.meta.url).href;
+      }
+      this.media.loop = !this.settings.autoMusic;
+      this.media.onended = () => this.nextTrack();
+      if (this.media.paused && !this.mediaPlayPending) {
+        const media = this.media;
+        this.mediaPlayPending = media;
+        Promise.resolve(media.play()).catch(() => {}).finally(() => {
+          if (this.mediaPlayPending === media) this.mediaPlayPending = null;
+        });
+      }
+      return;
+    }
+    if (!this.context || this.timer) return;
     this.nextTime = this.context.currentTime + .04;
     this.timer = setInterval(() => this.schedule(), 50);
     this.schedule();
   }
+  nextTrack() {
+    if (!this.playing || !this.settings.music || this.settings.muted || !this.settings.autoMusic) return;
+    const track=trackOrder[(trackOrder.indexOf(this.settings.track)+1)%trackOrder.length];
+    this.configure({...this.settings,track});
+    this.onTrackChange?.(track);
+  }
+  releaseMedia() {
+    if (!this.media) return;
+    this.media.onended = null;
+    this.media.pause();
+    this.media.removeAttribute('src');
+    this.media.load(); // Cancel requests for a track that is no longer selected.
+    this.media = null;
+    this.mediaPlayPending = null;
+  }
   stopMusic() {
+    this.media?.pause();
+    this.mediaPlayPending = null;
     clearInterval(this.timer);
     this.timer = null;
     for (const voice of this.voices) {
@@ -66,8 +105,13 @@ export class GameAudio {
   }
   schedule() {
     const song = tracks[this.settings.track], beat = 60 / song.bpm / 2;
+    if(this.settings.autoMusic && this.step>=128){
+      if(this.context.currentTime>=this.nextTime+.5)this.nextTrack();
+      return;
+    }
     if (this.nextTime < this.context.currentTime) this.nextTime = this.context.currentTime + .02;
     while (this.nextTime < this.context.currentTime + .16) {
+      if(this.settings.autoMusic && this.step>=128)break;
       const step = this.step % 32, chord = song.chords[Math.floor(step / 8)];
       const melody = song.melody[step % 16];
       if (melody) this.note(melody, this.nextTime, beat * 1.4, .055, song.wave);

@@ -1,12 +1,13 @@
 import * as T from '../vendor/three.module.js';
+import {spriteTexture} from './sprite-texture.js';
 
 export async function loadMuseumArt(){
   const loader=new T.TextureLoader();
   const [exhibits,visitors]=await Promise.all(['museum-exhibits.png','museum-visitors.png'].map(name=>loader.loadAsync(new URL(`./assets/${name}`,import.meta.url).href)));
   const entries={};
   function add(name,atlas,rect){
-    const [x,y,w,h]=rect,map=atlas.clone();map.colorSpace=T.SRGBColorSpace;
-    map.repeat.set(w,h);map.offset.set(x,1-y-h);map.generateMipmaps=false;map.minFilter=T.LinearFilter;map.needsUpdate=true;
+    const [x,y,w,h]=rect;
+    const map=spriteTexture(atlas.image,x*atlas.image.width,y*atlas.image.height,w*atlas.image.width,h*atlas.image.height);
     const material=new T.SpriteMaterial({map,alphaTest:.08});material.userData.shared=true;
     entries[name]={material,ratio:w*atlas.image.width/(h*atlas.image.height)};
   }

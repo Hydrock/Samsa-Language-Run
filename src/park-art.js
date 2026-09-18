@@ -1,4 +1,5 @@
 import * as T from '../vendor/three.module.js';
+import {spriteTexture} from './sprite-texture.js';
 // Rectangles measured in the 2048 x 683 reference preview.
 const parkRegions={
   scooter:[110,8,205,393],barrier:[28,425,402,246],cone:[494,432,228,237],
@@ -9,9 +10,8 @@ export async function loadParkArt(){
   const [park,people,vegetation]=await Promise.all(['park-atlas.png','people-atlas.png','vegetation-thin.png'].map(name=>loader.loadAsync(new URL(`./assets/${name}`,import.meta.url).href)));
   const entries={};
   function region(name,atlas,rect,w,h){
-    const [x,y,width,height]=rect,map=atlas.clone();
-    map.colorSpace=T.SRGBColorSpace;map.repeat.set(width/w,height/h);map.offset.set(x/w,1-(y+height)/h);
-    map.generateMipmaps=false;map.minFilter=T.LinearFilter;map.needsUpdate=true;
+    const [x,y,width,height]=rect;
+    const map=spriteTexture(atlas.image,x/w*atlas.image.width,y/h*atlas.image.height,width/w*atlas.image.width,height/h*atlas.image.height);
     const material=new T.SpriteMaterial({map,alphaTest:.05});material.userData.shared=true;
     entries[name]={material,ratio:width/height};
   }

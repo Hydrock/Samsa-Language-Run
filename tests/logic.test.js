@@ -1,3 +1,4 @@
+import {historyEntry,historyMarkup} from '../src/history.js';
 import {obstacleAppearance} from '../src/locations.js';
 import test from 'node:test';import assert from 'node:assert/strict';
 import {characterPose} from '../src/character.js';
@@ -109,7 +110,7 @@ test('harder modes increase speed, obstacles and expected word frequency',()=>{
   }
 });
 test('settings survive serialization and invalid saved values use defaults',()=>{
-  const preferences={muted:true,music:false,track:'evening',mode:'hard',transcription:false,location:'museum'};
+  const preferences={muted:true,music:false,autoMusic:true,track:'evening',mode:'hard',transcription:false,location:'museum'};
   assert.deepEqual(normalizeSettings(JSON.parse(JSON.stringify(preferences))),preferences);
   assert.deepEqual(normalizeSettings({track:'invalid',mode:'toString'}),normalizeSettings());
   assert.deepEqual(normalizeSettings(null),normalizeSettings());
@@ -146,3 +147,55 @@ test('five points unlock each tier and losing points lowers it',()=>{
    }
    assert.equal(obstacleAppearance('park','person',0).name,'scooter');
  });
+
+test('MP3 loads only when selected and playing, pauses and releases on switching',async()=>{
+  const created=[];
+  const audio=new GameAudio(()=>{
+    const media={paused:true,currentTime:12,play(){this.paused=false;return Promise.resolve();},pause(){this.paused=true;},removeAttribute(){this.src='';},load(){this.released=true;}};
+    created.push(media);return media;
+  });
+  assert.equal(normalizeSettings().track,'main');
+  audio.configure({track:'main',music:true,muted:false});
+  assert.equal(created.length,0);
+  audio.setPlaying(true);await Promise.resolve();
+  const media=created[0];assert.equal(media.loop,true);assert.equal(media.preload,'none');
+  assert.match(media.src,/main-theme.mp3$/);assert.equal(media.paused,false);
+  audio.setPlaying(false);assert.equal(media.paused,true);assert.equal(media.currentTime,12);
+  audio.setPlaying(true);assert.equal(created.length,1);
+  audio.configure({track:'main',music:false,muted:false});assert.equal(media.paused,true);
+  audio.configure({track:'main',music:true,muted:true});assert.equal(media.paused,true);
+  audio.configure({track:'morning',music:true,muted:false});assert.equal(media.released,true);assert.equal(audio.media,null);
+  audio.setPlaying(false);audio.configure({track:'main',music:true,muted:false});assert.equal(created.length,1);
+});
+
+test('history snapshots answers before target changes and displays both pronunciations',()=>{
+ const target={ru:'Кошка',en:'cat',ruIPA:'kot',enIPA:'kat'};
+ const entry=historyEntry({type:'word',correct:false,target,word:'dog'},65,[{en:'dog',enIPA:'dog-ipa'}]);
+ target.en='changed';assert.equal(entry.target.en,'cat');
+ const html=historyMarkup([entry]);
+ for(const text of ['Неверно','Кошка','cat','dog','dog-ipa','kot','kat','01:05'])assert.ok(html.includes(text));
+ const good=historyEntry({type:'word',correct:true,target:entry.target,word:'cat'},70,[]);
+ assert.ok(historyMarkup([good]).includes('Верно · +1'));
+ assert.ok(historyMarkup([historyEntry({type:'barrier'},80,[])]).includes('Препятствие'));
+ assert.ok(historyMarkup([]).includes('Здесь появятся'));
+ entry.target.ru='<script>';assert.ok(!historyMarkup([entry]).includes('<script>'));
+});
+
+test('automatic playlist advances lazily, wraps, and respects pause and repeat',()=>{
+ const made=[];
+ const audio=new GameAudio(()=>{const m={paused:true,play(){this.paused=false;return Promise.resolve();},pause(){this.paused=true;},removeAttribute(){},load(){}};made.push(m);return m;});
+ audio.configure({track:'main',music:true,muted:false,autoMusic:true});audio.setPlaying(true);
+ assert.equal(made[0].loop,false);made[0].onended();assert.equal(audio.settings.track,'folk');
+ assert.equal(made.length,2);assert.match(made[1].src,/folk.mp3$/);assert.equal(made[0].onended,null);
+ audio.setPlaying(false);audio.nextTrack();assert.equal(audio.settings.track,'folk');
+ audio.configure({...audio.settings,autoMusic:false});audio.setPlaying(true);assert.equal(made[1].loop,true);
+ audio.nextTrack();assert.equal(audio.settings.track,'folk');
+ audio.configure({...audio.settings,track:'silkroad',autoMusic:true});audio.nextTrack();assert.equal(audio.settings.track,'main');
+ audio.setPlaying(false);assert.equal(normalizeSettings().autoMusic,false);
+});
+test('synthesized arrangements advance after four complete phrases',()=>{
+ const audio=new GameAudio();audio.context={currentTime:0};audio.note=()=>{};
+ audio.configure({track:'morning',music:true,muted:false,autoMusic:true});audio.setPlaying(true);
+ try{audio.step=128;audio.nextTime=1;audio.context.currentTime=1.4;audio.schedule();assert.equal(audio.settings.track,'morning');
+ audio.context.currentTime=1.6;audio.schedule();assert.equal(audio.settings.track,'evening');}finally{audio.setPlaying(false);}
+});

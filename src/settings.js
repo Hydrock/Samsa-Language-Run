@@ -7,8 +7,9 @@ export function normalizeSettings(value = {}) {
   return {
     muted: value?.muted === true,
     music: value?.music !== false,
+    autoMusic: value?.autoMusic === true,
     transcription: value?.transcription !== false,
-    track: ['morning', 'evening', 'silkroad'].includes(value?.track) ? value.track : 'morning',
+    track: ['main', 'folk', 'morning', 'evening', 'silkroad'].includes(value?.track) ? value.track : 'main',
     location: value?.location === 'park' ? 'park' : 'museum',
     mode: Object.hasOwn(gameModes, value?.mode) ? value.mode : 'normal',
   };
