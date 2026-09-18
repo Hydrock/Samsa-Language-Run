@@ -115,7 +115,7 @@ test('harder modes increase speed, obstacles and expected word frequency',()=>{
   }
 });
 test('settings survive serialization and invalid saved values use defaults',()=>{
-  const preferences={effectsVolume:1,musicVolume:.3,muted:true,music:false,autoMusic:true,track:'evening',mode:'hard',transcription:false,location:'museum'};
+  const preferences={pronunciation:true,speechVolume:.8,effectsVolume:1,musicVolume:.3,muted:true,music:false,autoMusic:true,track:'evening',mode:'hard',transcription:false,location:'museum'};
   assert.deepEqual(normalizeSettings(JSON.parse(JSON.stringify(preferences))),preferences);
   assert.deepEqual(normalizeSettings({track:'invalid',mode:'toString'}),normalizeSettings());
   assert.deepEqual(normalizeSettings(null),normalizeSettings());
@@ -290,4 +290,43 @@ test('scenery density is independent per side and evenly wraps over the shared c
   const [, ,w,h]=mahalla.sprites[d.sprite].rect;
   assert.ok(mahalla.scenery.sideX-d.height*w/h/2>5.8,'decor must clear the outer canal bank');
  }
+});
+ 
+test('pronunciation honors language, volume, mute and manual replay without queueing',async()=>{
+ const {Pronunciation}=await import('../src/speech.js');
+ const spoken=[];let cancelled=0;
+ const voice={lang:'en-US',localService:true};
+ const synth={cancel(){cancelled++;},getVoices(){return [voice];},speak(u){spoken.push(u);}};
+ const speech=new Pronunciation(synth,class{constructor(text){this.text=text;}});
+ speech.configure(normalizeSettings());
+ assert.equal(speech.speak('cat'),true);
+ assert.equal(spoken[0].text,'cat');assert.equal(spoken[0].lang,'en-US');
+ assert.equal(spoken[0].volume,.8);assert.equal(spoken[0].voice,voice);
+ speech.configure(normalizeSettings({pronunciation:false,speechVolume:.4}));
+ assert.equal(speech.speak('dog'),false);
+ assert.equal(speech.speak('Кошка','ru-RU',true),true);
+ assert.equal(spoken.at(-1).volume,.4);assert.equal(spoken.at(-1).lang,'ru-RU');
+ speech.configure(normalizeSettings({muted:true}));
+ assert.equal(speech.speak('cat','en-US',true),false);
+ assert.ok(cancelled>=3);
+ assert.equal(new Pronunciation(null,null).speak('cat'),false);
+ assert.equal(normalizeSettings({speechVolume:2}).speechVolume,1);
+ assert.equal(normalizeSettings({speechVolume:-1}).speechVolume,0);
+ const markup=historyMarkup([{type:'word',seconds:0,correct:true,target:{ru:'Кошка',en:'cat'},chosen:{en:'cat'}}]);
+ assert.match(markup,/data-speak="cat"/);assert.match(markup,/data-lang="ru-RU"/);
+});
+
+test('Russian pronunciation accepts OS language tags and retries unavailable voices',async()=>{
+ const {Pronunciation}=await import('../src/speech.js');
+ const calls=[],statuses=[];
+ const speech=new Pronunciation({cancel(){},getVoices(){return [{lang:'ru_RU',localService:true},{lang:'ru-RU',localService:false}];},speak(u){calls.push(u);}},class{constructor(text){this.text=text;}});
+ speech.configure(normalizeSettings());
+ speech.speak('Кошка','ru-RU',true,s=>statuses.push(s));
+ assert.equal(calls[0].lang,'ru-RU');assert.equal(calls[0].voice.lang,'ru_RU');
+ calls[0].onerror({error:'voice-unavailable'});
+ assert.equal(calls.length,2);
+ calls[1].onerror({error:'synthesis-failed'});
+ assert.equal(calls.length,3);
+ calls[2].onerror({error:'language-unavailable'});
+ assert.match(statuses.at(-1),/русский голос/);
 });

@@ -84,14 +84,14 @@ body.paused .intro>.primary,body.paused .intro>.fine{flex-shrink:0}
 .history-pair{display:grid;grid-template-columns:1fr 1fr;gap:12px}.history-ipa{display:block;font-size:12px;color:#63766c;margin-top:3px}.history-choice{margin-top:8px}.history-empty{font-size:13px!important}
 @media(max-height:500px){body.paused .overlay{padding:58px 12px 12px}body.paused .intro{padding:12px 18px}body.paused .intro h1{font-size:24px;margin:4px 0}body.paused .intro>.eyebrow,body.paused .intro>.fine{display:none}.run-history{margin-bottom:8px}}
 
-.volume-label{display:flex;justify-content:space-between;gap:12px}.volume-label output{font-weight:400;font-variant-numeric:tabular-nums}:is(#setting-volume,#setting-effects-volume){width:100%;margin:0;min-height:32px;accent-color:#285c46;cursor:pointer}:is(#setting-volume,#setting-effects-volume):focus-visible{outline:2px solid #b9703b;outline-offset:3px}
+.volume-label{display:flex;justify-content:space-between;gap:12px}.volume-label output{font-weight:400;font-variant-numeric:tabular-nums}:is(#setting-volume,#setting-effects-volume,#setting-speech-volume){width:100%;margin:0;min-height:32px;accent-color:#285c46;cursor:pointer}:is(#setting-volume,#setting-effects-volume,#setting-speech-volume):focus-visible{outline:2px solid #b9703b;outline-offset:3px}
 
 /* Explicit range styling avoids native iOS width and appearance differences. */
-:is(#setting-volume,#setting-effects-volume){-webkit-appearance:none;appearance:none;display:block;box-sizing:border-box;width:100%;height:36px;padding:0;background:transparent;touch-action:pan-y}
-:is(#setting-volume,#setting-effects-volume)::-webkit-slider-runnable-track{height:6px;border-radius:4px;background:#cbd7c5}
-:is(#setting-volume,#setting-effects-volume)::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:24px;height:24px;margin-top:-9px;border:2px solid #fffcef;border-radius:50%;background:#285c46;box-shadow:0 1px 4px #163c3540}
-:is(#setting-volume,#setting-effects-volume)::-moz-range-track{height:6px;border-radius:4px;background:#cbd7c5}
-:is(#setting-volume,#setting-effects-volume)::-moz-range-thumb{width:20px;height:20px;border:2px solid #fffcef;border-radius:50%;background:#285c46}
+:is(#setting-volume,#setting-effects-volume,#setting-speech-volume){-webkit-appearance:none;appearance:none;display:block;box-sizing:border-box;width:100%;height:36px;padding:0;background:transparent;touch-action:pan-y}
+:is(#setting-volume,#setting-effects-volume,#setting-speech-volume)::-webkit-slider-runnable-track{height:6px;border-radius:4px;background:#cbd7c5}
+:is(#setting-volume,#setting-effects-volume,#setting-speech-volume)::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:24px;height:24px;margin-top:-9px;border:2px solid #fffcef;border-radius:50%;background:#285c46;box-shadow:0 1px 4px #163c3540}
+:is(#setting-volume,#setting-effects-volume,#setting-speech-volume)::-moz-range-track{height:6px;border-radius:4px;background:#cbd7c5}
+:is(#setting-volume,#setting-effects-volume,#setting-speech-volume)::-moz-range-thumb{width:20px;height:20px;border:2px solid #fffcef;border-radius:50%;background:#285c46}
 
 .random-location{margin-top:10px;background:#e6edde;color:#214d3d;border:1px solid #b9cbb9;box-shadow:none}.random-location:hover{background:#d5e3cd}
 
@@ -100,3 +100,5 @@ body.game-over .random-location,body.game-over .share-game{margin-top:8px}
 .share-game{background:#fffcef;color:#214d3d;border:1px solid #b9cbb9;box-shadow:none}.share-game:hover{background:#edf2e5}.share-game:disabled{opacity:.65;cursor:wait}
 #share-status{font-size:12px;color:#47644e;margin-top:8px;flex-shrink:0}#share-status:empty{display:none}
 #share-link{width:100%;padding:8px;margin-top:6px;border:1px solid #b9cbb9;border-radius:6px;font-size:16px;flex-shrink:0}
+
+.history-play{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;padding:0;margin-left:4px;border:1px solid #cbd7c5;border-radius:50%;background:#eff3e6;color:#285c46;font-size:12px;vertical-align:middle;cursor:pointer}.history-play:disabled{opacity:.4;cursor:default}.history-play:focus-visible{outline:2px solid #b9703b;outline-offset:2px}
