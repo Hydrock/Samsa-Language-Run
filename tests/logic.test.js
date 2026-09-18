@@ -412,11 +412,11 @@ test('Uzbek history retains translation, IPA and voice locale',()=>{
 test('history IPA links encode Unicode and open external reader safely',()=>{
  const ipa='pˈytʃɑq';
  const markup=historyMarkup([{type:'word',seconds:0,correct:false,sourceLanguage:'ru',answerLanguage:'uz',target:{ru:'Нож',ruIPA:'noʂ',uz:'pichoq',uzIPA:ipa},chosen:{uz:'suv',uzIPA:'suv'}}]);
- const links=[...markup.matchAll(/href="([^"]+)"/g)].map(m=>new URL(m[1].replaceAll('&amp;','&')));
+ const links=[...markup.matchAll(/href="(https:\/\/ipa-reader.com[^"]+)"/g)].map(m=>new URL(m[1].replaceAll('&amp;','&')));
  assert.equal(links.length,3);
  assert.deepEqual(links.map(u=>u.searchParams.get('text')),['[noʂ]','['+ipa+']','[suv]']);
  assert.ok(links.every(u=>u.origin==='https://ipa-reader.com'));
- assert.equal((markup.match(/target="_blank" rel="noopener noreferrer"/g)||[]).length,3);
+ assert.equal((markup.match(/target="_blank" rel="noopener noreferrer"/g)||[]).length,6);
 });
 
 test('IPA Reader voices follow each history word language in every direction',()=>{
@@ -424,7 +424,7 @@ test('IPA Reader voices follow each history word language in every direction',()
  for(const source of Object.keys(voices))for(const answer of Object.keys(voices)){
   if(source===answer)continue;
   const markup=historyMarkup([{type:'word',seconds:0,correct:false,sourceLanguage:source,answerLanguage:answer,target:word,chosen:word}]);
-  const urls=[...markup.matchAll(/href="([^"]+)"/g)].map(m=>new URL(m[1].replaceAll('&amp;','&')));
+  const urls=[...markup.matchAll(/href="(https:\/\/ipa-reader.com[^"]+)"/g)].map(m=>new URL(m[1].replaceAll('&amp;','&')));
   assert.deepEqual(urls.map(u=>u.searchParams.get('voice')),[voices[source],voices[answer],voices[answer]]);
  }
 });
@@ -453,4 +453,15 @@ test('share and clipboard include current pair and map and round-trip through UR
  let sent;
  await shareGame(2,{share:async data=>{sent=data.url;}},prefs);assert.equal(sent,url);
  await shareGame(2,{clipboard:{writeText:async value=>{sent=value;}}},prefs);assert.equal(sent,url);
+});
+
+test('Forvo word links preserve text and language for source, correct and wrong answers',()=>{
+ for(const [source,answer] of [['ru','uz'],['uz','en'],['en','ru']]){
+  const target={ru:'это',en:'it',uz:'it'},chosen={ru:'чужое слово',en:"don't",uz:'qo‘l'};
+  const markup=historyMarkup([{type:'word',seconds:0,correct:false,sourceLanguage:source,answerLanguage:answer,target,chosen}]);
+  const urls=[...markup.matchAll(/href="(https:\/\/forvo.com[^"]+)"/g)].map(m=>new URL(m[1].replaceAll('&#39;',"'")));
+  assert.equal(urls.length,3);
+  assert.deepEqual(urls.map(u=>u.hash),['#'+source,'#'+answer,'#'+answer]);
+  assert.deepEqual(urls.map(u=>decodeURIComponent(u.pathname)),['/word/'+target[source]+'/','/word/'+target[answer]+'/','/word/'+chosen[answer]+'/']);
+ }
 });

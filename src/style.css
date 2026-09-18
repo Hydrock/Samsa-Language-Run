@@ -108,3 +108,5 @@ body.game-over .random-location,body.game-over .share-game{margin-top:8px}
 .history-ipa[href]{text-decoration:underline;text-underline-offset:3px;padding:4px 0;cursor:pointer}.history-ipa[href]:hover{color:#285c46}.history-ipa[href]:focus-visible{outline:2px solid #b9703b;outline-offset:2px;border-radius:3px}
 
 #settings-share-status{display:block}#settings-share-status:empty{display:none}#settings-close{margin-top:12px}
+
+.history-word{color:inherit;text-decoration:underline;text-underline-offset:3px;text-decoration-color:#8baf99}.history-word:hover{color:#285c46}.history-word:focus-visible{outline:2px solid #b9703b;outline-offset:3px}
