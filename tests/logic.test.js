@@ -158,7 +158,7 @@ test('MP3 loads only when selected and playing, pauses and releases on switching
     const media={paused:true,currentTime:12,play(){this.paused=false;return Promise.resolve();},pause(){this.paused=true;},removeAttribute(){this.src='';},load(){this.released=true;}};
     created.push(media);return media;
   });
-  assert.equal(normalizeSettings().track,'main');
+  assert.equal(normalizeSettings().track,'folk');
   audio.configure({track:'main',music:true,muted:false});
   assert.equal(created.length,0);
   audio.setPlaying(true);await Promise.resolve();
@@ -220,7 +220,7 @@ test('JSON maps share density and obstacle counts with valid atlas references',(
  const broken=structuredClone(mapDefinitions);broken[0].decor.pop();assert.throws(()=>validateMaps(manifest,broken),/expected 5 decor/);
  const missing=structuredClone(mapDefinitions);missing[0].obstacles.person[0].sprite='missing';assert.throws(()=>validateMaps(manifest,missing),/sprite reference/);
  const added=structuredClone(mapDefinitions[0]);added.id='new-map';added.label='New map';
- assert.equal(validateMaps(manifest,[...mapDefinitions,added]).length,3);
+ assert.equal(validateMaps(manifest,[...mapDefinitions,added]).length,mapDefinitions.length+1);
 });
 
 test('music volume is bounded, persists, and leaves effect master gain unchanged',()=>{
@@ -231,7 +231,20 @@ test('music volume is bounded, persists, and leaves effect master gain unchanged
  assert.equal(normalizeSettings({musicVolume:'bad'}).musicVolume,.3);
  const audio=new GameAudio();audio.master={gain:{value:1}};audio.musicGain={gain:{value:1}};
  audio.media={volume:.3,pause(){}};
- audio.configure({track:'main',music:true,muted:false,musicVolume:.15});
+ audio.configure({track:'folk',music:true,muted:false,musicVolume:.15});
  assert.equal(audio.media.volume,.15);assert.equal(audio.musicGain.gain.value,.5);assert.equal(audio.master.gain.value,1);
  audio.configure({...audio.settings,musicVolume:0});assert.equal(audio.media.volume,0);assert.equal(audio.musicGain.gain.value,0);assert.equal(audio.master.gain.value,1);
+});
+
+test('MP3 volume uses Web Audio even when iOS ignores element volume',()=>{
+ const nodes=[];const node=()=>{const n={gain:{value:1},connect(to){this.to=to;},disconnect(){this.disconnected=true;}};nodes.push(n);return n;};
+ const audio=new GameAudio(()=>({paused:true,set volume(v){},get volume(){return 1;},play(){this.paused=false;return Promise.resolve();},pause(){this.paused=true;},removeAttribute(){},load(){}}));
+ audio.master=node();let sources=0;
+ audio.context={createGain:node,createMediaElementSource(){sources++;return node();}};
+ audio.configure({track:'main',music:true,muted:false,musicVolume:.2});audio.setPlaying(true);
+ assert.equal(audio.mediaGain.gain.value,.2);assert.equal(audio.mediaSource.to,audio.mediaGain);assert.equal(audio.mediaGain.to,audio.master);
+ audio.configure({...audio.settings,musicVolume:0});assert.equal(audio.mediaGain.gain.value,0);assert.equal(audio.master.gain.value,1);
+ audio.setPlaying(false);audio.setPlaying(true);assert.equal(sources,1);
+ const old=audio.mediaSource;audio.configure({...audio.settings,track:'folk',musicVolume:.7});assert.equal(old.disconnected,true);assert.equal(audio.mediaGain.gain.value,.7);assert.equal(sources,2);
+ audio.setPlaying(false);audio.releaseMedia();
 });

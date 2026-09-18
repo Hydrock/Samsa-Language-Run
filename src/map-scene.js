@@ -14,11 +14,19 @@ export async function loadMaps(){
   const loader=new T.TextureLoader();
   function image(file){if(!images.has(file))images.set(file,loader.loadAsync(new URL(`./assets/${file}`,import.meta.url).href));return images.get(file);}
   function primitive(part,parent){
-    const key=JSON.stringify([part.shape||'box',part.size,part.radius]);
-    if(!geometries.has(key))geometries.set(key,part.shape==='sphere'?new T.SphereGeometry(part.radius,12,8):new T.BoxGeometry(...part.size));
-    const mk=part.color+Boolean(part.emissive);
-    if(!materials.has(mk))materials.set(mk,new T.MeshStandardMaterial({color:part.color,roughness:.9,emissive:part.emissive?part.color:0,emissiveIntensity:part.emissive?.6:0}));
-    const mesh=new T.Mesh(geometries.get(key),materials.get(mk));mesh.position.set(...part.position);mesh.receiveShadow=true;parent.add(mesh);return mesh;
+    const shape=part.shape||'box',segments=part.segments||16;
+    const key=JSON.stringify([shape,part.size,part.radius,part.radiusTop,part.height,segments]);
+    if(!geometries.has(key)){
+      let geometry;
+      if(shape==='sphere'||shape==='dome')geometry=new T.SphereGeometry(part.radius,segments,8,0,Math.PI*2,0,shape==='dome'?Math.PI/2:Math.PI);
+      else if(shape==='cylinder')geometry=new T.CylinderGeometry(part.radiusTop??part.radius,part.radius,part.height,segments);
+      else if(shape==='cone')geometry=new T.ConeGeometry(part.radius,part.height,segments);
+      else geometry=new T.BoxGeometry(...part.size);
+      geometries.set(key,geometry);
+    }
+    const mk=part.color+Boolean(part.emissive)+Boolean(part.flatShading);
+    if(!materials.has(mk))materials.set(mk,new T.MeshStandardMaterial({color:part.color,roughness:.9,flatShading:Boolean(part.flatShading),emissive:part.emissive?part.color:0,emissiveIntensity:part.emissive?.6:0}));
+    const mesh=new T.Mesh(geometries.get(key),materials.get(mk));mesh.position.set(...part.position);if(part.scale)mesh.scale.set(...part.scale);if(part.rotation)mesh.rotation.set(...part.rotation);mesh.receiveShadow=true;parent.add(mesh);return mesh;
   }
   const locations=new Map();
   for(const definition of maps){

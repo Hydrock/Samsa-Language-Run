@@ -12,7 +12,7 @@ export function normalizeSettings(value = {}) {
     musicVolume: Number.isFinite(value?.musicVolume) ? Math.max(0,Math.min(1,value.musicVolume)) : .3,
     autoMusic: value?.autoMusic === true,
     transcription: value?.transcription !== false,
-    track: ['main', 'folk', 'morning', 'evening', 'silkroad'].includes(value?.track) ? value.track : 'main',
+    track: ['main', 'folk', 'morning', 'evening', 'silkroad'].includes(value?.track) ? value.track : 'folk',
     location: locationIds.includes(value?.location) ? value.location : defaultLocation,
     mode: Object.hasOwn(gameModes, value?.mode) ? value.mode : 'normal',
   };

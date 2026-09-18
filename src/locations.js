@@ -15,8 +15,18 @@ export function validateMaps(manifest,maps){
     }
     const parts=p=>{
       if(!p||!/^#[0-9a-f]{6}$/i.test(p.color)||p.position?.length!==3||!p.position.every(Number.isFinite))fail('part');
-      if(p.shape==='sphere'){if(!(p.radius>0))fail('radius');}
-      else if(p.shape&&p.shape!=='box'||p.size?.length!==3||!p.size.every(v=>Number.isFinite(v)&&v>0))fail('box');
+      const shape=p.shape||'box';
+      if(!['box','sphere','dome','cylinder','cone'].includes(shape))fail('shape');
+      if(shape==='box'){if(p.size?.length!==3||!p.size.every(v=>Number.isFinite(v)&&v>0))fail('box');}
+      else {
+        if(!Number.isFinite(p.radius)||p.radius<=0)fail('radius');
+        if(['cylinder','cone'].includes(shape)&&(!Number.isFinite(p.height)||p.height<=0))fail('height');
+        if(p.radiusTop!==undefined&&(!Number.isFinite(p.radiusTop)||p.radiusTop<0))fail('radiusTop');
+      }
+      if(p.segments!==undefined&&(!Number.isInteger(p.segments)||p.segments<3||p.segments>32))fail('segments');
+      if(p.scale&&(p.scale.length!==3||!p.scale.every(v=>Number.isFinite(v)&&v>0)))fail('scale');
+      if(p.rotation&&(p.rotation.length!==3||!p.rotation.every(Number.isFinite)))fail('rotation');
+
     };
     for(const item of [...m.decor,...m.obstacles.barrier,...m.obstacles.person]){
       if(item.sprite){if(!m.sprites[item.sprite]||!(item.height>0))fail('sprite reference');}

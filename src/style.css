@@ -85,3 +85,10 @@ body.paused .intro>.primary,body.paused .intro>.fine{flex-shrink:0}
 @media(max-height:500px){body.paused .overlay{padding:58px 12px 12px}body.paused .intro{padding:12px 18px}body.paused .intro h1{font-size:24px;margin:4px 0}body.paused .intro>.eyebrow,body.paused .intro>.fine{display:none}.run-history{margin-bottom:8px}}
 
 .volume-label{display:flex;justify-content:space-between;gap:12px}.volume-label output{font-weight:400;font-variant-numeric:tabular-nums}#setting-volume{width:100%;margin:0;min-height:32px;accent-color:#285c46;cursor:pointer}#setting-volume:focus-visible{outline:2px solid #b9703b;outline-offset:3px}
+
+/* Explicit range styling avoids native iOS width and appearance differences. */
+#setting-volume{-webkit-appearance:none;appearance:none;display:block;box-sizing:border-box;width:100%;height:36px;padding:0;background:transparent;touch-action:pan-y}
+#setting-volume::-webkit-slider-runnable-track{height:6px;border-radius:4px;background:#cbd7c5}
+#setting-volume::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:24px;height:24px;margin-top:-9px;border:2px solid #fffcef;border-radius:50%;background:#285c46;box-shadow:0 1px 4px #163c3540}
+#setting-volume::-moz-range-track{height:6px;border-radius:4px;background:#cbd7c5}
+#setting-volume::-moz-range-thumb{width:20px;height:20px;border:2px solid #fffcef;border-radius:50%;background:#285c46}

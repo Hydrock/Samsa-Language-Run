@@ -1,0 +1,1121 @@
+{
+  "id": "chorsu",
+  "label": "Рынок Чорсу",
+  "title": "ЧОРСУ",
+  "indoors": false,
+  "description": "Лепёшки, пряности и яркие прилавки Чорсу. Учи английский среди базарных рядов.",
+  "collisionHint": "Обходи покупателей и торговцев",
+  "colors": {
+    "ground": "#ccb589",
+    "road": "#ddcba7",
+    "line": "#f3e2bd"
+  },
+  "sprites": {
+    "fruit-stall": {
+      "file": "chorsu-stalls.png",
+      "reference": [
+        2048,
+        683
+      ],
+      "rect": [
+        12,
+        105,
+        409,
+        511
+      ]
+    },
+    "spice-stall": {
+      "file": "chorsu-stalls.png",
+      "reference": [
+        2048,
+        683
+      ],
+      "rect": [
+        421,
+        108,
+        397,
+        499
+      ]
+    },
+    "bread-stall": {
+      "file": "chorsu-stalls.png",
+      "reference": [
+        2048,
+        683
+      ],
+      "rect": [
+        819,
+        124,
+        394,
+        478
+      ]
+    },
+    "meat-stall": {
+      "file": "chorsu-stalls.png",
+      "reference": [
+        2048,
+        683
+      ],
+      "rect": [
+        1218,
+        124,
+        410,
+        480
+      ]
+    },
+    "dairy-stall": {
+      "file": "chorsu-stalls.png",
+      "reference": [
+        2048,
+        683
+      ],
+      "rect": [
+        1631,
+        102,
+        407,
+        505
+      ]
+    },
+    "shopper": {
+      "file": "chorsu-people.png",
+      "reference": [
+        2048,
+        683
+      ],
+      "rect": [
+        463,
+        131,
+        353,
+        490
+      ]
+    },
+    "butcher": {
+      "file": "chorsu-people.png",
+      "reference": [
+        2048,
+        683
+      ],
+      "rect": [
+        844,
+        94,
+        372,
+        530
+      ]
+    },
+    "baker": {
+      "file": "chorsu-people.png",
+      "reference": [
+        2048,
+        683
+      ],
+      "rect": [
+        1227,
+        95,
+        300,
+        523
+      ]
+    },
+    "spice-sacks": {
+      "file": "chorsu-people.png",
+      "reference": [
+        2048,
+        683
+      ],
+      "rect": [
+        1541,
+        434,
+        479,
+        191
+      ]
+    },
+    "fruit-crates": {
+      "file": "chorsu-stalls.png",
+      "reference": [
+        2048,
+        683
+      ],
+      "rect": [
+        22,
+        305,
+        396,
+        309
+      ]
+    }
+  },
+  "decor": [
+    {
+      "sprite": "fruit-stall",
+      "height": 5.2
+    },
+    {
+      "sprite": "spice-stall",
+      "height": 5.2
+    },
+    {
+      "sprite": "bread-stall",
+      "height": 5.2
+    },
+    {
+      "sprite": "meat-stall",
+      "height": 5.2
+    },
+    {
+      "sprite": "dairy-stall",
+      "height": 5.2
+    }
+  ],
+  "obstacles": {
+    "barrier": [
+      {
+        "sprite": "fruit-crates",
+        "height": 1.15
+      },
+      {
+        "sprite": "spice-sacks",
+        "height": 1
+      }
+    ],
+    "person": [
+      {
+        "sprite": "shopper",
+        "height": 2.3
+      },
+      {
+        "sprite": "butcher",
+        "height": 2.5
+      },
+      {
+        "sprite": "baker",
+        "height": 2.3
+      }
+    ]
+  },
+  "environment": [
+    {
+      "shape": "cylinder",
+      "color": "#d6c6a0",
+      "position": [
+        0,
+        1.4,
+        -78
+      ],
+      "flatShading": true,
+      "radius": 17,
+      "height": 2.8,
+      "radiusTop": 17,
+      "segments": 24
+    },
+    {
+      "shape": "cylinder",
+      "color": "#388f99",
+      "position": [
+        0,
+        4.2,
+        -78
+      ],
+      "flatShading": true,
+      "radius": 16.5,
+      "height": 0.8,
+      "radiusTop": 16.5,
+      "segments": 24
+    },
+    {
+      "shape": "cylinder",
+      "color": "#dfcfac",
+      "position": [
+        0,
+        4.75,
+        -78
+      ],
+      "flatShading": true,
+      "radius": 16.7,
+      "height": 0.3,
+      "radiusTop": 16.7,
+      "segments": 24
+    },
+    {
+      "shape": "dome",
+      "color": "#26959e",
+      "position": [
+        0,
+        4.9,
+        -78
+      ],
+      "flatShading": true,
+      "radius": 16.5,
+      "segments": 24,
+      "scale": [
+        1,
+        0.58,
+        1
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "color": "#e5d1a0",
+      "position": [
+        0,
+        14.65,
+        -78
+      ],
+      "flatShading": true,
+      "radius": 1.1,
+      "height": 0.35,
+      "radiusTop": 1.1,
+      "segments": 12
+    },
+    {
+      "shape": "cone",
+      "color": "#bd9555",
+      "position": [
+        0,
+        15.3,
+        -78
+      ],
+      "flatShading": true,
+      "radius": 0.45,
+      "height": 1.1,
+      "segments": 8
+    },
+    {
+      "shape": "box",
+      "color": "#e5d6b3",
+      "position": [
+        0.0,
+        3.4,
+        -62.4
+      ],
+      "flatShading": true,
+      "size": [
+        0.55,
+        2.2,
+        0.55
+      ]
+    },
+    {
+      "shape": "box",
+      "color": "#357d85",
+      "position": [
+        0.0,
+        2.7,
+        -62.867999999999995
+      ],
+      "flatShading": true,
+      "size": [
+        2.7,
+        1.6,
+        0.18
+      ],
+      "rotation": [
+        0,
+        0.0,
+        0
+      ]
+    },
+    {
+      "shape": "box",
+      "color": "#e5d6b3",
+      "position": [
+        4.0375771035993235,
+        3.4,
+        -62.931557109890534
+      ],
+      "flatShading": true,
+      "size": [
+        0.55,
+        2.2,
+        0.55
+      ]
+    },
+    {
+      "shape": "box",
+      "color": "#357d85",
+      "position": [
+        3.9164497904913436,
+        2.7,
+        -63.38361039659382
+      ],
+      "flatShading": true,
+      "size": [
+        2.7,
+        1.6,
+        0.18
+      ],
+      "rotation": [
+        0,
+        0.2617993877991494,
+        0
+      ]
+    },
+    {
+      "shape": "box",
+      "color": "#e5d6b3",
+      "position": [
+        7.799999999999999,
+        3.4,
+        -64.49000370096276
+      ],
+      "flatShading": true,
+      "size": [
+        0.55,
+        2.2,
+        0.55
+      ]
+    },
+    {
+      "shape": "box",
+      "color": "#357d85",
+      "position": [
+        7.565999999999999,
+        2.7,
+        -64.89530358993387
+      ],
+      "flatShading": true,
+      "size": [
+        2.7,
+        1.6,
+        0.18
+      ],
+      "rotation": [
+        0,
+        0.5235987755982988,
+        0
+      ]
+    },
+    {
+      "shape": "box",
+      "color": "#e5d6b3",
+      "position": [
+        11.030865786510143,
+        3.4,
+        -66.96913421348985
+      ],
+      "flatShading": true,
+      "size": [
+        0.55,
+        2.2,
+        0.55
+      ]
+    },
+    {
+      "shape": "box",
+      "color": "#357d85",
+      "position": [
+        10.699939812914838,
+        2.7,
+        -67.30006018708515
+      ],
+      "flatShading": true,
+      "size": [
+        2.7,
+        1.6,
+        0.18
+      ],
+      "rotation": [
+        0,
+        0.7853981633974483,
+        0
+      ]
+    },
+    {
+      "shape": "box",
+      "color": "#e5d6b3",
+      "position": [
+        13.509996299037242,
+        3.4,
+        -70.2
+      ],
+      "flatShading": true,
+      "size": [
+        0.55,
+        2.2,
+        0.55
+      ]
+    },
+    {
+      "shape": "box",
+      "color": "#357d85",
+      "position": [
+        13.104696410066124,
+        2.7,
+        -70.434
+      ],
+      "flatShading": true,
+      "size": [
+        2.7,
+        1.6,
+        0.18
+      ],
+      "rotation": [
+        0,
+        1.0471975511965976,
+        0
+      ]
+    },
+    {
+      "shape": "box",
+      "color": "#e5d6b3",
+      "position": [
+        15.068442890109464,
+        3.4,
+        -73.96242289640068
+      ],
+      "flatShading": true,
+      "size": [
+        0.55,
+        2.2,
+        0.55
+      ]
+    },
+    {
+      "shape": "box",
+      "color": "#357d85",
+      "position": [
+        14.61638960340618,
+        2.7,
+        -74.08355020950866
+      ],
+      "flatShading": true,
+      "size": [
+        2.7,
+        1.6,
+        0.18
+      ],
+      "rotation": [
+        0,
+        1.3089969389957472,
+        0
+      ]
+    },
+    {
+      "shape": "box",
+      "color": "#e5d6b3",
+      "position": [
+        15.6,
+        3.4,
+        -78.0
+      ],
+      "flatShading": true,
+      "size": [
+        0.55,
+        2.2,
+        0.55
+      ]
+    },
+    {
+      "shape": "box",
+      "color": "#357d85",
+      "position": [
+        15.132,
+        2.7,
+        -78.0
+      ],
+      "flatShading": true,
+      "size": [
+        2.7,
+        1.6,
+        0.18
+      ],
+      "rotation": [
+        0,
+        1.5707963267948966,
+        0
+      ]
+    },
+    {
+      "shape": "box",
+      "color": "#e5d6b3",
+      "position": [
+        15.068442890109464,
+        3.4,
+        -82.03757710359932
+      ],
+      "flatShading": true,
+      "size": [
+        0.55,
+        2.2,
+        0.55
+      ]
+    },
+    {
+      "shape": "box",
+      "color": "#357d85",
+      "position": [
+        14.61638960340618,
+        2.7,
+        -81.91644979049134
+      ],
+      "flatShading": true,
+      "size": [
+        2.7,
+        1.6,
+        0.18
+      ],
+      "rotation": [
+        0,
+        1.832595714594046,
+        0
+      ]
+    },
+    {
+      "shape": "box",
+      "color": "#e5d6b3",
+      "position": [
+        13.509996299037244,
+        3.4,
+        -85.8
+      ],
+      "flatShading": true,
+      "size": [
+        0.55,
+        2.2,
+        0.55
+      ]
+    },
+    {
+      "shape": "box",
+      "color": "#357d85",
+      "position": [
+        13.104696410066126,
+        2.7,
+        -85.566
+      ],
+      "flatShading": true,
+      "size": [
+        2.7,
+        1.6,
+        0.18
+      ],
+      "rotation": [
+        0,
+        2.0943951023931953,
+        0
+      ]
+    },
+    {
+      "shape": "box",
+      "color": "#e5d6b3",
+      "position": [
+        11.030865786510143,
+        3.4,
+        -89.03086578651013
+      ],
+      "flatShading": true,
+      "size": [
+        0.55,
+        2.2,
+        0.55
+      ]
+    },
+    {
+      "shape": "box",
+      "color": "#357d85",
+      "position": [
+        10.699939812914838,
+        2.7,
+        -88.69993981291483
+      ],
+      "flatShading": true,
+      "size": [
+        2.7,
+        1.6,
+        0.18
+      ],
+      "rotation": [
+        0,
+        2.356194490192345,
+        0
+      ]
+    },
+    {
+      "shape": "box",
+      "color": "#e5d6b3",
+      "position": [
+        7.799999999999999,
+        3.4,
+        -91.50999629903724
+      ],
+      "flatShading": true,
+      "size": [
+        0.55,
+        2.2,
+        0.55
+      ]
+    },
+    {
+      "shape": "box",
+      "color": "#357d85",
+      "position": [
+        7.565999999999999,
+        2.7,
+        -91.10469641006613
+      ],
+      "flatShading": true,
+      "size": [
+        2.7,
+        1.6,
+        0.18
+      ],
+      "rotation": [
+        0,
+        2.6179938779914944,
+        0
+      ]
+    },
+    {
+      "shape": "box",
+      "color": "#e5d6b3",
+      "position": [
+        4.037577103599328,
+        3.4,
+        -93.06844289010947
+      ],
+      "flatShading": true,
+      "size": [
+        0.55,
+        2.2,
+        0.55
+      ]
+    },
+    {
+      "shape": "box",
+      "color": "#357d85",
+      "position": [
+        3.916449790491348,
+        2.7,
+        -92.61638960340618
+      ],
+      "flatShading": true,
+      "size": [
+        2.7,
+        1.6,
+        0.18
+      ],
+      "rotation": [
+        0,
+        2.8797932657906435,
+        0
+      ]
+    },
+    {
+      "shape": "box",
+      "color": "#e5d6b3",
+      "position": [
+        1.910449006669871e-15,
+        3.4,
+        -93.6
+      ],
+      "flatShading": true,
+      "size": [
+        0.55,
+        2.2,
+        0.55
+      ]
+    },
+    {
+      "shape": "box",
+      "color": "#357d85",
+      "position": [
+        1.853135536469775e-15,
+        2.7,
+        -93.13199999999999
+      ],
+      "flatShading": true,
+      "size": [
+        2.7,
+        1.6,
+        0.18
+      ],
+      "rotation": [
+        0,
+        3.141592653589793,
+        0
+      ]
+    },
+    {
+      "shape": "box",
+      "color": "#e5d6b3",
+      "position": [
+        -4.037577103599324,
+        3.4,
+        -93.06844289010947
+      ],
+      "flatShading": true,
+      "size": [
+        0.55,
+        2.2,
+        0.55
+      ]
+    },
+    {
+      "shape": "box",
+      "color": "#357d85",
+      "position": [
+        -3.9164497904913445,
+        2.7,
+        -92.61638960340618
+      ],
+      "flatShading": true,
+      "size": [
+        2.7,
+        1.6,
+        0.18
+      ],
+      "rotation": [
+        0,
+        3.4033920413889427,
+        0
+      ]
+    },
+    {
+      "shape": "box",
+      "color": "#e5d6b3",
+      "position": [
+        -7.799999999999995,
+        3.4,
+        -91.50999629903724
+      ],
+      "flatShading": true,
+      "size": [
+        0.55,
+        2.2,
+        0.55
+      ]
+    },
+    {
+      "shape": "box",
+      "color": "#357d85",
+      "position": [
+        -7.565999999999995,
+        2.7,
+        -91.10469641006613
+      ],
+      "flatShading": true,
+      "size": [
+        2.7,
+        1.6,
+        0.18
+      ],
+      "rotation": [
+        0,
+        3.665191429188092,
+        0
+      ]
+    },
+    {
+      "shape": "box",
+      "color": "#e5d6b3",
+      "position": [
+        -11.030865786510136,
+        3.4,
+        -89.03086578651015
+      ],
+      "flatShading": true,
+      "size": [
+        0.55,
+        2.2,
+        0.55
+      ]
+    },
+    {
+      "shape": "box",
+      "color": "#357d85",
+      "position": [
+        -10.699939812914831,
+        2.7,
+        -88.69993981291485
+      ],
+      "flatShading": true,
+      "size": [
+        2.7,
+        1.6,
+        0.18
+      ],
+      "rotation": [
+        0,
+        3.926990816987241,
+        0
+      ]
+    },
+    {
+      "shape": "box",
+      "color": "#e5d6b3",
+      "position": [
+        -13.50999629903724,
+        3.4,
+        -85.80000000000001
+      ],
+      "flatShading": true,
+      "size": [
+        0.55,
+        2.2,
+        0.55
+      ]
+    },
+    {
+      "shape": "box",
+      "color": "#357d85",
+      "position": [
+        -13.104696410066122,
+        2.7,
+        -85.56600000000002
+      ],
+      "flatShading": true,
+      "size": [
+        2.7,
+        1.6,
+        0.18
+      ],
+      "rotation": [
+        0,
+        4.1887902047863905,
+        0
+      ]
+    },
+    {
+      "shape": "box",
+      "color": "#e5d6b3",
+      "position": [
+        -15.068442890109464,
+        3.4,
+        -82.03757710359932
+      ],
+      "flatShading": true,
+      "size": [
+        0.55,
+        2.2,
+        0.55
+      ]
+    },
+    {
+      "shape": "box",
+      "color": "#357d85",
+      "position": [
+        -14.61638960340618,
+        2.7,
+        -81.91644979049134
+      ],
+      "flatShading": true,
+      "size": [
+        2.7,
+        1.6,
+        0.18
+      ],
+      "rotation": [
+        0,
+        4.4505895925855405,
+        0
+      ]
+    },
+    {
+      "shape": "box",
+      "color": "#e5d6b3",
+      "position": [
+        -15.6,
+        3.4,
+        -78.0
+      ],
+      "flatShading": true,
+      "size": [
+        0.55,
+        2.2,
+        0.55
+      ]
+    },
+    {
+      "shape": "box",
+      "color": "#357d85",
+      "position": [
+        -15.132,
+        2.7,
+        -78.0
+      ],
+      "flatShading": true,
+      "size": [
+        2.7,
+        1.6,
+        0.18
+      ],
+      "rotation": [
+        0,
+        4.71238898038469,
+        0
+      ]
+    },
+    {
+      "shape": "box",
+      "color": "#e5d6b3",
+      "position": [
+        -15.068442890109466,
+        3.4,
+        -73.96242289640068
+      ],
+      "flatShading": true,
+      "size": [
+        0.55,
+        2.2,
+        0.55
+      ]
+    },
+    {
+      "shape": "box",
+      "color": "#357d85",
+      "position": [
+        -14.616389603406182,
+        2.7,
+        -74.08355020950866
+      ],
+      "flatShading": true,
+      "size": [
+        2.7,
+        1.6,
+        0.18
+      ],
+      "rotation": [
+        0,
+        4.974188368183839,
+        0
+      ]
+    },
+    {
+      "shape": "box",
+      "color": "#e5d6b3",
+      "position": [
+        -13.509996299037242,
+        3.4,
+        -70.2
+      ],
+      "flatShading": true,
+      "size": [
+        0.55,
+        2.2,
+        0.55
+      ]
+    },
+    {
+      "shape": "box",
+      "color": "#357d85",
+      "position": [
+        -13.104696410066124,
+        2.7,
+        -70.434
+      ],
+      "flatShading": true,
+      "size": [
+        2.7,
+        1.6,
+        0.18
+      ],
+      "rotation": [
+        0,
+        5.235987755982989,
+        0
+      ]
+    },
+    {
+      "shape": "box",
+      "color": "#e5d6b3",
+      "position": [
+        -11.030865786510144,
+        3.4,
+        -66.96913421348987
+      ],
+      "flatShading": true,
+      "size": [
+        0.55,
+        2.2,
+        0.55
+      ]
+    },
+    {
+      "shape": "box",
+      "color": "#357d85",
+      "position": [
+        -10.69993981291484,
+        2.7,
+        -67.30006018708517
+      ],
+      "flatShading": true,
+      "size": [
+        2.7,
+        1.6,
+        0.18
+      ],
+      "rotation": [
+        0,
+        5.497787143782138,
+        0
+      ]
+    },
+    {
+      "shape": "box",
+      "color": "#e5d6b3",
+      "position": [
+        -7.800000000000007,
+        3.4,
+        -64.49000370096276
+      ],
+      "flatShading": true,
+      "size": [
+        0.55,
+        2.2,
+        0.55
+      ]
+    },
+    {
+      "shape": "box",
+      "color": "#357d85",
+      "position": [
+        -7.566000000000007,
+        2.7,
+        -64.89530358993387
+      ],
+      "flatShading": true,
+      "size": [
+        2.7,
+        1.6,
+        0.18
+      ],
+      "rotation": [
+        0,
+        5.759586531581287,
+        0
+      ]
+    },
+    {
+      "shape": "box",
+      "color": "#e5d6b3",
+      "position": [
+        -4.037577103599337,
+        3.4,
+        -62.931557109890534
+      ],
+      "flatShading": true,
+      "size": [
+        0.55,
+        2.2,
+        0.55
+      ]
+    },
+    {
+      "shape": "box",
+      "color": "#357d85",
+      "position": [
+        -3.9164497904913564,
+        2.7,
+        -63.38361039659382
+      ],
+      "flatShading": true,
+      "size": [
+        2.7,
+        1.6,
+        0.18
+      ],
+      "rotation": [
+        0,
+        6.021385919380436,
+        0
+      ]
+    }
+  ]
+}

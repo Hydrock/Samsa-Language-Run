@@ -92,11 +92,14 @@ $('settings-button').onclick=()=>{
   $('settings-close').textContent=beforeSettings==='playing'?'Продолжить забег ↗':'Закрыть настройки';
   describeMode();settingsDialog.showModal();
 };
-$('setting-volume').oninput=()=>{
+function updateMusicVolume(){
   settings=normalizeSettings({...settings,musicVolume:Number($('setting-volume').value)/100});
   $('music-volume-value').textContent=`${Math.round(settings.musicVolume*100)}%`;
   saveSettings();
-};
+}
+$('setting-volume').addEventListener('input',updateMusicVolume);
+$('setting-volume').addEventListener('change',updateMusicVolume);
+$('setting-volume').addEventListener('pointerdown',()=>soundtrack.unlock());
 for(const id of ['setting-sound','setting-music','setting-auto-music','setting-track','setting-mode','setting-transcription','setting-location']){
   $(id).onchange=()=>{
     soundtrack.unlock();

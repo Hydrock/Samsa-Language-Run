@@ -10,7 +10,7 @@ const tracks = {
 export class GameAudio {
   constructor(createAudio = () => new Audio()) {
     this.createAudio = createAudio;
-    this.settings = { muted: false, music: true, track: 'main' };
+    this.settings = { muted: false, music: true, track: 'folk' };
     this.playing = false;
     this.step = 0;
     this.voices = new Set();
@@ -32,7 +32,7 @@ export class GameAudio {
     const changedTrack = settings.track !== this.settings.track;
     this.settings = { ...settings, musicVolume: Number.isFinite(settings.musicVolume) ? Math.max(0,Math.min(1,settings.musicVolume)) : .3 };
     if(this.musicGain)this.musicGain.gain.value=this.settings.musicVolume/.3;
-    if(this.media)this.media.volume=this.settings.musicVolume;
+    this.updateMediaVolume();
     if (this.master) this.master.gain.value = settings.muted ? 0 : 1;
     if (changedTrack) { this.stopMusic(); this.releaseMedia(); this.step = 0; }
     this.sync();
@@ -55,6 +55,8 @@ export class GameAudio {
         this.media.volume = this.settings.musicVolume;
         this.media.src = new URL(`./assets/${audioFiles[this.settings.track]}`, import.meta.url).href;
       }
+      this.connectMedia();
+      this.updateMediaVolume();
       this.media.loop = !this.settings.autoMusic;
       this.media.onended = () => this.nextTrack();
       if (this.media.paused && !this.mediaPlayPending) {
@@ -71,6 +73,21 @@ export class GameAudio {
     this.timer = setInterval(() => this.schedule(), 50);
     this.schedule();
   }
+  connectMedia() {
+    if(!this.media || this.mediaSource || !this.context?.createMediaElementSource)return;
+    // iOS ignores HTMLMediaElement.volume; control the decoded stream with Web Audio.
+    this.mediaGain=this.context.createGain();
+    this.mediaSource=this.context.createMediaElementSource(this.media);
+    this.mediaSource.connect(this.mediaGain);
+    this.mediaGain.connect(this.master);
+  }
+  updateMediaVolume() {
+    if(!this.media)return;
+    if(this.mediaGain){
+      this.media.volume=1;
+      this.mediaGain.gain.value=this.settings.musicVolume;
+    }else this.media.volume=this.settings.musicVolume;
+  }
   nextTrack() {
     if (!this.playing || !this.settings.music || this.settings.muted || !this.settings.autoMusic) return;
     const track=trackOrder[(trackOrder.indexOf(this.settings.track)+1)%trackOrder.length];
@@ -79,6 +96,9 @@ export class GameAudio {
   }
   releaseMedia() {
     if (!this.media) return;
+    this.mediaSource?.disconnect();
+    this.mediaGain?.disconnect();
+    this.mediaSource=null;this.mediaGain=null;
     this.media.onended = null;
     this.media.pause();
     this.media.removeAttribute('src');
