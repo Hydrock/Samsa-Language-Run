@@ -1,0 +1,636 @@
+{
+  "id": "kosmonavtlar",
+  "label": "Метро · Космонавтлар",
+  "title": "КОСМОНАВТЛАР",
+  "indoors": true,
+  "description": "Космические панно, синие колонны и английский на станции ташкентского метро.",
+  "collisionHint": "Обходи пассажиров и сотрудников метро",
+  "colors": {
+    "ground": "#526a80",
+    "road": "#aebcc5",
+    "line": "#e3dbc1"
+  },
+  "sprites": {
+    "column": {
+      "file": "metro-atlas.png",
+      "reference": [
+        1983,
+        793
+      ],
+      "rect": [
+        126,
+        5,
+        204,
+        377
+      ]
+    },
+    "cosmonaut": {
+      "file": "metro-atlas.png",
+      "reference": [
+        1983,
+        793
+      ],
+      "rect": [
+        479,
+        10,
+        230,
+        370
+      ]
+    },
+    "sputnik": {
+      "file": "metro-atlas.png",
+      "reference": [
+        1983,
+        793
+      ],
+      "rect": [
+        864,
+        10,
+        236,
+        370
+      ]
+    },
+    "sign": {
+      "file": "metro-atlas.png",
+      "reference": [
+        1983,
+        793
+      ],
+      "rect": [
+        1180,
+        160,
+        365,
+        224
+      ]
+    },
+    "bench": {
+      "file": "metro-atlas.png",
+      "reference": [
+        1983,
+        793
+      ],
+      "rect": [
+        1590,
+        220,
+        350,
+        166
+      ]
+    },
+    "commuter": {
+      "file": "metro-atlas.png",
+      "reference": [
+        1983,
+        793
+      ],
+      "rect": [
+        128,
+        383,
+        181,
+        400
+      ]
+    },
+    "student": {
+      "file": "metro-atlas.png",
+      "reference": [
+        1983,
+        793
+      ],
+      "rect": [
+        503,
+        382,
+        181,
+        400
+      ]
+    },
+    "attendant": {
+      "file": "metro-atlas.png",
+      "reference": [
+        1983,
+        793
+      ],
+      "rect": [
+        902,
+        382,
+        144,
+        400
+      ]
+    },
+    "suitcase": {
+      "file": "metro-atlas.png",
+      "reference": [
+        1983,
+        793
+      ],
+      "rect": [
+        1285,
+        547,
+        145,
+        235
+      ]
+    },
+    "barrier": {
+      "file": "metro-atlas.png",
+      "reference": [
+        1983,
+        793
+      ],
+      "rect": [
+        1623,
+        579,
+        277,
+        205
+      ]
+    }
+  },
+  "decor": [
+    {
+      "sprite": "column",
+      "height": 5.8
+    },
+    {
+      "sprite": "cosmonaut",
+      "height": 4.3
+    },
+    {
+      "sprite": "sputnik",
+      "height": 4.3
+    },
+    {
+      "sprite": "sign",
+      "height": 2.5
+    },
+    {
+      "sprite": "bench",
+      "height": 1.45
+    }
+  ],
+  "obstacles": {
+    "barrier": [
+      {
+        "sprite": "suitcase",
+        "height": 0.95
+      },
+      {
+        "sprite": "barrier",
+        "height": 1.05
+      }
+    ],
+    "person": [
+      {
+        "sprite": "commuter",
+        "height": 2.3
+      },
+      {
+        "sprite": "student",
+        "height": 2.3
+      },
+      {
+        "sprite": "attendant",
+        "height": 2.3
+      }
+    ]
+  },
+  "environment": [
+    {
+      "color": "#a9c7d5",
+      "position": [
+        -11.5,
+        5,
+        -48
+      ],
+      "size": [
+        0.4,
+        10,
+        145
+      ]
+    },
+    {
+      "color": "#163356",
+      "position": [
+        -11.25,
+        0.8,
+        -48
+      ],
+      "size": [
+        0.1,
+        1.35,
+        145
+      ]
+    },
+    {
+      "color": "#225481",
+      "position": [
+        -11.25,
+        2.1500000000000004,
+        -48
+      ],
+      "size": [
+        0.1,
+        1.35,
+        145
+      ]
+    },
+    {
+      "color": "#3477a5",
+      "position": [
+        -11.25,
+        3.5,
+        -48
+      ],
+      "size": [
+        0.1,
+        1.35,
+        145
+      ]
+    },
+    {
+      "color": "#6bacc8",
+      "position": [
+        -11.25,
+        4.8500000000000005,
+        -48
+      ],
+      "size": [
+        0.1,
+        1.35,
+        145
+      ]
+    },
+    {
+      "color": "#d8e8e5",
+      "position": [
+        -10.9,
+        7.8,
+        -48
+      ],
+      "size": [
+        0.25,
+        0.15,
+        145
+      ],
+      "emissive": true
+    },
+    {
+      "color": "#e3c775",
+      "position": [
+        -4.6,
+        0.06,
+        -48
+      ],
+      "size": [
+        0.16,
+        0.025,
+        145
+      ]
+    },
+    {
+      "color": "#a9c7d5",
+      "position": [
+        11.5,
+        5,
+        -48
+      ],
+      "size": [
+        0.4,
+        10,
+        145
+      ]
+    },
+    {
+      "color": "#163356",
+      "position": [
+        11.25,
+        0.8,
+        -48
+      ],
+      "size": [
+        0.1,
+        1.35,
+        145
+      ]
+    },
+    {
+      "color": "#225481",
+      "position": [
+        11.25,
+        2.1500000000000004,
+        -48
+      ],
+      "size": [
+        0.1,
+        1.35,
+        145
+      ]
+    },
+    {
+      "color": "#3477a5",
+      "position": [
+        11.25,
+        3.5,
+        -48
+      ],
+      "size": [
+        0.1,
+        1.35,
+        145
+      ]
+    },
+    {
+      "color": "#6bacc8",
+      "position": [
+        11.25,
+        4.8500000000000005,
+        -48
+      ],
+      "size": [
+        0.1,
+        1.35,
+        145
+      ]
+    },
+    {
+      "color": "#d8e8e5",
+      "position": [
+        10.9,
+        7.8,
+        -48
+      ],
+      "size": [
+        0.25,
+        0.15,
+        145
+      ],
+      "emissive": true
+    },
+    {
+      "color": "#e3c775",
+      "position": [
+        4.6,
+        0.06,
+        -48
+      ],
+      "size": [
+        0.16,
+        0.025,
+        145
+      ]
+    },
+    {
+      "color": "#c2d2dc",
+      "position": [
+        0,
+        10,
+        -48
+      ],
+      "size": [
+        24,
+        0.2,
+        145
+      ]
+    },
+    {
+      "color": "#234261",
+      "position": [
+        0,
+        5,
+        -116
+      ],
+      "size": [
+        24,
+        10,
+        0.3
+      ]
+    },
+    {
+      "color": "#e3eee7",
+      "position": [
+        0,
+        9.8,
+        -15
+      ],
+      "size": [
+        14,
+        0.08,
+        0.55
+      ],
+      "emissive": true
+    },
+    {
+      "color": "#e3eee7",
+      "position": [
+        0,
+        9.8,
+        -36
+      ],
+      "size": [
+        14,
+        0.08,
+        0.55
+      ],
+      "emissive": true
+    },
+    {
+      "color": "#e3eee7",
+      "position": [
+        0,
+        9.8,
+        -57
+      ],
+      "size": [
+        14,
+        0.08,
+        0.55
+      ],
+      "emissive": true
+    },
+    {
+      "color": "#e3eee7",
+      "position": [
+        0,
+        9.8,
+        -78
+      ],
+      "size": [
+        14,
+        0.08,
+        0.55
+      ],
+      "emissive": true
+    },
+    {
+      "color": "#e3eee7",
+      "position": [
+        0,
+        9.8,
+        -99
+      ],
+      "size": [
+        14,
+        0.08,
+        0.55
+      ],
+      "emissive": true
+    },
+    {
+      "shape": "cylinder",
+      "color": "#418f9f",
+      "position": [
+        -6.2,
+        3.7,
+        -65
+      ],
+      "radius": 0.55,
+      "height": 7.4,
+      "segments": 8,
+      "flatShading": true
+    },
+    {
+      "color": "#cedfdf",
+      "position": [
+        -6.2,
+        7.45,
+        -65
+      ],
+      "size": [
+        1.7,
+        0.3,
+        1.7
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "color": "#418f9f",
+      "position": [
+        -6.2,
+        3.7,
+        -82
+      ],
+      "radius": 0.55,
+      "height": 7.4,
+      "segments": 8,
+      "flatShading": true
+    },
+    {
+      "color": "#cedfdf",
+      "position": [
+        -6.2,
+        7.45,
+        -82
+      ],
+      "size": [
+        1.7,
+        0.3,
+        1.7
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "color": "#418f9f",
+      "position": [
+        -6.2,
+        3.7,
+        -99
+      ],
+      "radius": 0.55,
+      "height": 7.4,
+      "segments": 8,
+      "flatShading": true
+    },
+    {
+      "color": "#cedfdf",
+      "position": [
+        -6.2,
+        7.45,
+        -99
+      ],
+      "size": [
+        1.7,
+        0.3,
+        1.7
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "color": "#418f9f",
+      "position": [
+        6.2,
+        3.7,
+        -65
+      ],
+      "radius": 0.55,
+      "height": 7.4,
+      "segments": 8,
+      "flatShading": true
+    },
+    {
+      "color": "#cedfdf",
+      "position": [
+        6.2,
+        7.45,
+        -65
+      ],
+      "size": [
+        1.7,
+        0.3,
+        1.7
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "color": "#418f9f",
+      "position": [
+        6.2,
+        3.7,
+        -82
+      ],
+      "radius": 0.55,
+      "height": 7.4,
+      "segments": 8,
+      "flatShading": true
+    },
+    {
+      "color": "#cedfdf",
+      "position": [
+        6.2,
+        7.45,
+        -82
+      ],
+      "size": [
+        1.7,
+        0.3,
+        1.7
+      ]
+    },
+    {
+      "shape": "cylinder",
+      "color": "#418f9f",
+      "position": [
+        6.2,
+        3.7,
+        -99
+      ],
+      "radius": 0.55,
+      "height": 7.4,
+      "segments": 8,
+      "flatShading": true
+    },
+    {
+      "color": "#cedfdf",
+      "position": [
+        6.2,
+        7.45,
+        -99
+      ],
+      "size": [
+        1.7,
+        0.3,
+        1.7
+      ]
+    }
+  ],
+  "scenery": {
+    "leftDensity": 0.78,
+    "rightDensity": 0.78,
+    "sideX": 7.8
+  }
+}
