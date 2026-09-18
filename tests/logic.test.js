@@ -428,3 +428,29 @@ test('IPA Reader voices follow each history word language in every direction',()
   assert.deepEqual(urls.map(u=>u.searchParams.get('voice')),[voices[source],voices[answer],voices[answer]]);
  }
 });
+
+test('URL settings validate languages and maps without changing unrelated preferences',async()=>{
+ const {settingsFromQuery,configureLocations}=await import('../src/settings.js');
+ configureLocations(mapDefinitions.map(m=>m.id),manifest.default);
+ const base=normalizeSettings({music:false});
+ const result=settingsFromQuery(base,'?from=uz&to=ru&map=chimgan&music=true');
+ assert.equal(result.sourceLanguage,'uz');assert.equal(result.answerLanguage,'ru');
+ assert.equal(result.location,'chimgan');assert.equal(result.music,false);
+ assert.deepEqual(settingsFromQuery(base,'?from=bad&to=constructor&map=unknown'),base);
+ assert.deepEqual(settingsFromQuery(base,'?from=en&to=en'),base);
+ assert.deepEqual(settingsFromQuery(base,'?from=uz&from=en&map=park&map=museum'),base);
+ assert.equal(settingsFromQuery(base,'?to=uz').answerLanguage,'uz');
+ assert.equal(base.answerLanguage,'en');
+});
+test('share and clipboard include current pair and map and round-trip through URL settings',async()=>{
+ const {shareUrl,shareData}=await import('../src/share.js');
+ const {settingsFromQuery}=await import('../src/settings.js');
+ const prefs=normalizeSettings({sourceLanguage:'en',answerLanguage:'uz',location:'charvak'});
+ const url=shareUrl(prefs),parsed=new URL(url);
+ assert.equal(parsed.searchParams.get('from'),'en');assert.equal(parsed.searchParams.get('to'),'uz');assert.equal(parsed.searchParams.get('map'),'charvak');
+ assert.equal(shareData(2,prefs).url,url);
+ assert.equal(settingsFromQuery(normalizeSettings(),parsed.search).location,'charvak');
+ let sent;
+ await shareGame(2,{share:async data=>{sent=data.url;}},prefs);assert.equal(sent,url);
+ await shareGame(2,{clipboard:{writeText:async value=>{sent=value;}}},prefs);assert.equal(sent,url);
+});

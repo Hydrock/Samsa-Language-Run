@@ -1,4 +1,4 @@
-import {languagePair} from './languages.js';
+import {languagePair,languages} from './languages.js';
 let locationIds=['park','museum'],defaultLocation='museum';
 export function configureLocations(ids,defaultId){locationIds=[...ids];defaultLocation=defaultId;}
 export const gameModes = {
@@ -28,4 +28,15 @@ export function collectsWord(horizontalDistance, jumpHeight) {
 export function formatElapsed(seconds) {
   const total=Math.max(0,Math.floor(seconds));
   return `${String(Math.floor(total/60)).padStart(2,'0')}:${String(total%60).padStart(2,'0')}`;
+}
+
+// URL overrides only known fields; conflicting language pairs leave the pair unchanged.
+export function settingsFromQuery(current,search){
+ const result={...current},params=new URLSearchParams(search);
+ const from=params.getAll('from'),to=params.getAll('to'),map=params.getAll('map');
+ const source=from.length===1&&Object.hasOwn(languages,from[0])?from[0]:current.sourceLanguage;
+ const answer=to.length===1&&Object.hasOwn(languages,to[0])?to[0]:current.answerLanguage;
+ if(source!==answer){result.sourceLanguage=source;result.answerLanguage=answer;}
+ if(map.length===1&&locationIds.includes(map[0]))result.location=map[0];
+ return result;
 }

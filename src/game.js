@@ -1,11 +1,11 @@
 import {languages} from './languages.js';
 import {Pronunciation} from './speech.js';
-import {shareGame,gameShareUrl} from './share.js';
+import {shareGame,shareUrl} from './share.js';
 import {historyEntry,historyMarkup} from './history.js';
 import * as T from '../vendor/three.module.js';
 import {dictionary,chooseWord,nextCandidate,difficulty,updateScore,levelNames} from './logic.js';
 import {GameAudio} from './audio.js';
-import {gameModes,normalizeSettings,collectsWord,formatElapsed,configureLocations} from './settings.js';
+import {gameModes,normalizeSettings,settingsFromQuery,collectsWord,formatElapsed,configureLocations} from './settings.js';
 import {loadMaps} from './map-scene.js';
 import {obstacleAppearance} from './locations.js';
 import {createAtmosphere} from './atmosphere.js';
@@ -58,6 +58,11 @@ try {
   const saved=localStorage.getItem('samsa-run-settings');
   settings=normalizeSettings(saved?JSON.parse(saved):{muted:localStorage.getItem('samsa-run-muted')==='true'});
 } catch {}
+const querySettings=settingsFromQuery(settings,window.location.search);
+if(JSON.stringify(querySettings)!==JSON.stringify(settings)){
+ settings=querySettings;
+ try{localStorage.setItem('samsa-run-settings',JSON.stringify(settings));}catch{}
+}
 $('best').textContent=best;
 for(const id of ['setting-source-language','setting-answer-language']){
  $(id).replaceChildren(...Object.entries(languages).map(([code,data])=>new Option(data.label,code)));
@@ -187,14 +192,17 @@ function disposeEntity(e){scene.remove(e.obj);e.obj.traverse(o=>{if(o.material?.
 function clearEntities(){entities.forEach(disposeEntity);entities=[];}
 function start(){speech.stop();runHistory=[];document.activeElement?.blur();clearEntities();state='playing';document.body.className='playing';score=0;peak=0;starTime=0;lanePoseTime=0;lane=1;jumpY=0;velocity=0;elapsed=0;gameTime=0;updateAtmosphere(0,activeLocation.definition.indoors);distance=0;spawnTimer=.7;misses=0;target=chooseWord(0);player.position.x=0;$('feedback').textContent='';feedbackTime=0;refresh();soundtrack.step=0;soundtrack.unlock();soundtrack.setPlaying(true);}
 function modal(title,description,button){speech.stop();document.body.className=state==='over'?'paused game-over':'paused';$('overlay').innerHTML=`<section class="intro"><span class="eyebrow">SAMSA RUN · TOSHKENT</span><h1>${title}</h1><p>${description}</p>${historyMarkup(runHistory,speech.available&&!settings.muted&&settings.speechVolume>0)}<button id="resume" class="primary">${button}</button>${state==='over'?'<button id="random-location" class="primary random-location">Случайная локация</button><button id="share-game" class="primary share-game">Поделиться игрой</button><small id="share-status" role="status" aria-live="polite"></small><input id="share-link" aria-label="Ссылка на игру" readonly hidden>':''}<small class="fine">← → дорожки · Пробел / ↑ прыжок</small></section>`;$('resume').onclick=state==='over'?start:togglePause;if(state==='over'){$('random-location').onclick=startRandomLocation;$('share-game').onclick=shareResult;}$('resume').focus();}
-async function shareResult(){
-  const button=$('share-game'),status=$('share-status'),link=$('share-link');
-  button.disabled=true;status.textContent='';
+$('settings-share-game').onclick=()=>shareResult('settings-');
+async function shareResult(prefix=''){
+  if(typeof prefix!=='string')prefix='';
+  const button=$(prefix+'share-game'),status=$(prefix+'share-status'),link=$(prefix+'share-link');
+  button.disabled=true;status.textContent='';link.hidden=true;
+  const sharedSettings={...settings};
   try{
-    const result=await shareGame(peak);
+    const result=await shareGame(peak,navigator,sharedSettings);
     if(!button.isConnected)return;
     status.textContent={shared:'',cancelled:'',copied:'Ссылка скопирована — отправь её друзьям!',manual:'Скопируй ссылку и отправь друзьям:'}[result];
-    if(result==='manual'){link.hidden=false;link.value=gameShareUrl;link.focus();link.select();}
+    if(result==='manual'){link.hidden=false;link.value=shareUrl(sharedSettings);link.focus();link.select();}
   }finally{button.disabled=false;}
 }
 function startRandomLocation(){
