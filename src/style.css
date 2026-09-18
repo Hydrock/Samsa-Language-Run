@@ -42,8 +42,8 @@ html,body{height:100%;overscroll-behavior:none}button{touch-action:manipulation}
 @media(max-height:500px) and (orientation:landscape){#touch #left{order:0}#touch #right{order:1}#touch #jump{order:2}.playing footer .edition{visibility:hidden}}
 /* Compact mobile word card while preserving its top-left anchor. */
 @media(max-width:700px),(pointer:coarse),(max-width:1000px) and (max-height:500px){
- .word-panel{scale:.7;transform-origin:top left}
+ .word-panel{scale:.595;transform-origin:top left}
 }
 @media(min-width:701px) and (pointer:coarse),(max-height:500px) and (orientation:landscape){
- .word-panel{scale:none;transform:translateX(-50%) scale(.7);transform-origin:top center}
+ .word-panel{scale:none;transform:translateX(-50%) scale(.595);transform-origin:top center}
 }
