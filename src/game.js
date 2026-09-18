@@ -190,6 +190,9 @@ for(const [id,action] of [['left',()=>move(-1)],['right',()=>move(1)],['jump',ju
 function resize(){
   const {clientWidth:width,clientHeight:height}=$('game-shell');
   camera.aspect=width/height;camera.fov=width<700?60:48;camera.position.z=width<700?16:13;camera.updateProjectionMatrix();
+  // Lower the framing by 10% of the viewport; keep actors and collision points aligned.
+  const mobile=width<700||(matchMedia('(pointer: coarse)').matches&&width<1000);
+  if(mobile){camera.projectionMatrix.elements[9]+=.2;camera.projectionMatrixInverse.copy(camera.projectionMatrix).invert();}
   const portrait=height>width;
   renderer.setPixelRatio(Math.min(devicePixelRatio,2,(portrait?900:1280)/width,(portrait?1280:900)/height));
   renderer.setSize(width,height);
