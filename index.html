@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ru">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#163c35"><title>Samsa Run · Ташкент говорит English</title><link rel="stylesheet" href="./src/style.css"></head>
+<body>
+<main id="game" aria-label="Samsa Run — языковой раннер"></main>
+<header><a class="brand" href="./"><span class="brand-icon">△</span><span>SAMSA<span class="brand-light"> RUN</span><small>ТАШКЕНТ ГОВОРИТ ENGLISH</small></span></a><div class="top-actions"><button id="settings-button" aria-label="Настройки" title="Настройки">⚙</button><button id="pause" aria-label="Пауза">Ⅱ</button></div></header>
+<div id="hud"><div class="word-panel"><span class="eyebrow">НАЙДИ ПЕРЕВОД · RU → EN</span><strong id="target">Кошка</strong><span id="target-ipa" class="transcription" lang="ru"></span><span id="level">01 / ПЕРВЫЕ СЛОВА</span></div><div class="score-panel"><span class="eyebrow">ТВОЙ СЧЁТ</span><strong id="score">0</strong><small>♛ РЕКОРД <b id="best">0</b></small><div class="run-timer" title="Время активного забега"><span aria-hidden="true">◷</span> <time id="run-time" aria-label="Время забега" datetime="PT0S">00:00</time></div></div></div>
+<div class="location"><span class="live-dot"></span> TOSHKENT <span> / </span> ПАРК · <b id="time-of-day">УТРО</b></div>
+<div id="feedback" role="status" aria-live="polite"></div>
+<div id="overlay" class="overlay"><section class="intro"><span class="eyebrow">МАЛЕНЬКОЕ ПРИКЛЮЧЕНИЕ. НОВЫЕ СЛОВА.</span><h1>Беги, самса.<br><em>Говори English.</em></h1><p>Солнечный Ташкент, три дорожки<br>и английский по пути.</p><div class="rules"><span><b>01</b> Читай русское слово сверху</span><span><b>02</b> Лови верный перевод <i>+1</i></span><span><b>03</b> Обходи людей, прыгай через барьеры</span></div><button id="start" class="primary">Побежали <span class="button-arrow" aria-hidden="true">↗</span></button><small class="fine">Неверное слово или столкновение: −1.<br>Счёт ниже нуля — забег окончен.</small></section><div class="intro-stamp">СВЕЖАЯ САМСА<br><b>100%</b><br>ЖАЖДА ЗНАНИЙ</div></div>
+<footer><span class="edition">✳ СЛОВА В ДВИЖЕНИИ</span><div class="keyboard"><kbd>←</kbd><kbd>→</kbd> дорожки <kbd>ПРОБЕЛ</kbd> прыжок <kbd>ESC</kbd> пауза</div><span id="distance">0 м</span></footer>
+<div id="touch"><button id="left" aria-label="Влево">←</button><button id="jump" aria-label="Прыжок">↑</button><button id="right" aria-label="Вправо">→</button></div>
+<dialog id="settings-dialog" aria-labelledby="settings-title">
+  <form method="dialog" class="settings-card">
+    <span class="eyebrow">SAMSA RUN · ПОД ТВОЙ РИТМ</span>
+    <h2 id="settings-title">Настройки</h2>
+    <p>Забег на паузе. Изменения сохраняются сразу.</p>
+    <label class="setting-toggle"><span>Звук<small>Все звуки игры, включая музыку</small></span><input id="setting-sound" type="checkbox"></label>
+    <label class="setting-toggle"><span>Фоновая музыка<small>Можно отключить отдельно от эффектов</small></span><input id="setting-music" type="checkbox"></label>
+    <label class="setting-toggle"><span>Транскрипция<small>Произношение русских и английских слов · IPA</small></span><input id="setting-transcription" type="checkbox" checked></label>
+    <label class="setting-field" for="setting-track">Композиция</label>
+    <select id="setting-track"><option value="morning">Утро в Ташкенте · спокойная</option><option value="evening">Вечер на Чорсу · ритмичная</option><option value="silkroad">Шёлковый путь · прогулочная</option></select>
+    <label class="setting-field" for="setting-mode">Сложность игры</label>
+    <select id="setting-mode"><option value="easy">Лёгкая</option><option value="normal">Обычная</option><option value="hard">Сложная</option></select>
+    <small id="mode-description"></small>
+    <p class="settings-tip">Перепрыгивай слова, которые не хочешь брать: без очков и штрафа. Музыка продолжится вместе с забегом.</p>
+    <button class="primary" id="settings-close">Вернуться к игре ↗</button>
+  </form>
+</dialog>
+<script type="module" src="./src/game.js"></script>
+</body></html>
