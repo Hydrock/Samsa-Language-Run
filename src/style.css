@@ -66,8 +66,8 @@ body{height:100dvh;display:grid;place-items:center;background-color:#173f39;back
 #touch{position:absolute}
 
 /* Museum lighting stays warm throughout the day cycle. */
-body[data-location="museum"] header,body[data-location="museum"] footer,body[data-location="museum"] .location,body[data-location="museum"] .score-panel{color:#163c35}
-body[data-location="museum"] .score-panel small,body[data-location="museum"] .keyboard{color:#557167}
+body[data-indoors="true"] header,body[data-indoors="true"] footer,body[data-indoors="true"] .location,body[data-indoors="true"] .score-panel{color:#163c35}
+body[data-indoors="true"] .score-panel small,body[data-indoors="true"] .keyboard{color:#557167}
 .location #location-name{opacity:1}
 
 /* Pause history has its own scroll area; the resume action remains reachable. */
@@ -83,3 +83,5 @@ body.paused .intro>.primary,body.paused .intro>.fine{flex-shrink:0}
 .history-meta{display:flex;justify-content:space-between;gap:12px;font-size:12px;margin-bottom:8px}.history-meta time{color:#63766c}
 .history-pair{display:grid;grid-template-columns:1fr 1fr;gap:12px}.history-ipa{display:block;font-size:12px;color:#63766c;margin-top:3px}.history-choice{margin-top:8px}.history-empty{font-size:13px!important}
 @media(max-height:500px){body.paused .overlay{padding:58px 12px 12px}body.paused .intro{padding:12px 18px}body.paused .intro h1{font-size:24px;margin:4px 0}body.paused .intro>.eyebrow,body.paused .intro>.fine{display:none}.run-history{margin-bottom:8px}}
+
+.volume-label{display:flex;justify-content:space-between;gap:12px}.volume-label output{font-weight:400;font-variant-numeric:tabular-nums}#setting-volume{width:100%;margin:0;min-height:32px;accent-color:#285c46;cursor:pointer}#setting-volume:focus-visible{outline:2px solid #b9703b;outline-offset:3px}

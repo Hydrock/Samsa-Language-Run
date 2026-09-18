@@ -1,5 +1,9 @@
 import {historyEntry,historyMarkup} from '../src/history.js';
-import {obstacleAppearance} from '../src/locations.js';
+import {obstacleAppearance,validateMaps,decorationSlots} from '../src/locations.js';
+import {readFileSync} from 'node:fs';
+const manifest=JSON.parse(readFileSync(new URL('../src/maps/index.json',import.meta.url)));
+const mapDefinitions=manifest.maps.map(file=>JSON.parse(readFileSync(new URL(`../src/maps/${file}`,import.meta.url))));
+const mapById=Object.fromEntries(mapDefinitions.map(map=>[map.id,map]));
 import test from 'node:test';import assert from 'node:assert/strict';
 import {characterPose} from '../src/character.js';
 test('running frames alternate with distance, stay frozen on pause and yield to jumps',()=>{
@@ -110,7 +114,7 @@ test('harder modes increase speed, obstacles and expected word frequency',()=>{
   }
 });
 test('settings survive serialization and invalid saved values use defaults',()=>{
-  const preferences={muted:true,music:false,autoMusic:true,track:'evening',mode:'hard',transcription:false,location:'museum'};
+  const preferences={musicVolume:.3,muted:true,music:false,autoMusic:true,track:'evening',mode:'hard',transcription:false,location:'museum'};
   assert.deepEqual(normalizeSettings(JSON.parse(JSON.stringify(preferences))),preferences);
   assert.deepEqual(normalizeSettings({track:'invalid',mode:'toString'}),normalizeSettings());
   assert.deepEqual(normalizeSettings(null),normalizeSettings());
@@ -142,10 +146,10 @@ test('five points unlock each tier and losing points lowers it',()=>{
    assert.equal(normalizeSettings({location:'park'}).location,'park');
    assert.equal(normalizeSettings({location:'unknown'}).location,'museum');
    for(let i=0;i<5;i++){
-     assert.ok(['guide','photographer','guard'].includes(obstacleAppearance('museum','person',i).name));
-     assert.ok(['rope','crate'].includes(obstacleAppearance('museum','barrier',i).name));
+     assert.ok(['guide','photographer','guard'].includes(obstacleAppearance(mapById.museum,'person',i).name));
+     assert.ok(['rope','crate'].includes(obstacleAppearance(mapById.museum,'barrier',i).name));
    }
-   assert.equal(obstacleAppearance('park','person',0).name,'scooter');
+   assert.equal(obstacleAppearance(mapById.park,'person',0).name,'scooter');
  });
 
 test('MP3 loads only when selected and playing, pauses and releases on switching',async()=>{
@@ -198,4 +202,36 @@ test('synthesized arrangements advance after four complete phrases',()=>{
  audio.configure({track:'morning',music:true,muted:false,autoMusic:true});audio.setPlaying(true);
  try{audio.step=128;audio.nextTime=1;audio.context.currentTime=1.4;audio.schedule();assert.equal(audio.settings.track,'morning');
  audio.context.currentTime=1.6;audio.schedule();assert.equal(audio.settings.track,'evening');}finally{audio.setPlaying(false);}
+});
+
+test('JSON maps share density and obstacle counts with valid atlas references',()=>{
+ assert.equal(validateMaps(manifest,mapDefinitions),mapDefinitions);
+ const slots=decorationSlots(manifest.layout);
+ assert.equal(slots.length,36);
+ for(const side of [-1,1]){
+  const row=slots.filter(s=>Math.sign(s.x)===side);
+  assert.equal(row.length,18);assert.equal(new Set(row.map(s=>s.variant)).size,5);
+  for(let i=1;i<row.length;i++)assert.equal(row[i-1].z-row[i].z,7);
+ }
+ for(const m of mapDefinitions){
+  assert.equal(m.decor.length,5);assert.equal(m.obstacles.barrier.length,2);assert.equal(m.obstacles.person.length,3);
+  for(const s of Object.values(m.sprites))assert.ok(readFileSync(new URL(`../src/assets/${s.file}`,import.meta.url)).length>0);
+ }
+ const broken=structuredClone(mapDefinitions);broken[0].decor.pop();assert.throws(()=>validateMaps(manifest,broken),/expected 5 decor/);
+ const missing=structuredClone(mapDefinitions);missing[0].obstacles.person[0].sprite='missing';assert.throws(()=>validateMaps(manifest,missing),/sprite reference/);
+ const added=structuredClone(mapDefinitions[0]);added.id='new-map';added.label='New map';
+ assert.equal(validateMaps(manifest,[...mapDefinitions,added]).length,3);
+});
+
+test('music volume is bounded, persists, and leaves effect master gain unchanged',()=>{
+ assert.equal(normalizeSettings().musicVolume,.3);
+ assert.equal(normalizeSettings({musicVolume:0}).musicVolume,0);
+ assert.equal(normalizeSettings({musicVolume:2}).musicVolume,1);
+ assert.equal(normalizeSettings({musicVolume:-1}).musicVolume,0);
+ assert.equal(normalizeSettings({musicVolume:'bad'}).musicVolume,.3);
+ const audio=new GameAudio();audio.master={gain:{value:1}};audio.musicGain={gain:{value:1}};
+ audio.media={volume:.3,pause(){}};
+ audio.configure({track:'main',music:true,muted:false,musicVolume:.15});
+ assert.equal(audio.media.volume,.15);assert.equal(audio.musicGain.gain.value,.5);assert.equal(audio.master.gain.value,1);
+ audio.configure({...audio.settings,musicVolume:0});assert.equal(audio.media.volume,0);assert.equal(audio.musicGain.gain.value,0);assert.equal(audio.master.gain.value,1);
 });

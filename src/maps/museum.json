@@ -1,0 +1,299 @@
+{
+  "id": "museum",
+  "label": "Музей Узбекистана",
+  "title": "МУЗЕЙ",
+  "indoors": true,
+  "description": "Узбекские сокровища, три дорожки и английский среди экспонатов.",
+  "collisionHint": "Обходи посетителей и сотрудников",
+  "colors": {
+    "ground": "#d6c4aa",
+    "road": "#b28360",
+    "line": "#e9c991"
+  },
+  "sprites": {
+    "ceramics": {
+      "file": "museum-exhibits.png",
+      "rect": [
+        57,
+        66,
+        340,
+        601
+      ],
+      "reference": [
+        2048,
+        683
+      ]
+    },
+    "suzani": {
+      "file": "museum-exhibits.png",
+      "rect": [
+        493,
+        34,
+        380,
+        605
+      ],
+      "reference": [
+        2048,
+        683
+      ]
+    },
+    "column": {
+      "file": "museum-exhibits.png",
+      "rect": [
+        916,
+        9,
+        247,
+        658
+      ],
+      "reference": [
+        2048,
+        683
+      ]
+    },
+    "chapan": {
+      "file": "museum-exhibits.png",
+      "rect": [
+        1247,
+        35,
+        356,
+        632
+      ],
+      "reference": [
+        2048,
+        683
+      ]
+    },
+    "dutar": {
+      "file": "museum-exhibits.png",
+      "rect": [
+        1702,
+        5,
+        255,
+        662
+      ],
+      "reference": [
+        2048,
+        683
+      ]
+    },
+    "guide": {
+      "file": "museum-visitors.png",
+      "rect": [
+        47,
+        37,
+        296,
+        619
+      ],
+      "reference": [
+        2048,
+        683
+      ]
+    },
+    "photographer": {
+      "file": "museum-visitors.png",
+      "rect": [
+        417,
+        39,
+        316,
+        617
+      ],
+      "reference": [
+        2048,
+        683
+      ]
+    },
+    "guard": {
+      "file": "museum-visitors.png",
+      "rect": [
+        800,
+        31,
+        308,
+        625
+      ],
+      "reference": [
+        2048,
+        683
+      ]
+    },
+    "rope": {
+      "file": "museum-visitors.png",
+      "rect": [
+        1172,
+        343,
+        403,
+        313
+      ],
+      "reference": [
+        2048,
+        683
+      ]
+    },
+    "crate": {
+      "file": "museum-visitors.png",
+      "rect": [
+        1605,
+        375,
+        416,
+        281
+      ],
+      "reference": [
+        2048,
+        683
+      ]
+    }
+  },
+  "decor": [
+    {
+      "sprite": "ceramics",
+      "height": 4.6
+    },
+    {
+      "sprite": "suzani",
+      "height": 4.6
+    },
+    {
+      "sprite": "column",
+      "height": 4.6
+    },
+    {
+      "sprite": "chapan",
+      "height": 4.6
+    },
+    {
+      "sprite": "dutar",
+      "height": 4.6
+    }
+  ],
+  "obstacles": {
+    "barrier": [
+      {
+        "sprite": "rope",
+        "height": 1
+      },
+      {
+        "sprite": "crate",
+        "height": 1.15
+      }
+    ],
+    "person": [
+      {
+        "sprite": "guide",
+        "height": 2.3
+      },
+      {
+        "sprite": "photographer",
+        "height": 2.3
+      },
+      {
+        "sprite": "guard",
+        "height": 2.3
+      }
+    ]
+  },
+  "environment": [
+    {
+      "color": "#e9d9be",
+      "position": [
+        -11.5,
+        5,
+        -48
+      ],
+      "size": [
+        0.4,
+        10,
+        145
+      ]
+    },
+    {
+      "color": "#407c78",
+      "position": [
+        -11.27,
+        1.2,
+        -48
+      ],
+      "size": [
+        0.08,
+        2.4,
+        145
+      ]
+    },
+    {
+      "color": "#c59c61",
+      "position": [
+        -11.22,
+        2.45,
+        -48
+      ],
+      "size": [
+        0.1,
+        0.12,
+        145
+      ]
+    },
+    {
+      "color": "#e9d9be",
+      "position": [
+        11.5,
+        5,
+        -48
+      ],
+      "size": [
+        0.4,
+        10,
+        145
+      ]
+    },
+    {
+      "color": "#407c78",
+      "position": [
+        11.27,
+        1.2,
+        -48
+      ],
+      "size": [
+        0.08,
+        2.4,
+        145
+      ]
+    },
+    {
+      "color": "#c59c61",
+      "position": [
+        11.22,
+        2.45,
+        -48
+      ],
+      "size": [
+        0.1,
+        0.12,
+        145
+      ]
+    },
+    {
+      "color": "#e4d1b3",
+      "position": [
+        0,
+        5,
+        -115
+      ],
+      "size": [
+        24,
+        10,
+        0.3
+      ]
+    },
+    {
+      "color": "#d1b891",
+      "position": [
+        0,
+        10,
+        -48
+      ],
+      "size": [
+        24,
+        0.2,
+        145
+      ]
+    }
+  ]
+}

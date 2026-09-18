@@ -1,0 +1,14 @@
+{
+  "default": "museum",
+  "layout": {
+    "rows": 18,
+    "spacing": 7,
+    "sideX": 7.5,
+    "startZ": 8,
+    "wrapZ": 17
+  },
+  "maps": [
+    "park.json",
+    "museum.json"
+  ]
+}
