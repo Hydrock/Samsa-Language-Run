@@ -21,6 +21,8 @@ export class GameAudio {
         this.context = new (window.AudioContext || window.webkitAudioContext)();
         this.master = this.context.createGain();
         this.master.connect(this.context.destination);
+        this.effectsGain=this.context.createGain();
+        this.effectsGain.connect(this.master);
         this.musicGain=this.context.createGain();
         this.musicGain.connect(this.master);
       }
@@ -30,7 +32,8 @@ export class GameAudio {
   }
   configure(settings) {
     const changedTrack = settings.track !== this.settings.track;
-    this.settings = { ...settings, musicVolume: Number.isFinite(settings.musicVolume) ? Math.max(0,Math.min(1,settings.musicVolume)) : .3 };
+    this.settings = { ...settings, effectsVolume: Number.isFinite(settings.effectsVolume) ? Math.max(0,Math.min(1,settings.effectsVolume)) : 1, musicVolume: Number.isFinite(settings.musicVolume) ? Math.max(0,Math.min(1,settings.musicVolume)) : .3 };
+    if(this.effectsGain)this.effectsGain.gain.value=this.settings.effectsVolume;
     if(this.musicGain)this.musicGain.gain.value=this.settings.musicVolume/.3;
     this.updateMediaVolume();
     if (this.master) this.master.gain.value = settings.muted ? 0 : 1;
@@ -122,7 +125,7 @@ export class GameAudio {
     gain.gain.setValueAtTime(0, time);
     gain.gain.linearRampToValueAtTime(volume, time + .012);
     gain.gain.exponentialRampToValueAtTime(.0001, time + duration);
-    osc.connect(gain); gain.connect(music ? (this.musicGain || this.master) : this.master);
+    osc.connect(gain); gain.connect(music ? (this.musicGain || this.master) : (this.effectsGain || this.master));
     const voice = { osc, music }; this.voices.add(voice);
     osc.onended = () => { osc.disconnect(); gain.disconnect(); this.voices.delete(voice); };
     osc.start(time); osc.stop(time + duration + .02);

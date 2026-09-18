@@ -1,3 +1,4 @@
+import {shareGame,gameShareUrl} from './share.js';
 import {historyEntry,historyMarkup} from './history.js';
 import * as T from '../vendor/three.module.js';
 import {dictionary,chooseWord,nextCandidate,difficulty,updateScore,levelNames} from './logic.js';
@@ -85,6 +86,8 @@ $('settings-button').onclick=()=>{
   $('setting-auto-music').checked=settings.autoMusic;
   $('setting-transcription').checked=settings.transcription;
   $('setting-track').value=settings.track;
+  $('setting-effects-volume').value=Math.round(settings.effectsVolume*100);
+  $('effects-volume-value').textContent=`${Math.round(settings.effectsVolume*100)}%`;
   $('setting-volume').value=Math.round(settings.musicVolume*100);
   $('music-volume-value').textContent=`${Math.round(settings.musicVolume*100)}%`;
   $('setting-mode').value=settings.mode;
@@ -100,13 +103,21 @@ function updateMusicVolume(){
 $('setting-volume').addEventListener('input',updateMusicVolume);
 $('setting-volume').addEventListener('change',updateMusicVolume);
 $('setting-volume').addEventListener('pointerdown',()=>soundtrack.unlock());
+function updateEffectsVolume(){
+  settings=normalizeSettings({...settings,effectsVolume:Number($('setting-effects-volume').value)/100});
+  $('effects-volume-value').textContent=`${Math.round(settings.effectsVolume*100)}%`;
+  saveSettings();
+}
+$('setting-effects-volume').addEventListener('input',updateEffectsVolume);
+$('setting-effects-volume').addEventListener('change',updateEffectsVolume);
+$('setting-effects-volume').addEventListener('pointerdown',()=>soundtrack.unlock());
 for(const id of ['setting-sound','setting-music','setting-auto-music','setting-track','setting-mode','setting-transcription','setting-location']){
   $(id).onchange=()=>{
     soundtrack.unlock();
     const previousMode=settings.mode;
     const previousLocation=settings.location;
     const previousTranscription=settings.transcription;
-    settings=normalizeSettings({musicVolume:Number($('setting-volume').value)/100,muted:!$('setting-sound').checked,music:$('setting-music').checked,autoMusic:$('setting-auto-music').checked,transcription:$('setting-transcription').checked,track:$('setting-track').value,mode:$('setting-mode').value,location:$('setting-location').value});
+    settings=normalizeSettings({effectsVolume:Number($('setting-effects-volume').value)/100,musicVolume:Number($('setting-volume').value)/100,muted:!$('setting-sound').checked,music:$('setting-music').checked,autoMusic:$('setting-auto-music').checked,transcription:$('setting-transcription').checked,track:$('setting-track').value,mode:$('setting-mode').value,location:$('setting-location').value});
     if(settings.mode!==previousMode)spawnTimer=gameModes[settings.mode].gap;
     if(previousLocation!==settings.location)applyLocation();
     saveSettings();describeMode();refresh();
@@ -123,7 +134,26 @@ function refresh(){refreshTimer();$('target-ipa').textContent=target.ruIPA?`[${t
 function disposeEntity(e){scene.remove(e.obj);e.obj.traverse(o=>{if(o.material?.userData.shared)return;if(o.geometry)o.geometry.dispose();if(o.material?.map){o.material.map.dispose();o.material.dispose();}});}
 function clearEntities(){entities.forEach(disposeEntity);entities=[];}
 function start(){runHistory=[];document.activeElement?.blur();clearEntities();state='playing';document.body.className='playing';score=0;peak=0;starTime=0;lanePoseTime=0;lane=1;jumpY=0;velocity=0;elapsed=0;gameTime=0;updateAtmosphere(0,activeLocation.definition.indoors);distance=0;spawnTimer=.7;misses=0;target=chooseWord(0);player.position.x=0;$('feedback').textContent='';feedbackTime=0;refresh();soundtrack.step=0;soundtrack.unlock();soundtrack.setPlaying(true);}
-function modal(title,description,button){document.body.className=state==='over'?'paused game-over':'paused';$('overlay').innerHTML=`<section class="intro"><span class="eyebrow">SAMSA RUN · TOSHKENT</span><h1>${title}</h1><p>${description}</p>${historyMarkup(runHistory)}<button id="resume" class="primary">${button}</button><small class="fine">← → дорожки · Пробел / ↑ прыжок</small></section>`;$('resume').onclick=state==='over'?start:togglePause;$('resume').focus();}
+function modal(title,description,button){document.body.className=state==='over'?'paused game-over':'paused';$('overlay').innerHTML=`<section class="intro"><span class="eyebrow">SAMSA RUN · TOSHKENT</span><h1>${title}</h1><p>${description}</p>${historyMarkup(runHistory)}<button id="resume" class="primary">${button}</button>${state==='over'?'<button id="random-location" class="primary random-location">Случайная локация</button><button id="share-game" class="primary share-game">Поделиться игрой</button><small id="share-status" role="status" aria-live="polite"></small><input id="share-link" aria-label="Ссылка на игру" readonly hidden>':''}<small class="fine">← → дорожки · Пробел / ↑ прыжок</small></section>`;$('resume').onclick=state==='over'?start:togglePause;if(state==='over'){$('random-location').onclick=startRandomLocation;$('share-game').onclick=shareResult;}$('resume').focus();}
+async function shareResult(){
+  const button=$('share-game'),status=$('share-status'),link=$('share-link');
+  button.disabled=true;status.textContent='';
+  try{
+    const result=await shareGame(peak);
+    if(!button.isConnected)return;
+    status.textContent={shared:'',cancelled:'',copied:'Ссылка скопирована — отправь её друзьям!',manual:'Скопируй ссылку и отправь друзьям:'}[result];
+    if(result==='manual'){link.hidden=false;link.value=gameShareUrl;link.focus();link.select();}
+  }finally{button.disabled=false;}
+}
+function startRandomLocation(){
+  if(state!=='over')return;
+  const ids=[...maps.locations.keys()];
+  settings.location=ids[Math.floor(Math.random()*ids.length)];
+  clearEntities();
+  applyLocation();
+  saveSettings();
+  start();
+}
 function togglePause(){if(state==='playing'){state='paused';soundtrack.setPlaying(false);modal('Передохнём?','Самса набирается сил.<br>Твой забег продолжится с этого места.','Продолжить ↗');}else if(state==='paused'){state='playing';soundtrack.setPlaying(true);document.activeElement?.blur();document.body.className='playing';}}
 $('start').onclick=start;$('pause').onclick=togglePause;document.addEventListener('visibilitychange',()=>{if(document.hidden&&state==='playing')togglePause();});
 function change(delta,reason){if(delta>0)starTime=1.4;const result=updateScore(score,delta);const previousLevel=difficulty(score);score=result.score;if(delta<0&&score>=0&&difficulty(score)<previousLevel){target=chooseWord(score,target.en);misses=0;}peak=Math.max(peak,score);if(peak>best){best=peak;try{localStorage.setItem('samsa-run-best',String(best));}catch{}}$('feedback').className=delta>0?'good':'bad';$('feedback').innerHTML=`${delta>0?'✦ +1 ✦':'−1'}<small>${reason}</small>`;feedbackTime=1.8;sound(delta>0);refresh();if(result.gameOver){state='over';entities.forEach(entity=>entity.obj.visible=false);lanePoseTime=0;starTime=0;jumpY=0;velocity=0;player.position.y=0;soundtrack.setPlaying(false);modal('Ещё один кружок? ',`Максимум за забег: <b>${peak}</b> · Рекорд: <b>${best}</b><br>${reason}<br><small>Счёт упал ниже нуля. Новые слова уже ждут!</small>`,'Бежать снова ↗');}}

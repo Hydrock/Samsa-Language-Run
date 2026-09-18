@@ -1,3 +1,4 @@
+import {shareGame,gameShareUrl} from '../src/share.js';
 import {historyEntry,historyMarkup} from '../src/history.js';
 import {obstacleAppearance,validateMaps,decorationSlots} from '../src/locations.js';
 import {readFileSync} from 'node:fs';
@@ -114,7 +115,7 @@ test('harder modes increase speed, obstacles and expected word frequency',()=>{
   }
 });
 test('settings survive serialization and invalid saved values use defaults',()=>{
-  const preferences={musicVolume:.3,muted:true,music:false,autoMusic:true,track:'evening',mode:'hard',transcription:false,location:'museum'};
+  const preferences={effectsVolume:1,musicVolume:.3,muted:true,music:false,autoMusic:true,track:'evening',mode:'hard',transcription:false,location:'museum'};
   assert.deepEqual(normalizeSettings(JSON.parse(JSON.stringify(preferences))),preferences);
   assert.deepEqual(normalizeSettings({track:'invalid',mode:'toString'}),normalizeSettings());
   assert.deepEqual(normalizeSettings(null),normalizeSettings());
@@ -247,4 +248,26 @@ test('MP3 volume uses Web Audio even when iOS ignores element volume',()=>{
  audio.setPlaying(false);audio.setPlaying(true);assert.equal(sources,1);
  const old=audio.mediaSource;audio.configure({...audio.settings,track:'folk',musicVolume:.7});assert.equal(old.disconnected,true);assert.equal(audio.mediaGain.gain.value,.7);assert.equal(sources,2);
  audio.setPlaying(false);audio.releaseMedia();
+});
+
+test('effects volume defaults to existing loudness and controls only the effects bus',()=>{
+ assert.equal(normalizeSettings().effectsVolume,1);
+ for(const [input,expected] of [[0,0],[.4,.4],[-1,0],[2,1],['bad',1]])assert.equal(normalizeSettings({effectsVolume:input}).effectsVolume,expected);
+ const audio=new GameAudio();audio.master={gain:{value:1}};audio.musicGain={gain:{value:1}};audio.effectsGain={gain:{value:1}};
+ audio.configure({track:'folk',music:true,muted:false,musicVolume:.3,effectsVolume:0});
+ assert.equal(audio.effectsGain.gain.value,0);assert.equal(audio.musicGain.gain.value,1);assert.equal(audio.master.gain.value,1);
+ audio.configure({...audio.settings,effectsVolume:.45,muted:true});assert.equal(audio.effectsGain.gain.value,.45);assert.equal(audio.master.gain.value,0);
+ const saved=normalizeSettings(JSON.parse(JSON.stringify(audio.settings)));assert.equal(saved.effectsVolume,.45);
+ let destination;
+ audio.context={createOscillator:()=>({frequency:{},connect(){},start(){},stop(){}}),createGain:()=>({gain:{setValueAtTime(){},linearRampToValueAtTime(){},exponentialRampToValueAtTime(){}},connect(to){destination=to;}})};
+ audio.note(60,0,.1,.1,'sine',false);assert.equal(destination,audio.effectsGain);
+ audio.note(60,0,.1,.1,'sine',true);assert.equal(destination,audio.musicGain);
+});
+
+test('sharing sends the public game link, handles cancellation and clipboard fallback',async()=>{
+ let payload;assert.equal(await shareGame(12,{share:async data=>{payload=data;}}),'shared');assert.equal(payload.url,gameShareUrl);assert.ok(payload.text.includes('12'));
+ let copied=false;
+ assert.equal(await shareGame(2,{share:async()=>{throw {name:'AbortError'};},clipboard:{writeText:async()=>{copied=true;}}}),'cancelled');assert.equal(copied,false);
+ assert.equal(await shareGame(0,{clipboard:{writeText:async url=>{assert.equal(url,gameShareUrl);}}}),'copied');
+ assert.equal(await shareGame(0,{share:async()=>{throw Error('unavailable');}}),'manual');
 });

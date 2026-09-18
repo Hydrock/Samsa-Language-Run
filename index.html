@@ -17,14 +17,16 @@
     <h2 id="settings-title">Настройки</h2>
     <p>Забег на паузе. Изменения сохраняются сразу.</p>
     <label class="setting-toggle"><span>Звук<small>Все звуки игры, включая музыку</small></span><input id="setting-sound" type="checkbox"></label>
+    <label class="setting-field volume-label" for="setting-effects-volume">Громкость звуков <output id="effects-volume-value" for="setting-effects-volume">100%</output></label>
+    <input id="setting-effects-volume" type="range" min="0" max="100" step="1" value="100">
     <label class="setting-toggle"><span>Фоновая музыка<small>Можно отключить отдельно от эффектов</small></span><input id="setting-music" type="checkbox"></label>
-    <label class="setting-toggle"><span>Транскрипция<small>Произношение русских и английских слов · IPA</small></span><input id="setting-transcription" type="checkbox" checked></label>
-    <label class="setting-field" for="setting-location">Локация</label>
-    <select id="setting-location"><option value="park">Ташкентский парк</option><option value="museum" selected>Музей Узбекистана</option></select>
-    <label class="setting-field" for="setting-track">Композиция</label>
-    <select id="setting-track"><option value="main">Парк</option><option value="folk" selected>Фолк</option><option value="morning">Утро в Ташкенте · спокойная</option><option value="evening">Вечер на Чорсу · ритмичная</option><option value="silkroad">Шёлковый путь · прогулочная</option></select>
     <label class="setting-field volume-label" for="setting-volume">Громкость музыки <output id="music-volume-value" for="setting-volume">30%</output></label>
     <input id="setting-volume" type="range" min="0" max="100" step="1" value="30">
+    <label class="setting-toggle"><span>Транскрипция<small>Произношение русских и английских слов · IPA</small></span><input id="setting-transcription" type="checkbox" checked></label>
+    <label class="setting-field" for="setting-track">Композиция</label>
+    <select id="setting-track"><option value="main">Парк</option><option value="folk" selected>Фолк</option><option value="morning">Утро в Ташкенте · спокойная</option><option value="evening">Вечер на Чорсу · ритмичная</option><option value="silkroad">Шёлковый путь · прогулочная</option></select>
+    <label class="setting-field" for="setting-location">Локация</label>
+    <select id="setting-location"><option value="park">Ташкентский парк</option><option value="museum" selected>Музей Узбекистана</option></select>
     <label class="setting-toggle"><span>Автоматическая смена музыки<small>Все композиции по очереди, затем снова по кругу</small></span><input id="setting-auto-music" type="checkbox"></label>
     <label class="setting-field" for="setting-mode">Сложность игры</label>
     <select id="setting-mode"><option value="easy">Лёгкая</option><option value="normal">Обычная</option><option value="hard">Сложная</option></select>
