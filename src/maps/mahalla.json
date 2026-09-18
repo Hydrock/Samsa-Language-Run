@@ -1457,8 +1457,8 @@
     }
   ],
   "scenery": {
-    "leftDensity": 0.6,
-    "rightDensity": 0.6,
+    "leftDensity": 0.5,
+    "rightDensity": 0.5,
     "sideX": 9.5
   }
 }

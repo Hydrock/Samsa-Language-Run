@@ -285,7 +285,7 @@ test('scenery density is independent per side and evenly wraps over the shared c
   assert.throws(()=>validateMaps(manifest,maps),/scenery density/);
  }
  const mahalla=mapDefinitions.find(m=>m.id==='mahalla');
- assert.equal(decorationSlots(manifest.layout,mahalla.scenery).length,22);
+ assert.equal(decorationSlots(manifest.layout,mahalla.scenery).length,18);
  for(const d of mahalla.decor){
   const [, ,w,h]=mahalla.sprites[d.sprite].rect;
   assert.ok(mahalla.scenery.sideX-d.height*w/h/2>5.8,'decor must clear the outer canal bank');
