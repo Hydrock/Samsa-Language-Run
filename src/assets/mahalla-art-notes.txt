@@ -1,0 +1,3 @@
+Houses: built-in ImageGen edit of user-provided houses.png.
+Prompt: Edit target: attached atlas of five low old Tashkent mahalla house facades. Remove ONLY white exterior background and make it truly transparent alpha. Preserve all five houses, grapevine foliage, outlines, paving plinths, colors and approximate original 3-on-top 2-on-bottom composition, with generous transparent gaps. No white backdrop, no checkerboard painted in, no text. This is a transparent game sprite atlas. Keep each entire house isolated and uncropped.
+Output: mahalla-houses.png. People: user-provided mahalla.png copied as mahalla-people.png. Atlas regions are selected by the map JSON, originals are unmodified.

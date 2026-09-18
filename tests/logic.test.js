@@ -205,7 +205,7 @@ test('synthesized arrangements advance after four complete phrases',()=>{
  audio.context.currentTime=1.6;audio.schedule();assert.equal(audio.settings.track,'evening');}finally{audio.setPlaying(false);}
 });
 
-test('JSON maps share density and obstacle counts with valid atlas references',()=>{
+test('JSON maps share default layout and obstacle counts with valid atlas references',()=>{
  assert.equal(validateMaps(manifest,mapDefinitions),mapDefinitions);
  const slots=decorationSlots(manifest.layout);
  assert.equal(slots.length,36);
@@ -270,4 +270,24 @@ test('sharing sends the public game link, handles cancellation and clipboard fal
  assert.equal(await shareGame(2,{share:async()=>{throw {name:'AbortError'};},clipboard:{writeText:async()=>{copied=true;}}}),'cancelled');assert.equal(copied,false);
  assert.equal(await shareGame(0,{clipboard:{writeText:async url=>{assert.equal(url,gameShareUrl);}}}),'copied');
  assert.equal(await shareGame(0,{share:async()=>{throw Error('unavailable');}}),'manual');
+});
+
+test('scenery density is independent per side and evenly wraps over the shared cycle',()=>{
+ const slots=decorationSlots(manifest.layout,{leftDensity:.5,rightDensity:0,sideX:9.5});
+ assert.equal(slots.length,9);
+ assert.ok(slots.every(s=>s.x===-9.5));
+ const cycle=manifest.layout.rows*manifest.layout.spacing;
+ for(let i=1;i<slots.length;i++)assert.equal(slots[i-1].z-slots[i].z,14);
+ assert.equal(slots.at(-1).z+cycle-slots[0].z,14);
+ assert.equal(decorationSlots(manifest.layout,{leftDensity:0,rightDensity:1}).length,18);
+ for(const value of [-.1,1.1,'0.5',null]){
+  const maps=structuredClone(mapDefinitions);maps[0].scenery={leftDensity:value};
+  assert.throws(()=>validateMaps(manifest,maps),/scenery density/);
+ }
+ const mahalla=mapDefinitions.find(m=>m.id==='mahalla');
+ assert.equal(decorationSlots(manifest.layout,mahalla.scenery).length,22);
+ for(const d of mahalla.decor){
+  const [, ,w,h]=mahalla.sprites[d.sprite].rect;
+  assert.ok(mahalla.scenery.sideX-d.height*w/h/2>5.8,'decor must clear the outer canal bank');
+ }
 });

@@ -43,7 +43,7 @@ export async function loadMaps(){
     box(definition.colors.ground,[0,-.16,-48],[240,.3,240]);
     box(definition.colors.road,[0,.005,-48],[9.6,.02,145]);
     for(const x of [-4.85,-1.6,1.6,4.85])box(definition.colors.line,[x,.025,-48],[.075,.02,145]);
-    for(const slot of decorationSlots(manifest.layout)){
+    for(const slot of decorationSlots(manifest.layout,definition.scenery)){
       const g=new T.Group();g.position.set(slot.x,0,slot.z);group.add(g);moving.push(g);
       const d=definition.decor[slot.variant];
       if(d.sprite)g.add(sprite(d.sprite,d.height));else d.parts.forEach(p=>primitive(p,g));

@@ -1117,5 +1117,9 @@
         0
       ]
     }
-  ]
+  ],
+  "scenery": {
+    "leftDensity": 1,
+    "rightDensity": 1
+  }
 }

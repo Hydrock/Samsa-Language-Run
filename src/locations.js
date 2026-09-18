@@ -5,6 +5,12 @@ export function validateMaps(manifest,maps){
   if(!maps.length||new Set(maps.map(m=>m.id)).size!==maps.length||!maps.some(m=>m.id===manifest.default))fail('ids/default');
   for(const m of maps){
     if(!/^[a-z][a-z0-9-]*$/.test(m.id)||![m.label,m.title,m.description,m.collisionHint].every(v=>typeof v==='string')||typeof m.indoors!=='boolean')fail('metadata');
+    if(m.scenery!==undefined){
+      const c=m.scenery;
+      if(!c||typeof c!=='object'||Array.isArray(c))fail('scenery');
+      for(const side of ['leftDensity','rightDensity'])if(c[side]!==undefined&&(!Number.isFinite(c[side])||c[side]<0||c[side]>1))fail('scenery density');
+      if(c.sideX!==undefined&&(!Number.isFinite(c.sideX)||c.sideX<5))fail('scenery sideX');
+    }
     if(m.decor?.length!==5||m.obstacles?.barrier?.length!==2||m.obstacles?.person?.length!==3)fail(`${m.id}: expected 5 decor, 2 barriers, 3 people`);
     for(const color of Object.values(m.colors||{}))if(!/^#[0-9a-f]{6}$/i.test(color))fail('color');
     if(!['ground','road','line'].every(k=>m.colors?.[k]))fail('palette');
@@ -37,8 +43,18 @@ export function validateMaps(manifest,maps){
   }
   return maps;
 }
-export function decorationSlots(layout){
-  return Array.from({length:layout.rows},(_,i)=>[-1,1].map(side=>({x:side*layout.sideX,z:layout.startZ-i*layout.spacing,variant:(i+(side===1?2:0))%5}))).flat();
+export function decorationSlots(layout,scenery={}){
+  const slots=[],cycle=layout.rows*layout.spacing;
+  for(const side of [-1,1]){
+    const density=scenery[side===-1?'leftDensity':'rightDensity']??1;
+    const count=Math.round(layout.rows*density);
+    for(let i=0;i<count;i++)slots.push({
+      x:side*(scenery.sideX??layout.sideX),
+      z:layout.startZ-i*cycle/count,
+      variant:(i+(side===1?2:0))%5
+    });
+  }
+  return slots;
 }
 export function obstacleAppearance(map,type,variant){
   const item=map.obstacles[type][variant%map.obstacles[type].length];

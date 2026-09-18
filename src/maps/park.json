@@ -419,5 +419,9 @@
         0.12
       ]
     }
-  ]
+  ],
+  "scenery": {
+    "leftDensity": 1,
+    "rightDensity": 1
+  }
 }

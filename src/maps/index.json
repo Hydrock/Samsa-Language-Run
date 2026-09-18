@@ -10,6 +10,7 @@
   "maps": [
     "park.json",
     "museum.json",
-    "chorsu.json"
+    "chorsu.json",
+    "mahalla.json"
   ]
 }
